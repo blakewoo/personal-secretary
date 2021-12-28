@@ -1,0 +1,20 @@
+{
+  "name": "personal_secretary",
+  "version": "1.0.0",
+  "description": "This web application is designed to keep personal files and to-dos.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://blakewoo: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@github.com/blakewoo/personal-secretary.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blakewoo/personal-secretary/issues"
+  },
+  "homepage": "https://github.com/blakewoo/personal-secretary#readme"
+}
