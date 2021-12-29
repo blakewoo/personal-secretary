@@ -1,0 +1,5 @@
+#for idea
+.idea/*
+
+#node_module
+node_modules/*
