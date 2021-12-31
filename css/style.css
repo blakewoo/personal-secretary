@@ -1,0 +1,23 @@
+html{
+    height: 99%;
+    width: 98%;
+}
+
+body{
+    height: 99%;
+    width: 98%;
+}
+
+.left_container{
+    height: 99%;
+    width: 15%;
+    background: black;
+    display: inline-block;
+}
+
+right_container{
+    height: 99%;
+    width: 78%;
+    background: red;
+    display: inline-block;
+}
