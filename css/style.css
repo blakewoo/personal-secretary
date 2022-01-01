@@ -1,6 +1,7 @@
 html{
+    margin: 0;
+    padding: 0;
     height: 99%;
-    width: 98%;
 }
 
 body{
@@ -11,13 +12,13 @@ body{
 .left_container{
     height: 99%;
     width: 15%;
-    background: black;
+    background-color: #b9dff6;
     display: inline-block;
 }
 
-right_container{
+.right_container{
     height: 99%;
-    width: 78%;
-    background: red;
+    width: 83%;
+    background-color: #cbdbcc;
     display: inline-block;
 }
