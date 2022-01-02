@@ -22,3 +22,7 @@ body{
     background-color: #cbdbcc;
     display: inline-block;
 }
+
+.category_title{
+    display: inline-block;
+}
