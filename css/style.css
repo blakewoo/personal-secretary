@@ -14,6 +14,7 @@ body{
     width: 15%;
     background-color: #b9dff6;
     display: inline-block;
+    float: left;
 }
 
 .right_container{
@@ -21,8 +22,13 @@ body{
     width: 83%;
     background-color: #cbdbcc;
     display: inline-block;
+    float: left;
 }
 
 .category_title{
     display: inline-block;
+}
+
+.category_label{
+    display: block;
 }
