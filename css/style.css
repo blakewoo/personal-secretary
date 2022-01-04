@@ -11,7 +11,7 @@ body{
 
 .left_container{
     height: 99%;
-    width: 15%;
+    width: 30%;
     background-color: #b9dff6;
     display: inline-block;
     float: left;
@@ -19,7 +19,7 @@ body{
 
 .right_container{
     height: 99%;
-    width: 83%;
+    width: 69%;
     background-color: #cbdbcc;
     display: inline-block;
     float: left;
@@ -31,4 +31,10 @@ body{
 
 .category_label{
     display: block;
+    font-weight: bold;
+    font-size: large;
+}
+
+.category_button_container{
+    float:right
 }
