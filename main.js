@@ -4,14 +4,15 @@ const path = require('path')
 function createLoginWindow() {
     // Create the browser login window.
     const mainWindow = new BrowserWindow({
-        width: 200,
-        height: 300,
+        width: 300,
+        height: 400,
         autoHideMenuBar: true,
         webPreferences: {
             preload: path.join(__dirname, 'loginPreload.js')
-        }
+        },
+        title:"Login to timeout"
     })
-
+    mainWindow.setResizable(false);
     mainWindow.loadFile('login.html')
 }
 
