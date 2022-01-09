@@ -62,7 +62,7 @@ function createWindow () {
 }
 
 app.whenReady().then(() => {
-    createLoginWindow()
+    createSignupWindow()
 
     app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
