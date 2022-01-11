@@ -10,7 +10,7 @@ function createLoginWindow() {
         webPreferences: {
             preload: path.join(__dirname, 'preload/loginPreload.js')
         },
-        title:"Login to timeout"
+        title:"로그인"
     })
     mainWindow.setResizable(false);
     mainWindow.loadFile('html/login.html')
