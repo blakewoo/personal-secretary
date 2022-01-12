@@ -1,0 +1,5 @@
+.window_header{
+    height: 20px;
+    display: block;
+    -webkit-app-region: drag;
+}
