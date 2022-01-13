@@ -3,3 +3,7 @@
     display: block;
     -webkit-app-region: drag;
 }
+
+.close_button{
+    background-color: black;
+}

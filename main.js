@@ -14,7 +14,7 @@ function createLoginWindow() {
         height: 400,
         autoHideMenuBar: true,
         webPreferences: {
-            preload: path.join(__dirname, 'loginPreload.js')
+            preload: path.join(__dirname, 'preload/loginPreload.js')
         },
         title:"로그인"
     })
