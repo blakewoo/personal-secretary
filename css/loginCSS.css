@@ -4,6 +4,8 @@
     -webkit-app-region: drag;
 }
 
-.close_button{
+#close_button{
     background-color: black;
+    width: 5px;
+    height: 20px;
 }
