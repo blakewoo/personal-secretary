@@ -1,4 +1,5 @@
 const {app, BrowserWindow } = require('electron')
+
 const path = require('path')
 
 function createLoginWindow() {
@@ -22,6 +23,12 @@ function createLoginWindow() {
     mainWindow.loadFile('html/login.html')
     mainWindow.once('ready-to-show', () => {
         mainWindow.show()
+    })
+
+    const {ipcMain} = require('electron');
+    const remote = require('electron').remote
+    ipcMain.on('close', (event,arg) => {
+        console.log("aaaa")
     })
 
 }
