@@ -1,13 +1,15 @@
 
-// const {ipcRenderer} = require('electron')
 
 window.addEventListener('DOMContentLoaded', () => {
-
+    const {ipcRenderer} = require('electron')
+    ipcRenderer.send('close',null);
+    let dd =  document.getElementById("close_button")
+    console.log(dd)
     document.getElementById("close_button").addEventListener('click', closeClickEvent)
 
-})
+    function closeClickEvent (event) {
 
-function closeClickEvent (event) {
-    // alert(":ddd")
-    // ipcRenderer.send('close',null);
-}
+
+
+    }
+})

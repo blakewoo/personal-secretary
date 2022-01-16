@@ -9,3 +9,12 @@
     width: 20px;
     height: 20px;
 }
+
+#close_button:hover{
+    background-color: #a8a8a8;
+}
+
+#close_button:active{
+    background-color: #111111;
+    color:white;
+}
