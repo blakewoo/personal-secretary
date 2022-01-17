@@ -26,11 +26,9 @@ function createLoginWindow() {
     })
 
     const {ipcMain} = require('electron');
-    const remote = require('electron').remote
     ipcMain.on('close', (event,arg) => {
-        console.log("aaaa")
+        mainWindow.close()
     })
-
 }
 
 function createSignupWindow() {
