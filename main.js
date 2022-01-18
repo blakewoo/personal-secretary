@@ -26,8 +26,11 @@ function createLoginWindow() {
     })
 
     const {ipcMain} = require('electron');
-    ipcMain.on('close', (event,arg) => {
-        mainWindow.close()
+    ipcMain.on('buttonEvent', (event,arg) => {
+        if (arg.value === "close") {
+            mainWindow.close()
+        }
+
     })
 }
 
