@@ -24,19 +24,18 @@ function createLoginWindow() {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show()
     })
-
-    const {ipcMain} = require('electron');
-    ipcMain.on('buttonEvent', (event,arg) => {
-        if (arg.value === "close") {
-            mainWindow.close()
-        }
-
-    })
+    return mainWindow
 }
 
 function createSignupWindow() {
     // Create the browser Signup window.
     const mainWindow = new BrowserWindow({
+        show:false,
+        resizable:false,
+        minimizable:false,
+        maximizable:false,
+        fullscreenable:false,
+        frame:false,
         show:false,
         width: 300,
         height: 400,
@@ -57,6 +56,11 @@ function createFindAccount() {
     // Create the browser find account window.
     const mainWindow = new BrowserWindow({
         show:false,
+        resizable:false,
+        minimizable:false,
+        maximizable:false,
+        fullscreenable:false,
+        frame:false,
         width: 300,
         height: 400,
         autoHideMenuBar: true,
@@ -77,6 +81,11 @@ function createWindow () {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         show:false,
+        resizable:false,
+        minimizable:false,
+        maximizable:false,
+        fullscreenable:false,
+        frame:false,
         width: 800,
         height: 600,
         autoHideMenuBar: true,
@@ -92,11 +101,35 @@ function createWindow () {
 }
 
 app.whenReady().then(() => {
-    createLoginWindow()
-
-    app.on('activate', function () {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    let loginWindow = createLoginWindow()
+    const {ipcMain} = require('electron');
+    ipcMain.on('frameButtonEvent', (event,arg) => {
+        if (arg.value === "close") {
+            loginWindow.close()
+        }
     })
+
+    ipcMain.on('loginButtonEvent', (event,arg) => {
+        if (arg.value === "login") {
+            loginWindow.close()
+            createWindow ()
+        }
+        else if (arg.value === "signup") {
+            loginWindow.close()
+            createSignupWindow()
+        }
+        else if (arg.value === "findid") {
+            loginWindow.close()
+            createFindAccount()
+        }
+        else {
+            loginWindow.close()
+        }
+    })
+
+    // app.on('activate', function () {
+    //     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    // })
 })
 
 app.on('window-all-closed', function () {

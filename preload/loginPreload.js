@@ -11,19 +11,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function closeClickEvent (event) {
 
-        ipcRenderer.send('buttonEvent',{value:"close"});
+        ipcRenderer.send('frameButtonEvent',{value:"close"});
 
     }
 
     function loginClickEvent(event) {
-        ipcRenderer.send('buttonEvent',{value:"login"});
+        ipcRenderer.send('loginButtonEvent',{value:"login"});
     }
 
     function signUpClickEvent(event) {
-        ipcRenderer.send('buttonEvent',{value:"signup"});
+        ipcRenderer.send('loginButtonEvent',{value:"signup"});
     }
 
     function findClickEvent(event) {
-        ipcRenderer.send('buttonEvent',{value:"findid"});
+        ipcRenderer.send('loginButtonEvent',{value:"findid"});
     }
 })
