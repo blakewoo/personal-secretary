@@ -69,6 +69,20 @@ function createSignupWindow() {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show()
     })
+
+    ipcMain.on('signupButtonEvent', (event,arg) => {
+        if (arg.value === "accept") {
+            mainWindow.close()
+            createWindow()
+        }
+        else if (arg.value === "cancel") {
+            mainWindow.close()
+            createWindow()
+        }
+
+    })
+
+    return mainWindow
 }
 
 function createFindAccount() {
