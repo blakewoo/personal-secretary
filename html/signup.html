@@ -5,18 +5,27 @@
     <link href="../css/signupCSS.css" rel="stylesheet">
 </head>
 <body>
+<span class="window_header">
+
+</span>
+<span class="close_div">
+    <input type="button" id="close_button" value="X"/>
+</span>
 <h1>Sign up</h1>
 <div>
-    <label>Email : </label><input type="text">
+    <label>Email : </label><input id="email_input" type="text">
 </div>
 <div>
-    <label>PASSWORD : </label><input type="text">
+    <label>Nickname : </label><input id="nickname_input"  type="text">
 </div>
 <div>
-    <label>PASSWORD : </label><input type="text">
+    <label>PASSWORD : </label><input id="pwd_input"  type="text">
 </div>
 <div>
-    <input value="Accept" type="button"><input  value="cancel" type="button">
+    <label>PASSWORD CONFIRM : </label><input id="pwdcheck_input"  type="text">
+</div>
+<div>
+    <input value="Accept" id="accept_button" type="button"><input  value="cancel" id="cancel_button" type="button">
 </div>
 </body>
 </html>

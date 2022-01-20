@@ -1,6 +1,7 @@
 const {app, BrowserWindow } = require('electron')
 
 const path = require('path')
+const {ipcMain} = require('electron');
 
 function createLoginWindow() {
     // Create the browser login window.
@@ -24,6 +25,25 @@ function createLoginWindow() {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show()
     })
+
+    ipcMain.on('loginButtonEvent', (event,arg) => {
+        if (arg.value === "login") {
+            mainWindow.close()
+            createWindow ()
+        }
+        else if (arg.value === "signup") {
+            mainWindow.close()
+            createSignupWindow()
+        }
+        else if (arg.value === "findid") {
+            mainWindow.close()
+            createFindAccount()
+        }
+        else {
+            mainWindow.close()
+        }
+    })
+
     return mainWindow
 }
 
@@ -36,7 +56,6 @@ function createSignupWindow() {
         maximizable:false,
         fullscreenable:false,
         frame:false,
-        show:false,
         width: 300,
         height: 400,
         autoHideMenuBar: true,
@@ -102,30 +121,14 @@ function createWindow () {
 
 app.whenReady().then(() => {
     let loginWindow = createLoginWindow()
-    const {ipcMain} = require('electron');
+
     ipcMain.on('frameButtonEvent', (event,arg) => {
         if (arg.value === "close") {
             loginWindow.close()
         }
     })
 
-    ipcMain.on('loginButtonEvent', (event,arg) => {
-        if (arg.value === "login") {
-            loginWindow.close()
-            createWindow ()
-        }
-        else if (arg.value === "signup") {
-            loginWindow.close()
-            createSignupWindow()
-        }
-        else if (arg.value === "findid") {
-            loginWindow.close()
-            createFindAccount()
-        }
-        else {
-            loginWindow.close()
-        }
-    })
+
 
     // app.on('activate', function () {
     //     if (BrowserWindow.getAllWindows().length === 0) createWindow()
