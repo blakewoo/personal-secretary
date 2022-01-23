@@ -1,0 +1,74 @@
+html{
+    margin: 0;
+    padding: 0;
+    height: 99%;
+}
+
+body{
+    height: 99%;
+    width: 98%;
+}
+
+.left_container{
+    height: 80%;
+    width: 30%;
+    background-color: #b9dff6;
+    display: inline-block;
+    float: left;
+}
+
+.right_container{
+    height: 80%;
+    width: 69%;
+    background-color: #cbdbcc;
+    display: inline-block;
+    float: left;
+}
+
+.category_title{
+    display: inline-block;
+}
+
+.category_label{
+    display: block;
+    font-weight: bold;
+    font-size: large;
+}
+.category_label:hover{
+    cursor: pointer;
+}
+
+.category_button:hover{
+    cursor: pointer;
+}
+
+.category_button_container{
+    float:right
+}
+
+.window_header{
+    height: 20px;
+    width: 90%;
+    display: inline-block;
+    -webkit-app-region: drag;
+}
+.close_div{
+    width: 8%;
+    display: inline-block;
+}
+
+#close_button{
+    background-color: white;
+    width: 24px;
+    height: 20px;
+}
+
+#close_button:hover{
+    background-color: #a8a8a8;
+    cursor: pointer;
+}
+
+#close_button:active{
+    background-color: #111111;
+    color:white;
+}
