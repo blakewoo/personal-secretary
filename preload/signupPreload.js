@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function closeClickEvent (event) {
 
-        ipcRenderer.send('frameButtonEvent',{value:"close"});
+        ipcRenderer.send('signupFrameButtonEvent',{value:"close"});
 
     }
 

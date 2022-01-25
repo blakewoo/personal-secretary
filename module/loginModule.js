@@ -26,23 +26,8 @@ exports.createLoginWindow = function() {
         mainWindow.show()
     })
 
-    ipcMain.on('frameButtonEvent', (event,arg) => {
+    ipcMain.on('loginFrameButtonEvent', (event,arg) => {
         if (arg.value === "close") {
-            mainWindow.close()
-        }
-    })
-
-    ipcMain.on('loginButtonEvent', (event,arg) => {
-        if (arg.value === "login") {
-            mainWindow.close()
-        }
-        else if (arg.value === "signup") {
-            mainWindow.close()
-        }
-        else if (arg.value === "findid") {
-            mainWindow.close()
-        }
-        else {
             mainWindow.close()
         }
     })

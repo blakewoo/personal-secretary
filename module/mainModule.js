@@ -24,4 +24,12 @@ exports.createWindow = function () {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show()
     })
+
+    ipcMain.on('mainFrameButtonEvent', (event,arg) => {
+        if (arg.value === "close") {
+            mainWindow.close()
+        }
+    })
+
+    return mainWindow
 }

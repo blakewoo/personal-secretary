@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function closeClickEvent (event) {
 
-        ipcRenderer.send('frameButtonEvent',{value:"close"});
+        ipcRenderer.send('loginFrameButtonEvent',{value:"close"});
 
     }
 

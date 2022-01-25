@@ -28,6 +28,12 @@ exports.createSignupWindow = function () {
         mainWindow.show()
     })
 
+    ipcMain.on('signupFrameButtonEvent', (event,arg) => {
+        if (arg.value === "close") {
+            mainWindow.close()
+        }
+    })
+
     ipcMain.on('signupButtonEvent', (event,arg) => {
         if (arg.value === "accept") {
             mainWindow.close()
