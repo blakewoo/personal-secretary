@@ -17,6 +17,9 @@ window.addEventListener('DOMContentLoaded', () => {
         let pass = document.getElementById("password_input").value;
 
         ipcRenderer.send('loginButtonEvent',{value:"login",ID:id,PASSWORD:pass});
+        ipcRenderer.on('errorLogin',(event, arg) => {
+            document.getElementById("wrong_account").style.display="block"
+        })
     }
 
     function signUpClickEvent(event) {

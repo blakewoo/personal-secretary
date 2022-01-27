@@ -14,12 +14,12 @@ app.whenReady().then(() => {
             let id = arg.ID
             let pass = arg.PASSWORD
 
-            if(IsLogin(id,pass)) {
+            if(!IsLogin(id,pass)) {
                 loginWindow.close()
                 mainFunction.createWindow()
             }
             else {
-
+                event.sender.send('errorLogin',true);
             }
         }
         else if (arg.value === "signup") {
