@@ -28,7 +28,7 @@ exports.createFindAccount = function () {
         mainWindow.show()
     })
 
-    ipcMain.on('frameButtonEvent', (event,arg) => {
+    ipcMain.on('findFrameButtonEvent', (event,arg) => {
         if (arg.value === "close") {
             mainWindow.close()
         }

@@ -8,6 +8,7 @@ const findIdFunction = require('./module/findidModule');
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
+    let signupWindow;
 
     ipcMain.on('loginButtonEvent', (event,arg) => {
         if (arg.value === "login") {
@@ -24,7 +25,7 @@ app.whenReady().then(() => {
         }
         else if (arg.value === "signup") {
             loginWindow.close()
-            signupFunction.createSignupWindow()
+            signupWindow = signupFunction.createSignupWindow()
         }
         else if (arg.value === "findid") {
             loginWindow.close()
@@ -35,6 +36,17 @@ app.whenReady().then(() => {
         }
     })
 
+    ipcMain.on('signupButtonEvent', (event,arg) => {
+        if (arg.value === "accept") {
+            signupWindow.close()
+            loginWindow = loginFunction.createLoginWindow()
+        }
+        else if (arg.value === "cancel") {
+            signupWindow.close()
+            loginWindow = loginFunction.createLoginWindow()
+        }
+
+    })
 
 })
 

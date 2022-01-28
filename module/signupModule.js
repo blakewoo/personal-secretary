@@ -34,17 +34,7 @@ exports.createSignupWindow = function () {
         }
     })
 
-    ipcMain.on('signupButtonEvent', (event,arg) => {
-        if (arg.value === "accept") {
-            mainWindow.close()
-            createWindow()
-        }
-        else if (arg.value === "cancel") {
-            mainWindow.close()
-            createWindow()
-        }
 
-    })
 
     return mainWindow
 }
