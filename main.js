@@ -15,7 +15,7 @@ app.whenReady().then(() => {
             let id = arg.ID
             let pass = arg.PASSWORD
 
-            if(!IsLogin(id,pass)) {
+            if(!isLogin(id,pass)) {
                 loginWindow.close()
                 mainFunction.createWindow()
             }
@@ -38,8 +38,14 @@ app.whenReady().then(() => {
 
     ipcMain.on('signupButtonEvent', (event,arg) => {
         if (arg.value === "accept") {
-            signupWindow.close()
-            loginWindow = loginFunction.createLoginWindow()
+            if (insertID(arg.id,arg.pass)) {
+                signupWindow.close()
+                loginWindow = loginFunction.createLoginWindow()
+            }
+            else {
+                event.sender.send('singupDeclineButton',true);
+            }
+
         }
         else if (arg.value === "cancel") {
             signupWindow.close()
@@ -54,8 +60,12 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
 
-function IsLogin(id,pass) {
+function isLogin(id,pass) {
     console.log(id,pass)
     return true
 }
 
+function insertID(id,pass) {
+    console.log(id,pass)
+    return true
+}

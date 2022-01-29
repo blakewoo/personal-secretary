@@ -11,11 +11,13 @@ window.addEventListener('DOMContentLoaded', () => {
     function closeClickEvent (event) {
 
         ipcRenderer.send('signupFrameButtonEvent',{value:"close"});
-
     }
 
     function acceptClickEvent(event) {
         ipcRenderer.send('signupButtonEvent',{value:"accept"});
+        ipcRenderer.on('singupDeclineButton',(event, arg) => {
+
+        })
     }
 
     function cancelClickEvent(event) {
