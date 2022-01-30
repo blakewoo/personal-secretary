@@ -12,15 +12,15 @@ function addCategoryButtonEvent() {
 
 
     document.getElementById("add_category").addEventListener("click",function (event){
-        alert("ddd")
+        ipcRenderer.send('mainPageButtonEvent',{value:"signup"});
     })
 
     document.getElementById("modify_category").addEventListener("click",function (event){
-        alert("ddd")
+        ipcRenderer.send('mainPageButtonEvent',{value:"signup"});
     })
 
     document.getElementById("delete_category").addEventListener("click",function (event){
-        alert("ddd")
+        ipcRenderer.send('mainPageButtonEvent',{value:"signup"});
     })
 }
 
