@@ -10,7 +10,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function addCategoryButtonEvent() {
 
-
     document.getElementById("add_category").addEventListener("click",function (event){
         ipcRenderer.send('mainPageButtonEvent',{value:"signup"});
     })
