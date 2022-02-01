@@ -22,26 +22,27 @@
     <input type="button" id="close_button" value="X"/>
 </span>
     <h1 class="head_title">일잘러의 수첩</h1>
-    <div>
+    <div class="att_border_bottom">
         <label>사용자 : </label><input id="user_input" type="text">
     </div>
-    <div>
+    <div class="att_border_bottom">
         <label>비밀번호 : </label><input id="password_input" type="text">
+        <div>
+            <label class="notice_wrong_account" id="wrong_account">
+                아이디 혹은 패스워드가 올바르지 않습니다.
+            </label>
+        </div>
     </div>
-<div>
-    <label class="notice_wrong_account" id="wrong_account">
-        아이디 혹은 패스워드가 올바르지 않습니다.
-    </label>
-</div>
-    <div>
+
+    <div class="att_border_bottom">
         <input type="button" value="로그인" id="login_button"/>
     </div>
 
 
-    <div>
+    <div class="att_border_bottom">
         <input type="button" value="새로 수첩 만들기" id="signup_button"/>
     </div>
-    <div>
+    <div class="att_border_bottom">
         <input type="button" value="수첩 찾기" id="findpass_button"/>
     </div>
 </body>

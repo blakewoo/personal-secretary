@@ -1,9 +1,16 @@
 .login_body{
-    background-color: #dbdbdb;
+    background-color: #ffffff;
 }
 .head_title{
     color: #404040;
+    border-bottom: #437efa 1px solid;
 }
+.att_border_bottom{
+    height: 30px;
+    padding-bottom: 5px;
+    border-bottom: #437efa 1px solid;
+}
+
 .spring_span{
     display: inline-block;
     width: 15px;
