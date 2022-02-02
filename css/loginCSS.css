@@ -1,14 +1,24 @@
+*{
+    font-family: "이서윤체";
+}
+
+html{
+    height: 100%;
+}
 .login_body{
     background-color: #ffffff;
 }
 .head_title{
     color: #404040;
-    border-bottom: #437efa 1px solid;
 }
+
 .att_border_bottom{
     height: 30px;
-    padding-bottom: 5px;
-    border-bottom: #437efa 1px solid;
+}
+.page_contents{
+    padding: 5px 5px 5px 5px;
+    margin-top: 10px;
+    height: 90%;
 }
 
 .spring_span{
@@ -17,7 +27,7 @@
     height: 15px;
     background: white;
     border-radius: 50px / 50px;
-    border: 1px solid #111111;
+    border: 1px solid #cbcbcb;
 }
 
 .window_header{
@@ -51,4 +61,8 @@
     display: none;
     color: #ea0000;
     font-size: 8pt;
+}
+
+.input_border{
+    border: 2px dashed #5f5f5f;
 }
