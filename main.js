@@ -25,12 +25,10 @@ app.whenReady().then(() => {
             }
         }
         else if (arg.value === "signup") {
-            loginWindow.close()
-            signupWindow = signupFunction.createSignupWindow()
+            loginWindow.loadFile('html/signup.html')
         }
         else if (arg.value === "findid") {
-            loginWindow.close()
-            findIdFunction.createFindAccount()
+            loginWindow.loadFile('html/find_account.html')
         }
         else {
             loginWindow.close()
