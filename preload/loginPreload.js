@@ -1,8 +1,18 @@
 
-
+const {ipcRenderer} = require('electron')
 window.addEventListener('DOMContentLoaded', () => {
-    const {ipcRenderer} = require('electron')
 
+    ipcRenderer.on('set-login-page',(event, arg) => {
+        loadLoginPage ()
+    })
+
+    ipcRenderer.on('set-signup-page',(event, arg) => {
+        loadSignupPage ()
+    })
+
+})
+
+function loadLoginPage () {
     document.getElementById("close_button").addEventListener('click', closeClickEvent)
     document.getElementById("login_button").addEventListener('click', loginClickEvent)
     document.getElementById("signup_button").addEventListener('click', signUpClickEvent)
@@ -29,28 +39,27 @@ window.addEventListener('DOMContentLoaded', () => {
     function findClickEvent(event) {
         ipcRenderer.send('loginButtonEvent',{value:"findid"});
     }
+}
+
+function loadSignupPage() {
+    document.getElementById("close_button").addEventListener('click', closeClickEvent)
+    document.getElementById("accept_button").addEventListener('click', acceptClickEvent)
+    document.getElementById("cancel_button").addEventListener('click', cancelClickEvent)
 
 
-    // signup page
-    // document.getElementById("close_button").addEventListener('click', closeClickEvent)
-    // document.getElementById("accept_button").addEventListener('click', acceptClickEvent)
-    // document.getElementById("cancel_button").addEventListener('click', cancelClickEvent)
-    //
-    //
-    // function closeClickEvent (event) {
-    //
-    //     ipcRenderer.send('signupFrameButtonEvent',{value:"close"});
-    // }
-    //
-    // function acceptClickEvent(event) {
-    //     ipcRenderer.send('signupButtonEvent',{value:"accept"});
-    //     ipcRenderer.on('singupDeclineButton',(event, arg) => {
-    //
-    //     })
-    // }
-    //
-    // function cancelClickEvent(event) {
-    //     ipcRenderer.send('signupButtonEvent',{value:"cancel"});
-    // }
+    function closeClickEvent (event) {
 
-})
+        ipcRenderer.send('signupFrameButtonEvent',{value:"close"});
+    }
+
+    function acceptClickEvent(event) {
+        ipcRenderer.send('signupButtonEvent',{value:"accept"});
+        ipcRenderer.on('singupDeclineButton',(event, arg) => {
+
+        })
+    }
+
+    function cancelClickEvent(event) {
+        ipcRenderer.send('signupButtonEvent',{value:"cancel"});
+    }
+}

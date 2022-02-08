@@ -16,6 +16,7 @@ exports.createWindow = function () {
         height: 600,
         autoHideMenuBar: true,
         webPreferences: {
+            nodeIntegration: true, contextIsolation: false,
             preload: path.join(__dirname, '../preload/preload.js')
         }
     })

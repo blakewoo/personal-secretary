@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <link href="../css/loginCSS.css" rel="stylesheet">
 </head>
-<body class="login_body">
 
+<body class="login_body">
+<script>
+    const {ipcRenderer} = require('electron')
+    const updateOnlineStatus = function () {
+        ipcRenderer.send('set-login-page',true)
+    }
+
+    updateOnlineStatus()
+</script>
 <div class="window_header">
     <span class="spring_span"></span>
     <span class="spring_span"></span>
@@ -48,5 +56,6 @@
         <input type="button" value="수첩 찾기" class="public_button" id="findpass_button"/>
     </div>
 </div>
+
 </body>
 </html>
