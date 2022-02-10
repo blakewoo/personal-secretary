@@ -56,7 +56,7 @@ function bindLoginEvent () {
     }
 
     function signUpClickEvent(event) {
-
+        loadSignupPage()
     }
 
     function findClickEvent(event) {
@@ -66,7 +66,23 @@ function bindLoginEvent () {
 
 function loadSignupPage() {
 
-
+    let str = "<h1>Sign up</h1>\n" +
+        "<div class=\"div_vertical_term\">\n" +
+        "    <label>Email : </label><input id=\"email_input\" class=\"input_border\" type=\"text\">\n" +
+        "</div>\n" +
+        "<div class=\"div_vertical_term\">\n" +
+        "    <label>Nickname : </label><input id=\"nickname_input\" class=\"input_border\"  type=\"text\">\n" +
+        "</div>\n" +
+        "<div class=\"div_vertical_term\">\n" +
+        "    <label>PASSWORD : </label><input id=\"pwd_input\" class=\"input_border\"  type=\"text\">\n" +
+        "</div>\n" +
+        "<div class=\"div_vertical_term\">\n" +
+        "    <label>PASSWORD CONFIRM : </label><input id=\"pwdcheck_input\" class=\"input_border\"  type=\"text\">\n" +
+        "</div>\n" +
+        "<div class=\"div_vertical_term\">\n" +
+        "    <input value=\"Accept\" class=\"public_button\" id=\"accept_button\" type=\"button\"><input  value=\"cancel\" class=\"public_button\" id=\"cancel_button\" type=\"button\">\n" +
+        "</div>"
+    document.getElementById("main_html_div").innerHTML = str
     bindSignupEvent()
 }
 
@@ -89,6 +105,6 @@ function bindSignupEvent() {
     }
 
     function cancelClickEvent(event) {
-        ipcRenderer.send('signupButtonEvent',{value:"cancel"});
+        loadLoginPage()
     }
 }

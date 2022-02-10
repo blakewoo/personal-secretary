@@ -65,6 +65,7 @@ html{
 
 .input_border{
     border: 2px dashed #5f5f5f;
+    width: 80px;
 }
 
 .public_button{
@@ -77,4 +78,8 @@ html{
     color: white;
     background-color: #5f5f5f;
     cursor: pointer;
+}
+
+.div_vertical_term{
+    margin-top: 10px;
 }
