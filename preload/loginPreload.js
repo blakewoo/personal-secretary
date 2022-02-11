@@ -60,7 +60,7 @@ function bindLoginEvent () {
     }
 
     function findClickEvent(event) {
-
+        loadFindIdPage()
     }
 }
 
@@ -102,6 +102,42 @@ function bindSignupEvent() {
         ipcRenderer.on('singupDeclineButton',(event, arg) => {
 
         })
+    }
+
+    function cancelClickEvent(event) {
+        loadLoginPage()
+    }
+}
+
+function loadFindIdPage() {
+
+    let str = "<h1>Sign up</h1>\n" +
+        "<div class=\"div_vertical_term\">\n" +
+        "    <label>Email : </label><input id=\"email_input\" class=\"input_border\" type=\"text\">\n" +
+        "</div>\n" +
+        "<div class=\"div_vertical_term\">\n" +
+        "    <input value=\"Accept\" class=\"public_button\" id=\"accept_button\" type=\"button\"><input  value=\"cancel\" class=\"public_button\" id=\"cancel_button\" type=\"button\">\n" +
+        "</div>"
+    document.getElementById("main_html_div").innerHTML = str
+    bindFindIdEvent()
+}
+
+function bindFindIdEvent() {
+    document.getElementById("close_button").addEventListener('click', closeClickEvent)
+    document.getElementById("accept_button").addEventListener('click', acceptClickEvent)
+    document.getElementById("cancel_button").addEventListener('click', cancelClickEvent)
+
+
+    function closeClickEvent (event) {
+
+        ipcRenderer.send('signupFrameButtonEvent',{value:"close"});
+    }
+
+    function acceptClickEvent(event) {
+        // ipcRenderer.send('signupButtonEvent',{value:"accept"});
+        // ipcRenderer.on('singupDeclineButton',(event, arg) => {
+        //
+        // })
     }
 
     function cancelClickEvent(event) {
