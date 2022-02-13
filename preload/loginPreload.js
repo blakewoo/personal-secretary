@@ -116,7 +116,7 @@ function loadFindIdPage() {
         "    <label>Email : </label><input id=\"email_input\" class=\"input_border\" type=\"text\">\n" +
         "</div>\n" +
         "<div class=\"div_vertical_term\">\n" +
-        "    <input value=\"Accept\" class=\"public_button\" id=\"accept_button\" type=\"button\"><input  value=\"cancel\" class=\"public_button\" id=\"cancel_button\" type=\"button\">\n" +
+        "    <input value=\"Send\" class=\"public_button\" id=\"accept_button\" type=\"button\"><input  value=\"cancel\" class=\"public_button\" id=\"cancel_button\" type=\"button\">\n" +
         "</div>"
     document.getElementById("main_html_div").innerHTML = str
     bindFindIdEvent()
@@ -134,10 +134,10 @@ function bindFindIdEvent() {
     }
 
     function acceptClickEvent(event) {
-        // ipcRenderer.send('signupButtonEvent',{value:"accept"});
-        // ipcRenderer.on('singupDeclineButton',(event, arg) => {
-        //
-        // })
+        ipcRenderer.send('findIdButtonEvent',{value:"accept"});
+        ipcRenderer.on('findIdResultButton',(event, arg) => {
+
+        })
     }
 
     function cancelClickEvent(event) {

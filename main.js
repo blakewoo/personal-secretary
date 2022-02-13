@@ -9,6 +9,19 @@ app.whenReady().then(() => {
     let signupWindow;
     let mainWindow;
 
+
+    ipcMain.on('findIdButtonEvent', (event,arg) => {
+
+        if(findId(arg.email)) {
+            event.sender.send('findIdResultButton',true);
+        }
+        else{
+            event.sender.send('findIdResultButton',false);
+        }
+    })
+
+
+
     ipcMain.on('loginButtonEvent', (event,arg) => {
         if (arg.value === "login") {
             let id = arg.ID
@@ -70,4 +83,8 @@ function isLogin(id,pass) {
 function insertID(id,pass) {
     console.log(id,pass)
     return true
+}
+
+function findId(email) {
+
 }
