@@ -10,7 +10,8 @@ html{
 
 body{
     height: 99%;
-    width: 98%;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
 }
 
 .left_container{
@@ -52,12 +53,12 @@ body{
 
 .window_header{
     height: 20px;
-    width: 90%;
+    width: 95%;
     display: inline-block;
     -webkit-app-region: drag;
 }
 .close_div{
-    width: 8%;
+    width: 4%;
     display: inline-block;
 }
 

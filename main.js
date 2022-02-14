@@ -27,7 +27,7 @@ app.whenReady().then(() => {
             let id = arg.ID
             let pass = arg.PASSWORD
 
-            if(!isLogin(id,pass)) {
+            if(isLogin(id,pass)) {
                 loginWindow.close()
                 mainWindow = mainFunction.createWindow()
             }
