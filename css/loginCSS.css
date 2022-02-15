@@ -32,12 +32,12 @@ html{
 
 .window_header{
     height: 20px;
-    width: 90%;
+    width: 89%;
     display: inline-block;
     -webkit-app-region: drag;
 }
 .close_div{
-    width: 8%;
+    width: 7%;
     display: inline-block;
 }
 
