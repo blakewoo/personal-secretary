@@ -49,7 +49,11 @@ body{
     font-size: large;
     margin-left: 10px;
     margin-right: 10px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
     border-bottom: solid 2px #222222;
+    background-color: transparent;
 }
 .category_label:hover{
     cursor: pointer;
