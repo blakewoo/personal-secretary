@@ -59,6 +59,10 @@ body{
     cursor: pointer;
 }
 
+.selected_category{
+    background-color: #5f5f5f;
+}
+
 .category_button:hover{
     cursor: pointer;
 }
