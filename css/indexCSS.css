@@ -118,14 +118,31 @@ body{
     cursor: pointer;
 }
 
+.todo_detail{
+    height: 100%;
+}
+
 .todo_detail_top{
-    height: 90%;
+    height: 93%;
     width: 100%;
     background-color: #222222;
 }
 
 .todo_detail_bottom{
-    height: 10%;
+    height: 4%;
     width: 100%;
     background-color: #646464;
+}
+
+.todo_detail_text{
+    display: block;
+    font-weight: bold;
+    font-size: large;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid 2px #222222;
+    background-color: transparent;
 }

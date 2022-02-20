@@ -7,7 +7,18 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     addCategoryButtonEvent()
     addCategoryEvent()
+    addTodoDetailEvent()
 })
+
+function addTodoDetailEvent() {
+    let add_todo = document.getElementById("input_todo_detail")
+    add_todo.addEventListener("keyup",function (event) {
+        if(event.key === "Enter") {
+            
+        }
+    })
+}
+
 
 function addCategoryButtonEvent() {
 
