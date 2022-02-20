@@ -20,7 +20,9 @@ function addCategoryButtonEvent() {
     document.getElementById("modify_category").addEventListener("click",function (event){
         let category = document.getElementsByClassName("category_label")
         for (let i =0 ;i<category.length;i++) {
-            category[i].classList.contains("selected_category")
+            if(category[i].classList.contains("selected_category")){
+
+            }
         }
     })
 
