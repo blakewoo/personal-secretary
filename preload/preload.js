@@ -14,7 +14,8 @@ function addTodoDetailEvent() {
     let add_todo = document.getElementById("input_todo_detail")
     add_todo.addEventListener("keyup",function (event) {
         if(event.key === "Enter") {
-            
+            let categoryContainer = document.getElementsByClassName("todo_detail_top")[0]
+            categoryContainer.innerHTML += "<label class='category_detail'>"+add_todo.value+"</label>"
         }
     })
 }
