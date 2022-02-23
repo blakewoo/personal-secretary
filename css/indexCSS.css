@@ -60,7 +60,7 @@ body{
 }
 
 .category_detail{
-    display: block;
+    display: inline-block;
     font-weight: bold;
     font-size: large;
     margin-left: 10px;
@@ -70,6 +70,7 @@ body{
     border-right: none;
     border-bottom: solid 2px #222222;
     background-color: transparent;
+    width: 80%;
 }
 
 .selected_category{
@@ -138,7 +139,7 @@ body{
 .todo_detail_top{
     height: 93%;
     width: 100%;
-    background-color: #222222;
+    background-color: #e7a8a8;
 }
 
 .todo_detail_bottom{
@@ -158,4 +159,18 @@ body{
     border-right: none;
     border-bottom: solid 2px #222222;
     background-color: transparent;
+}
+
+.unchecked_checkbox{
+    width: 16px;
+    height:16px;
+}
+
+.unchecked_checkbox:hover{
+    cursor: pointer;
+}
+
+.checked_checkbox{
+    width: 16px;
+    height:16px;
 }

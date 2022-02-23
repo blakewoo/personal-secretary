@@ -15,7 +15,7 @@ function addTodoDetailEvent() {
     add_todo.addEventListener("keyup",function (event) {
         if(event.key === "Enter") {
             let categoryContainer = document.getElementsByClassName("todo_detail_top")[0]
-            categoryContainer.innerHTML += "<label class='category_detail'>"+add_todo.value+"</label>"
+            categoryContainer.innerHTML += "<img src='./../images/empty_checkbox.png' class='unchecked_checkbox'><label class='category_detail'>"+add_todo.value+"</label>"
         }
     })
 }
