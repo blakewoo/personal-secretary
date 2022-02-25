@@ -162,15 +162,20 @@ body{
 }
 
 .unchecked_checkbox{
+    display: inline-block;
     width: 16px;
     height:16px;
+    background-image:url('./images/empty_checkbox.png');
 }
 
 .unchecked_checkbox:hover{
     cursor: pointer;
 }
 
-.checked_checkbox{
-    width: 16px;
-    height:16px;
+.unchecked_checkbox.check{
+    background-image:url('./images/checked_checkbox.png');
+}
+
+.unchecked_checkbox:hover.check{
+    cursor: pointer;
 }
