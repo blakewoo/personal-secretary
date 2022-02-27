@@ -175,11 +175,17 @@ body{
     cursor: pointer;
 }
 
-.unchecked_checkbox .check{
+.checked_checkbox{
+    display: inline-block;
+    width: 16px;
+    height:16px;
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: center;
     background-image:url('../images/checked_checkbox.png');
 }
 
-.unchecked_checkbox:hover .check{
+.checked_checkbox:hover{
     cursor: pointer;
 }
 

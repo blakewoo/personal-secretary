@@ -38,11 +38,15 @@ function todoDetailEventBinder(){
     }
 }
 function todoCheckedDetailEvent(event) {
-    event.currentTarget.classList.add("check")
+    event.currentTarget.classList.remove("checked_checkbox")
+    event.currentTarget.classList.add("unchecked_checkbox")
+    todoDetailEventBinder()
 }
 
 function todoUncheckedDetailEvent(event) {
-    event.currentTarget.classList.remove("check")
+    event.currentTarget.classList.remove("unchecked_checkbox")
+    event.currentTarget.classList.add("checked_checkbox")
+    todoDetailEventBinder()
 }
 
 
