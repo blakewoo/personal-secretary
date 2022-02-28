@@ -190,5 +190,12 @@ body{
 }
 
 .todo_detail_row{
-    width: 100%;
+    display: flex;
+    align-items: center;
+    width: 90%;
+}
+
+.todo_detail_row:hover{
+    background-color: #959595;
+    cursor: pointer;
 }

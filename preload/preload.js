@@ -5,11 +5,24 @@ window.addEventListener('DOMContentLoaded', () => {
     function closeClickEvent() {
         ipcRenderer.send('mainFrameButtonEvent',{value:"close"});
     }
+    // init data
+    initTodoCategory()
+    initTodoDetail(0)
+
+    // init event binder
     addCategoryButtonEvent()
     addCategoryEvent()
     todoDetailEventBinder()
     addTodoDetailEvent()
 })
+
+function initTodoCategory() {
+
+}
+function initTodoDetail(categoryIndex){
+
+}
+
 
 function addTodoDetailEvent() {
     let add_todo = document.getElementById("input_todo_detail")
@@ -38,14 +51,16 @@ function todoDetailEventBinder(){
     }
 }
 function todoCheckedDetailEvent(event) {
-    event.currentTarget.classList.remove("checked_checkbox")
-    event.currentTarget.classList.add("unchecked_checkbox")
+    let current_target = event.currentTarget
+    current_target.classList.remove("checked_checkbox")
+    current_target.classList.add("unchecked_checkbox")
     todoDetailEventBinder()
 }
 
 function todoUncheckedDetailEvent(event) {
-    event.currentTarget.classList.remove("unchecked_checkbox")
-    event.currentTarget.classList.add("checked_checkbox")
+    let current_target = event.currentTarget
+    current_target.classList.remove("unchecked_checkbox")
+    current_target.classList.add("checked_checkbox")
     todoDetailEventBinder()
 }
 
