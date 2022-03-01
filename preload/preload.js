@@ -11,16 +11,37 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // init event binder
     addCategoryButtonEvent()
-    addCategoryEvent()
+    addCategoryEvent(0)
     todoDetailEventBinder()
     addTodoDetailEvent()
 })
 
 function initTodoCategory() {
+    let categoryContainer = document.getElementsByClassName("todo_category")[0]
 
+    //example data
+    let data = [{index:0,value:"ABA"},{index:1,value:"BABA"}]
+    let str = ""
+
+    for (let i =0;i<data.length;i++) {
+        str += "<label class='category_label' categoryIndex="+data[i].index+">"+data[i].value+"</label>"
+    }
+
+    categoryContainer.innerHTML = str
+    addCategoryEvent()
 }
 function initTodoDetail(categoryIndex){
+    let todoDetailContainer = document.getElementById("input_todo_detail")
+    let rawData = new Map()
+    let data = rawData[categoryIndex]
+    let str = ""
 
+    for (let i =0;i<data.length;i++) {
+        str += "<div class='todo_detail_row'><span class='unchecked_checkbox'></span><label class='category_detail'>"+data[i]+"</label></div>"
+    }
+
+    todoDetailContainer.innerHTML = str
+    todoDetailEventBinder()
 }
 
 
