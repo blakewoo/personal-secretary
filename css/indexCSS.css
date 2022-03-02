@@ -175,7 +175,7 @@ body{
     cursor: pointer;
 }
 
-.checked_checkbox{
+.unchecked_checkbox.checked_checkbox{
     display: inline-block;
     width: 16px;
     height:16px;
@@ -185,7 +185,7 @@ body{
     background-image:url('../images/checked_checkbox.png');
 }
 
-.checked_checkbox:hover{
+.unchecked_checkbox.checked_checkbox:hover{
     cursor: pointer;
 }
 

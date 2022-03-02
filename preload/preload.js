@@ -31,9 +31,15 @@ function initTodoCategory() {
     addCategoryEvent()
 }
 function initTodoDetail(categoryIndex){
-    let todoDetailContainer = document.getElementById("input_todo_detail")
-    let rawData = new Map()
-    let data = rawData[categoryIndex]
+    let todoDetailContainer = document.getElementsByClassName("todo_detail_top")[0]
+    let rawData = new Map(  [
+        [0, [1,2,3]],
+        [1, [2,3,4]],
+        [2, [3,4,5]],
+        [3, [4,5,6]],
+        [4, [5,6,7]]
+    ])
+    let data = rawData.get(categoryIndex)
     let str = ""
 
     for (let i =0;i<data.length;i++) {
@@ -60,27 +66,26 @@ function addTodoDetailEvent() {
 
 function todoDetailEventBinder(){
     let todo_checkbox_uncheck = document.getElementsByClassName("unchecked_checkbox")
-    let todo_checkbox_check = document.getElementsByClassName("checked_checkbox")
-    for (let i =0;i<todo_checkbox_check.length;i++) {
-        todo_checkbox_check[i].removeEventListener("click",todoCheckedDetailEvent)
-        todo_checkbox_check[i].addEventListener("click",todoCheckedDetailEvent)
-    }
 
     for (let i =0;i<todo_checkbox_uncheck.length;i++) {
-        todo_checkbox_uncheck[i].removeEventListener("click",todoUncheckedDetailEvent)
-        todo_checkbox_uncheck[i].addEventListener("click",todoUncheckedDetailEvent)
+        if (todo_checkbox_uncheck[i].classList.contains("checked_checkbox")) {
+            todo_checkbox_uncheck[i].removeEventListener("click",todoCheckedDetailEvent)
+            todo_checkbox_uncheck[i].addEventListener("click",todoCheckedDetailEvent)
+        }
+        else{
+            todo_checkbox_uncheck[i].removeEventListener("click",todoUncheckedDetailEvent)
+            todo_checkbox_uncheck[i].addEventListener("click",todoUncheckedDetailEvent)
+        }
     }
 }
 function todoCheckedDetailEvent(event) {
     let current_target = event.currentTarget
     current_target.classList.remove("checked_checkbox")
-    current_target.classList.add("unchecked_checkbox")
     todoDetailEventBinder()
 }
 
 function todoUncheckedDetailEvent(event) {
     let current_target = event.currentTarget
-    current_target.classList.remove("unchecked_checkbox")
     current_target.classList.add("checked_checkbox")
     todoDetailEventBinder()
 }
@@ -120,14 +125,16 @@ function addCategoryEvent() {
         category[i].removeEventListener("click",categoryClickEvent)
         category[i].addEventListener("click",categoryClickEvent)
     }
+}
 
-    function categoryClickEvent(event) {
-        let category = document.getElementsByClassName("category_label")
-        for (let i =0 ;i<category.length;i++) {
-            category[i].classList.remove("selected_category")
-        }
-
-        event.currentTarget.classList.add("selected_category")
+function categoryClickEvent(event) {
+    let category = document.getElementsByClassName("category_label")
+    for (let i =0 ;i<category.length;i++) {
+        category[i].classList.remove("selected_category")
     }
+
+    event.currentTarget.classList.add("selected_category")
+    let categoryDetail = event.currentTarget.getAttribute("categoryIndex")
+    initTodoDetail(categoryDetail)
 }
 
