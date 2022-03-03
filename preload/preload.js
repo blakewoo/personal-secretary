@@ -43,7 +43,11 @@ function initTodoDetail(categoryIndex){
     let str = ""
 
     for (let i =0;i<data.length;i++) {
-        str += "<div class='todo_detail_row'><span class='unchecked_checkbox'></span><label class='category_detail'>"+data[i]+"</label></div>"
+        str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\">\n" +
+            "   <input type=\"checkbox\">\n" +
+            "   <span class=\"checkbox_icon\"></span>\n" +
+            "   <span class=\"checkbox_text category_detail\">"+data[i]+"</span>"+
+            "</div>"
     }
 
     todoDetailContainer.innerHTML = str
@@ -56,8 +60,13 @@ function addTodoDetailEvent() {
 
     add_todo.addEventListener("keyup",function (event) {
         if(event.key === "Enter") {
+            let numberOfDetailRow = document.getElementsByClassName("todo_detail_row")
             let categoryContainer = document.getElementsByClassName("todo_detail_top")[0]
-            categoryContainer.innerHTML += "<div class='todo_detail_row'><span class='unchecked_checkbox'></span><label class='category_detail'>"+add_todo.value+"</label></div>"
+            categoryContainer.innerHTML += "<div class='todo_detail_row'>" +
+                "<label class=\"checkbox\">\n" +
+                "   <input type=\"checkbox\">\n" +
+                "   <span class=\"checkbox_icon\"></span>\n" +
+                "   <span class=\"checkbox_text category_detail\">"+add_todo.value+"</span></div>"
             todoDetailEventBinder()
         }
     })
