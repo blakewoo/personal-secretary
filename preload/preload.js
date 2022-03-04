@@ -34,14 +34,15 @@ function initTodoCategory() {
 }
 function initTodoDetail(categoryIndex){
     let todoDetailContainer = document.getElementsByClassName("todo_detail_top")[0]
-    let rawData = new Map(  [
-        [0, [1,2,3]],
-        [1, [2,3,4]],
-        [2, [3,4,5]],
-        [3, [4,5,6]],
-        [4, [5,6,7]]
-    ])
-    let data = rawData.get(categoryIndex)
+    // test data
+    let rawData = new Map()
+    rawData.set(0,[1,2,3])
+    rawData.set(1,[2,3,4])
+    rawData.set(2,[3,4,5])
+    rawData.set(3,[4,5,6])
+    rawData.set(4,[5,6,7])
+
+    let data = rawData.get(Number(categoryIndex))
     let str = ""
 
     for (let i =0;i<data.length;i++) {
@@ -131,6 +132,7 @@ function categoryClickEvent(event) {
 
     event.currentTarget.classList.add("selected_category")
     let categoryDetail = event.currentTarget.getAttribute("categoryIndex")
+    console.log(categoryDetail)
     initTodoDetail(categoryDetail)
 }
 
