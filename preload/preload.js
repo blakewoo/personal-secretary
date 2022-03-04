@@ -1,4 +1,6 @@
 const {ipcRenderer} = require('electron')
+let checkedList = new Set();
+
 window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("close_button").addEventListener('click', closeClickEvent)
@@ -43,7 +45,7 @@ function initTodoDetail(categoryIndex){
     let str = ""
 
     for (let i =0;i<data.length;i++) {
-        str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\">\n" +
+        str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+i+">\n" +
             "   <input type=\"checkbox\">\n" +
             "   <span class=\"checkbox_icon\"></span>\n" +
             "   <span class=\"checkbox_text category_detail\">"+data[i]+"</span>"+
@@ -60,7 +62,6 @@ function addTodoDetailEvent() {
 
     add_todo.addEventListener("keyup",function (event) {
         if(event.key === "Enter") {
-            let numberOfDetailRow = document.getElementsByClassName("todo_detail_row")
             let categoryContainer = document.getElementsByClassName("todo_detail_top")[0]
             categoryContainer.innerHTML += "<div class='todo_detail_row'>" +
                 "<label class=\"checkbox\">\n" +
@@ -74,31 +75,17 @@ function addTodoDetailEvent() {
 }
 
 function todoDetailEventBinder(){
-    let todo_checkbox_uncheck = document.getElementsByClassName("unchecked_checkbox")
+    let todo_checkbox = document.getElementsByClassName("checkbox")
 
-    for (let i =0;i<todo_checkbox_uncheck.length;i++) {
-        if (todo_checkbox_uncheck[i].classList.contains("checked_checkbox")) {
-            todo_checkbox_uncheck[i].removeEventListener("click",todoCheckedDetailEvent)
-            todo_checkbox_uncheck[i].addEventListener("click",todoCheckedDetailEvent)
-        }
-        else{
-            todo_checkbox_uncheck[i].removeEventListener("click",todoUncheckedDetailEvent)
-            todo_checkbox_uncheck[i].addEventListener("click",todoUncheckedDetailEvent)
-        }
+    for (let i =0;i<todo_checkbox.length;i++) {
+        todo_checkbox[i].removeEventListener("click",todoCheck)
+        todo_checkbox[i].addEventListener("click",todoCheck)
     }
 }
-function todoCheckedDetailEvent(event) {
-    let current_target = event.currentTarget
-    current_target.classList.remove("checked_checkbox")
-    todoDetailEventBinder()
-}
 
-function todoUncheckedDetailEvent(event) {
-    let current_target = event.currentTarget
-    current_target.classList.add("checked_checkbox")
-    todoDetailEventBinder()
+function todoCheck(event) {
+    checkedList.add(event.currentTarget.getAttribute("id"))
 }
-
 
 function addCategoryButtonEvent() {
 
