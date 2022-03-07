@@ -2,6 +2,7 @@ const {app, BrowserWindow } = require('electron')
 
 const path = require('path')
 const {ipcMain} = require('electron');
+const fs = require("fs")
 
 exports.createWindow = function () {
     // Create the browser window.
@@ -26,10 +27,25 @@ exports.createWindow = function () {
         mainWindow.show()
     })
 
+
+
     ipcMain.on('mainFrameButtonEvent', (event,arg) => {
         if (arg.value === "close") {
             mainWindow.close()
         }
+    })
+
+    ipcMain.on('mainPageInitData', (event,arg) => {
+        let data;
+        try{
+            data = fs.readFileSync("./data.dat");
+        }
+        catch(e){
+            data = {}
+            fs.writeFileSync("./data.dat",data.toString())
+        }
+
+        event.sender.send("sendInitData",data)
     })
 
     return mainWindow

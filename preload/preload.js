@@ -3,13 +3,21 @@ let checkedList = new Set();
 
 window.addEventListener('DOMContentLoaded', () => {
 
+    let initData = {}
     document.getElementById("close_button").addEventListener('click', closeClickEvent)
     function closeClickEvent() {
         ipcRenderer.send('mainFrameButtonEvent',{value:"close"});
     }
+
+    ipcRenderer.send('mainPageInitData',{value:true});
+    ipcRenderer.on('sendInitData', (event,arg) => {
+        initData = arg
+    })
+
+
     // init data
-    initTodoCategory()
-    initTodoDetail(0)
+    initTodoCategory(initData)
+    initTodoDetail(initData)
 
     // init event binder
     addCategoryButtonEvent()
@@ -32,7 +40,15 @@ function initTodoCategory() {
     categoryContainer.innerHTML = str
     addCategoryEvent()
 }
-function initTodoDetail(categoryIndex){
+function initTodoDetail(initData,categoryIndex){
+    let targetIndex = 0;
+    if (!categoryIndex) {
+        targetIndex = 0
+    }
+    else {
+        targetIndex = categoryIndex
+    }
+
     let todoDetailContainer = document.getElementsByClassName("todo_detail_top")[0]
     // test data
     let rawData = new Map()
@@ -42,7 +58,7 @@ function initTodoDetail(categoryIndex){
     rawData.set(3,[4,5,6])
     rawData.set(4,[5,6,7])
 
-    let data = rawData.get(Number(categoryIndex))
+    let data = rawData.get(Number(targetIndex))
     let str = ""
 
     for (let i =0;i<data.length;i++) {
