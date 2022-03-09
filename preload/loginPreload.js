@@ -68,16 +68,22 @@ function loadSignupPage() {
 
     let str = "<h1>Sign up</h1>\n" +
         "<div class=\"div_vertical_term\">\n" +
-        "    <label>Email : </label><input id=\"email_input\" class=\"input_border\" type=\"text\">\n" +
+        "    <label>ID : </label><input id=\"id_input\" class=\"input_border\" type=\"text\">\n" +
         "</div>\n" +
         "<div class=\"div_vertical_term\">\n" +
-        "    <label>Nickname : </label><input id=\"nickname_input\" class=\"input_border\"  type=\"text\">\n" +
+        "    <label>Email : </label><input id=\"email_input\" class=\"input_border\" type=\"text\">\n" +
         "</div>\n" +
         "<div class=\"div_vertical_term\">\n" +
         "    <label>PASSWORD : </label><input id=\"pwd_input\" class=\"input_border\"  type=\"text\">\n" +
         "</div>\n" +
         "<div class=\"div_vertical_term\">\n" +
         "    <label>PASSWORD CONFIRM : </label><input id=\"pwdcheck_input\" class=\"input_border\"  type=\"text\">\n" +
+        "</div>\n" +
+        "<div class=\"div_vertical_term\">\n<br>" +
+        "    <label class='explain_label'>코드는 홈페이지에서 결재 후 발급 받을 수 있습니다.</label>" +
+        "</div>\n" +
+        "<div class=\"div_vertical_term\">\n" +
+        "    <label>Pro code : </label><input id=\"procode_input\" class=\"input_border\"  type=\"text\">\n" +
         "</div>\n" +
         "<div class=\"div_vertical_term\">\n" +
         "    <input value=\"Accept\" class=\"public_button\" id=\"accept_button\" type=\"button\"><input  value=\"cancel\" class=\"public_button\" id=\"cancel_button\" type=\"button\">\n" +
@@ -111,7 +117,10 @@ function bindSignupEvent() {
 
 function loadFindIdPage() {
 
-    let str = "<h1>Sign up</h1>\n" +
+    let str = "<h1>Find ID</h1>\n" +
+        "<div class=\"div_vertical_term\">\n" +
+        "    <label>프로 일잘러 등급 사용자만 가능합니다</label>"+
+        "</div>\n" +
         "<div class=\"div_vertical_term\">\n" +
         "    <label>Email : </label><input id=\"email_input\" class=\"input_border\" type=\"text\">\n" +
         "</div>\n" +
@@ -126,7 +135,6 @@ function bindFindIdEvent() {
     document.getElementById("close_button").addEventListener('click', closeClickEvent)
     document.getElementById("accept_button").addEventListener('click', acceptClickEvent)
     document.getElementById("cancel_button").addEventListener('click', cancelClickEvent)
-
 
     function closeClickEvent (event) {
 

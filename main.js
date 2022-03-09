@@ -3,6 +3,7 @@ const {app, BrowserWindow } = require('electron')
 const {ipcMain} = require('electron');
 const mainFunction = require('./module/mainModule');
 const loginFunction = require('./module/loginModule');
+const fs = require('fs');
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
@@ -77,6 +78,16 @@ app.on('window-all-closed', function () {
 
 function isLogin(id,pass) {
     console.log(id,pass)
+    let data = {}
+    try{
+        data = fs.readFileSync('./loginData.dat')
+        let idList = data.split(",")
+    }
+    catch(e) {
+        data = ""
+        fs.writeFileSync('./loginData.dat',data)
+    }
+
     return true
 }
 
@@ -86,5 +97,6 @@ function insertID(id,pass) {
 }
 
 function findId(email) {
+
 
 }
