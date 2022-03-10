@@ -104,7 +104,9 @@ function bindSignupEvent() {
     }
 
     function acceptClickEvent(event) {
-        ipcRenderer.send('signupButtonEvent',{value:"accept"});
+        let idValue= document.getElementById("id_input");
+        let passValue = document.getElementById("pwd_input")
+        ipcRenderer.send('signupButtonEvent',{value:"accept",id:idValue.value,pass:passValue.value});
         ipcRenderer.on('singupDeclineButton',(event, arg) => {
 
         })

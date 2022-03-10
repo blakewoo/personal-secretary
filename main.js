@@ -4,6 +4,7 @@ const {ipcMain} = require('electron');
 const mainFunction = require('./module/mainModule');
 const loginFunction = require('./module/loginModule');
 const fs = require('fs');
+const crypto = require('crypto');
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
@@ -81,20 +82,36 @@ function isLogin(id,pass) {
     let data = {}
     try{
         data = fs.readFileSync('./loginData.dat')
-        let idList = data.split(",")
+        return data === createHashedPassword(id + pass);
+
     }
     catch(e) {
-        data = ""
-        fs.writeFileSync('./loginData.dat',data)
+        return false
     }
-
-    return true
 }
 
 function insertID(id,pass) {
     console.log(id,pass)
-    return true
+    let data = ""
+    try{
+        data = createHashedPassword(id+pass)
+        fs.writeFileSync('./loginData.dat',data.toString())
+        return true
+    }
+    catch(e) {
+        return false
+    }
 }
+
+const createHashedPassword = (password) => {
+    return crypto.createHash("sha512").update(password).digest("base64");
+};
+
+const createSalt = async () => {
+    const buf = await crypto.randomBytes(64);
+
+    return buf.toString("base64");
+};
 
 function findId(email) {
 
