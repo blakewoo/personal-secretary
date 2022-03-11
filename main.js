@@ -8,7 +8,6 @@ const crypto = require('crypto');
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
-    let signupWindow;
     let mainWindow;
 
 
@@ -21,7 +20,6 @@ app.whenReady().then(() => {
             event.sender.send('findIdResultButton',false);
         }
     })
-
 
 
     ipcMain.on('loginButtonEvent', (event,arg) => {
@@ -51,7 +49,8 @@ app.whenReady().then(() => {
     ipcMain.on('signupButtonEvent', (event,arg) => {
         if (arg.value === "accept") {
             if (insertID(arg.id,arg.pass)) {
-                signupWindow.close()
+                console.log("aaa")
+                loginWindow.close()
                 loginWindow = loginFunction.createLoginWindow()
             }
             else {
@@ -60,7 +59,7 @@ app.whenReady().then(() => {
 
         }
         else if (arg.value === "cancel") {
-            signupWindow.close()
+            loginWindow.close()
             loginWindow = loginFunction.createLoginWindow()
         }
 
