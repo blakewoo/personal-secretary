@@ -106,10 +106,25 @@ function bindSignupEvent() {
     function acceptClickEvent(event) {
         let idValue= document.getElementById("id_input");
         let passValue = document.getElementById("pwd_input")
-        ipcRenderer.send('signupButtonEvent',{value:"accept",id:idValue.value,pass:passValue.value});
-        ipcRenderer.on('singupDeclineButton',(event, arg) => {
+        let passConfirmValue = document.getElementById("pwdcheck_input");
+        let emailValue = document.getElementById("email_input");
+        let proCodeValue = document.getElementById("procode_input")
+        let emailReg = new RegExp(/[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/i)
 
-        })
+        if(emailReg.test(emailValue.value)) {
+            if(passValue.value === passConfirmValue.value) {
+                ipcRenderer.send('signupButtonEvent',{value:"accept",id:idValue.value,pass:passValue.value,proCode:proCodeValue});
+                ipcRenderer.on('singupDeclineButton',(event, arg) => {
+
+                })
+            }
+            else {
+                alert("패스워드를 한번 더 확인해주세요")
+            }
+        }
+        else {
+            alert("적절한 Email을 입력해주세요")
+        }
     }
 
     function cancelClickEvent(event) {
