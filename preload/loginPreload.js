@@ -104,6 +104,7 @@ function bindSignupEvent() {
     }
 
     function acceptClickEvent(event) {
+
         let idValue= document.getElementById("id_input");
         let passValue = document.getElementById("pwd_input")
         let passConfirmValue = document.getElementById("pwdcheck_input");
@@ -119,11 +120,11 @@ function bindSignupEvent() {
                 })
             }
             else {
-                alert("패스워드를 한번 더 확인해주세요")
+                ipcRenderer.send('signupButtonEvent',{value:"passConfirm"});
             }
         }
         else {
-            alert("적절한 Email을 입력해주세요")
+            ipcRenderer.send('signupButtonEvent',{value:"emailError"});
         }
     }
 

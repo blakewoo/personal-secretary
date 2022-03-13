@@ -1,5 +1,5 @@
 const {app, BrowserWindow } = require('electron')
-
+const { dialog } = require('electron');  //새로 사용할 질문창
 const {ipcMain} = require('electron');
 const mainFunction = require('./module/mainModule');
 const loginFunction = require('./module/loginModule');
@@ -47,9 +47,13 @@ app.whenReady().then(() => {
     })
 
     ipcMain.on('signupButtonEvent', (event,arg) => {
+
+        function saveData(type,title,message){
+            dialog.showMessageBox(null,{type:type,title:title, message:message});
+        }
+
         if (arg.value === "accept") {
             if (insertID(arg.id,arg.pass)) {
-                console.log("aaa")
                 loginWindow.close()
                 loginWindow = loginFunction.createLoginWindow()
             }
@@ -57,6 +61,12 @@ app.whenReady().then(() => {
                 event.sender.send('singupDeclineButton',true);
             }
 
+        }
+        else if(arg.value === "passConfirm") {
+            saveData("error","패스워드 오류","패스워드가 일치하지 않습니다")
+        }
+        else if(arg.value === "emailError") {
+            saveData("error","이메일 오류","이메일이 형식에 맞지 않습니다")
         }
         else if (arg.value === "cancel") {
             loginWindow.close()
