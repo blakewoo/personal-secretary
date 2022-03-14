@@ -114,7 +114,7 @@ function bindSignupEvent() {
 
         if(emailReg.test(emailValue.value)) {
             if(passValue.value === passConfirmValue.value) {
-                ipcRenderer.send('signupButtonEvent',{value:"accept",id:idValue.value,pass:passValue.value,proCode:proCodeValue});
+                ipcRenderer.send('signupButtonEvent',{value:"accept",id:idValue.value,pass:passValue.value,proCode:proCodeValue.value});
                 ipcRenderer.on('singupDeclineButton',(event, arg) => {
 
                 })

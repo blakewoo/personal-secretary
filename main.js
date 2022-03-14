@@ -69,8 +69,7 @@ app.whenReady().then(() => {
             saveData("error","이메일 오류","이메일이 형식에 맞지 않습니다")
         }
         else if (arg.value === "cancel") {
-            loginWindow.close()
-            loginWindow = loginFunction.createLoginWindow()
+            loginWindow.loadFile('html/login.html')
         }
 
     })
@@ -87,12 +86,10 @@ app.on('window-all-closed', function () {
 })
 
 function isLogin(id,pass) {
-    console.log(id,pass)
     let data = {}
     try{
         data = fs.readFileSync('./loginData.dat')
-        return data === createHashedPassword(id + pass);
-
+        return data.toString() === createHashedPassword(id + pass).toString();
     }
     catch(e) {
         return false
@@ -100,7 +97,6 @@ function isLogin(id,pass) {
 }
 
 function insertID(id,pass) {
-    console.log(id,pass)
     let data = ""
     try{
         data = createHashedPassword(id+pass)
@@ -114,12 +110,6 @@ function insertID(id,pass) {
 
 const createHashedPassword = (password) => {
     return crypto.createHash("sha512").update(password).digest("base64");
-};
-
-const createSalt = async () => {
-    const buf = await crypto.randomBytes(64);
-
-    return buf.toString("base64");
 };
 
 function findId(email) {
