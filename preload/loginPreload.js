@@ -10,7 +10,7 @@ function loadLoginPage() {
         "        <label>사용자 : </label><input class=\"input_border\" id=\"user_input\" type=\"text\">\n" +
         "    </div>\n" +
         "    <div class=\"att_border_bottom\">\n" +
-        "        <label>비밀번호 : </label><input class=\"input_border\" id=\"password_input\" type=\"text\">\n" +
+        "        <label>비밀번호 : </label><input class=\"input_border\" id=\"password_input\" type=\"password\">\n" +
         "        <div>\n" +
         "            <label class=\"notice_wrong_account\" id=\"wrong_account\">\n" +
         "                아이디 혹은 패스워드가 올바르지 않습니다.\n" +
@@ -74,10 +74,10 @@ function loadSignupPage() {
         "    <label>Email : </label><input id=\"email_input\" class=\"input_border\" type=\"text\">\n" +
         "</div>\n" +
         "<div class=\"div_vertical_term\">\n" +
-        "    <label>PASSWORD : </label><input id=\"pwd_input\" class=\"input_border\"  type=\"text\">\n" +
+        "    <label>PASSWORD : </label><input id=\"pwd_input\" class=\"input_border\"  type=\"password\">\n" +
         "</div>\n" +
         "<div class=\"div_vertical_term\">\n" +
-        "    <label>PASSWORD CONFIRM : </label><input id=\"pwdcheck_input\" class=\"input_border\"  type=\"text\">\n" +
+        "    <label>PASSWORD CONFIRM : </label><input id=\"pwdcheck_input\" class=\"input_border\"  type=\"password\">\n" +
         "</div>\n" +
         "<div class=\"div_vertical_term\">\n<br>" +
         "    <label class='explain_label'>코드는 홈페이지에서 결재 후 발급 받을 수 있습니다.</label>" +
@@ -110,7 +110,8 @@ function bindSignupEvent() {
         let passConfirmValue = document.getElementById("pwdcheck_input");
         let emailValue = document.getElementById("email_input");
         let proCodeValue = document.getElementById("procode_input")
-        let emailReg = new RegExp(/[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/i)
+        // let emailReg = new RegExp(/[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/i)
+        let emailReg = new RegExp(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i)
 
         if(emailReg.test(emailValue.value)) {
             if(passValue.value === passConfirmValue.value) {

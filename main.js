@@ -54,8 +54,7 @@ app.whenReady().then(() => {
 
         if (arg.value === "accept") {
             if (insertID(arg.id,arg.pass)) {
-                loginWindow.close()
-                loginWindow = loginFunction.createLoginWindow()
+                loginWindow.loadFile('html/login.html')
             }
             else {
                 event.sender.send('singupDeclineButton',true);
