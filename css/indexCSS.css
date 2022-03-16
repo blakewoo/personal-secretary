@@ -70,7 +70,12 @@ body{
     border-right: none;
     border-bottom: solid 2px #222222;
     background-color: transparent;
-    width: 80%;
+    width: 92%;
+}
+
+.detail_date{
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .selected_category{
@@ -159,12 +164,13 @@ body{
     border-right: none;
     border-bottom: solid 2px #222222;
     background-color: transparent;
+    width: 80%;
 }
 
 .todo_detail_row{
     display: inline-block;
     align-items: center;
-    width: 90%;
+    width: 99%;
 }
 
 .todo_detail_row:hover{

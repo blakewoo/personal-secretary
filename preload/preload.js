@@ -84,7 +84,9 @@ function addTodoDetailEvent() {
                 "<label class=\"checkbox\">\n" +
                 "   <input type=\"checkbox\">\n" +
                 "   <span class=\"checkbox_icon\"></span>\n" +
-                "   <span class=\"checkbox_text category_detail\">"+add_todo.value+"</span></div>"
+                "   <span class=\"checkbox_text category_detail\">"+add_todo.value+"</span>" +
+                "   <span class=\"checkbox_text detail_date\">"+new Date()+"</span>" +
+                "</div>"
             todoDetailEventBinder()
         }
     })
