@@ -70,12 +70,13 @@ body{
     border-right: none;
     border-bottom: solid 2px #222222;
     background-color: transparent;
-    width: 92%;
+    width: 85%;
 }
 
 .detail_date{
     font-size: 12px;
     font-weight: bold;
+    float: right;
 }
 
 .selected_category{
@@ -184,14 +185,16 @@ body{
 }
 
 .checkbox_icon {
-       display: inline-block;
-       width: 10px;
-       height: 10px;
-       background-color: transparent;
-       border: 2px solid #222222;
-       border-radius: 10px 10px;
-       position: relative;
-       cursor: pointer;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+    border: 2px solid #222222;
+    border-radius: 10px 10px;
+    position: relative;
+    cursor: pointer;
+    top:2px;
+    left:7px;
 }
 
 .checkbox_icon::before, .checkbox_icon::after {

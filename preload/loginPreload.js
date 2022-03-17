@@ -110,7 +110,6 @@ function bindSignupEvent() {
         let passConfirmValue = document.getElementById("pwdcheck_input");
         let emailValue = document.getElementById("email_input");
         let proCodeValue = document.getElementById("procode_input")
-        // let emailReg = new RegExp(/[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]$/i)
         let emailReg = new RegExp(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i)
 
         if(emailReg.test(emailValue.value)) {

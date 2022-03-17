@@ -52,11 +52,11 @@ function initTodoDetail(initData,categoryIndex){
     let todoDetailContainer = document.getElementsByClassName("todo_detail_top")[0]
     // test data
     let rawData = new Map()
-    rawData.set(0,[1,2,3])
-    rawData.set(1,[2,3,4])
-    rawData.set(2,[3,4,5])
-    rawData.set(3,[4,5,6])
-    rawData.set(4,[5,6,7])
+    rawData.set(0,[{value:1,date:new Date()},{value:2,date:new Date()},{value:3,date:new Date()}])
+    rawData.set(1,[{value:2,date:new Date()},{value:3,date:new Date()},{value:4,date:new Date()}])
+    rawData.set(2,[{value:4,date:new Date()},{value:5,date:new Date()},{value:6,date:new Date()}])
+    rawData.set(3,[{value:5,date:new Date()},{value:6,date:new Date()},{value:7,date:new Date()}])
+    rawData.set(4,[{value:6,date:new Date()},{value:7,date:new Date()},{value:8,date:new Date()}])
 
     let data = rawData.get(Number(targetIndex))
     let str = ""
@@ -64,8 +64,9 @@ function initTodoDetail(initData,categoryIndex){
     for (let i =0;i<data.length;i++) {
         str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+i+">\n" +
             "   <input type=\"checkbox\">\n" +
-            "   <span class=\"checkbox_icon\"></span>\n" +
-            "   <span class=\"checkbox_text category_detail\">"+data[i]+"</span>"+
+            "   <span class=\"checkbox_icon\"></span></label>\n" +
+            "   <span class=\"checkbox_text category_detail\">"+data[i].value+"</span>"+
+            "   <span class=\"checkbox_text detail_date\">"+new Date(+data[i].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
             "</div>"
     }
 
@@ -83,9 +84,9 @@ function addTodoDetailEvent() {
             categoryContainer.innerHTML += "<div class='todo_detail_row'>" +
                 "<label class=\"checkbox\">\n" +
                 "   <input type=\"checkbox\">\n" +
-                "   <span class=\"checkbox_icon\"></span>\n" +
+                "   <span class=\"checkbox_icon\"></span></label>\n" +
                 "   <span class=\"checkbox_text category_detail\">"+add_todo.value+"</span>" +
-                "   <span class=\"checkbox_text detail_date\">"+new Date()+"</span>" +
+                "   <span class=\"checkbox_text detail_date\">"+new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
             todoDetailEventBinder()
         }
