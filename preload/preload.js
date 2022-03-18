@@ -89,6 +89,8 @@ function addTodoDetailEvent() {
                 "   <span class=\"checkbox_text detail_date\">"+new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
             todoDetailEventBinder()
+
+            add_todo.value = ""
         }
     })
 
