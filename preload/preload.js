@@ -26,11 +26,12 @@ window.addEventListener('DOMContentLoaded', () => {
     addTodoDetailEvent()
 })
 
-function initTodoCategory() {
+function initTodoCategory(initData) {
     let categoryContainer = document.getElementsByClassName("todo_category")[0]
 
     //example data
-    let data = [{index:0,value:"ABA"},{index:1,value:"BABA"}]
+    // let data = [{index:0,value:"ABA"},{index:1,value:"BABA"}]
+    let data = initData
     let str = ""
 
     for (let i =0;i<data.length;i++) {
@@ -80,6 +81,10 @@ function addTodoDetailEvent() {
 
     add_todo.addEventListener("keyup",function (event) {
         if(event.key === "Enter") {
+            if (add_todo.value === "") {
+                return;
+            }
+
             let categoryContainer = document.getElementsByClassName("todo_detail_top")[0]
             categoryContainer.innerHTML += "<div class='todo_detail_row'>" +
                 "<label class=\"checkbox\">\n" +

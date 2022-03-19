@@ -4,7 +4,7 @@ const path = require('path')
 const {ipcMain} = require('electron');
 const fs = require("fs")
 
-exports.createWindow = function () {
+exports.createWindow = function (target) {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         show:false,
@@ -38,15 +38,38 @@ exports.createWindow = function () {
     ipcMain.on('mainPageInitData', (event,arg) => {
         let data;
         try{
-            data = fs.readFileSync("./data.dat");
+            data = fs.readFileSync("./"+target.toString('base64'));
         }
         catch(e){
             data = {}
-            fs.writeFileSync("./data.dat",data.toString())
+            fs.writeFileSync("./"+target.toString('base64'),data.toString())
         }
 
         event.sender.send("sendInitData",data)
     })
 
     return mainWindow
+}
+
+function getInitDate(target) {
+    try{
+        let rawData = fs.readFileSync('./Data.dat')
+        let targetData = JSON.parse(rawData.toString()).target
+        return targetData
+    }
+    catch(e) {
+        return false
+    }
+}
+
+function inputData(target,inputData) {
+    try{
+        // let rawData = fs.writeFileSync('./Data.dat')
+        // let targetData = JSON.parse(rawData.toString()).target
+        // return targetData
+        return true
+    }
+    catch(e) {
+        return false
+    }
 }
