@@ -11,19 +11,25 @@ window.addEventListener('DOMContentLoaded', () => {
 
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) => {
-        initData = arg
+        initData = arg.toString()
+
+        if(initData === "") {
+            // init data
+            initTodoCategory([])
+            initTodoDetail(new Set())
+        }
+        else {
+            // init data
+            initTodoCategory(initData)
+            initTodoDetail(initData)
+        }
+
+        // init event binder
+        addCategoryButtonEvent()
+        addCategoryEvent(0)
+        todoDetailEventBinder()
+        addTodoDetailEvent()
     })
-
-
-    // init data
-    initTodoCategory(initData)
-    initTodoDetail(initData)
-
-    // init event binder
-    addCategoryButtonEvent()
-    addCategoryEvent(0)
-    todoDetailEventBinder()
-    addTodoDetailEvent()
 })
 
 function initTodoCategory(initData) {
@@ -42,36 +48,29 @@ function initTodoCategory(initData) {
     addCategoryEvent()
 }
 function initTodoDetail(initData,categoryIndex){
-    let targetIndex = 0;
-    if (!categoryIndex) {
-        targetIndex = 0
-    }
-    else {
-        targetIndex = categoryIndex
-    }
+    let targetIndex = categoryIndex;
 
     let todoDetailContainer = document.getElementsByClassName("todo_detail_top")[0]
-    // test data
-    let rawData = new Map()
-    rawData.set(0,[{value:1,date:new Date()},{value:2,date:new Date()},{value:3,date:new Date()}])
-    rawData.set(1,[{value:2,date:new Date()},{value:3,date:new Date()},{value:4,date:new Date()}])
-    rawData.set(2,[{value:4,date:new Date()},{value:5,date:new Date()},{value:6,date:new Date()}])
-    rawData.set(3,[{value:5,date:new Date()},{value:6,date:new Date()},{value:7,date:new Date()}])
-    rawData.set(4,[{value:6,date:new Date()},{value:7,date:new Date()},{value:8,date:new Date()}])
+    let rawData = new Map(initData)
+    // data type example
+    // rawData.set(0,[{value:1,date:new Date()},{value:2,date:new Date()},{value:3,date:new Date()}])
 
-    let data = rawData.get(Number(targetIndex))
-    let str = ""
+    if (targetIndex!== undefined) {
+        let data = rawData.get(Number(targetIndex))
+        let str = ""
 
-    for (let i =0;i<data.length;i++) {
-        str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+i+">\n" +
-            "   <input type=\"checkbox\">\n" +
-            "   <span class=\"checkbox_icon\"></span></label>\n" +
-            "   <span class=\"checkbox_text category_detail\">"+data[i].value+"</span>"+
-            "   <span class=\"checkbox_text detail_date\">"+new Date(+data[i].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
-            "</div>"
+        for (let i =0;i<data.length;i++) {
+            str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+i+">\n" +
+                "   <input type=\"checkbox\">\n" +
+                "   <span class=\"checkbox_icon\"></span></label>\n" +
+                "   <span class=\"checkbox_text category_detail\">"+data[i].value+"</span>"+
+                "   <span class=\"checkbox_text detail_date\">"+new Date(+data[i].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
+                "</div>"
+        }
+
+        todoDetailContainer.innerHTML = str
     }
 
-    todoDetailContainer.innerHTML = str
     todoDetailEventBinder()
 }
 
@@ -158,7 +157,6 @@ function categoryClickEvent(event) {
 
     event.currentTarget.classList.add("selected_category")
     let categoryDetail = event.currentTarget.getAttribute("categoryIndex")
-    console.log(categoryDetail)
     initTodoDetail(categoryDetail)
 }
 

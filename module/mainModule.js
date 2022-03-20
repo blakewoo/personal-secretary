@@ -37,14 +37,14 @@ exports.createWindow = function (target) {
 
     ipcMain.on('mainPageInitData', (event,arg) => {
         let data;
+        const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
         try{
-            data = fs.readFileSync("./"+target.toString('base64'));
+            data = fs.readFileSync("./"+toAscii(target.toString('base64')));
         }
         catch(e){
-            data = {}
-            fs.writeFileSync("./"+target.toString('base64'),data.toString())
+            data = ""
+            fs.writeFileSync("./"+toAscii(target.toString('base64')),data.toString())
         }
-
         event.sender.send("sendInitData",data)
     })
 
