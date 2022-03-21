@@ -4,7 +4,7 @@ const path = require('path')
 const {ipcMain} = require('electron');
 const fs = require("fs")
 
-exports.createWindow = function (target) {
+exports.createWindow = function (pass) {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         show:false,
@@ -37,39 +37,46 @@ exports.createWindow = function (target) {
 
     ipcMain.on('mainPageInitData', (event,arg) => {
         let data;
-        const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
+        let indexFile;
+        // const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
         try{
-            data = fs.readFileSync("./"+toAscii(target.toString('base64')));
+            indexFile = Array(fs.readFileSync("./index"));
+
+            try {
+                data = fs.readFileSync("./"+indexFile[0]);
+            }
+            catch(e) {
+                data = {}
+                fs.writeFileSync("./"+indexFile[0]);
+            }
+
         }
         catch(e){
-            data = ""
-            fs.writeFileSync("./"+toAscii(target.toString('base64')),data.toString())
+            indexFile = []
+            fs.writeFileSync("./index",indexFile.toString())
         }
         event.sender.send("sendInitData",data)
     })
 
+    // Read category
+    ipcMain.on('categoryReadData', (event,arg) => {
+
+    })
+
+    // Update category
+    ipcMain.on('categoryUpdateData', (event,arg) => {
+
+    })
+
+    // Read todo
+    ipcMain.on('detailTodoReadData', (event,arg) => {
+
+    })
+
+    // Update todo
+    ipcMain.on('detailTodoUpdateData', (event,arg) => {
+
+    })
+
     return mainWindow
-}
-
-function getInitDate(target) {
-    try{
-        let rawData = fs.readFileSync('./Data.dat')
-        let targetData = JSON.parse(rawData.toString()).target
-        return targetData
-    }
-    catch(e) {
-        return false
-    }
-}
-
-function inputData(target,inputData) {
-    try{
-        // let rawData = fs.writeFileSync('./Data.dat')
-        // let targetData = JSON.parse(rawData.toString()).target
-        // return targetData
-        return true
-    }
-    catch(e) {
-        return false
-    }
 }

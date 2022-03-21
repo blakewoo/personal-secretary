@@ -29,7 +29,7 @@ app.whenReady().then(() => {
 
             if(isLogin(id,pass)) {
                 loginWindow.close()
-                mainWindow = mainFunction.createWindow(createHashedPassword(id,pass))
+                mainWindow = mainFunction.createWindow(pass)
             }
             else {
                 event.sender.send('errorLogin',true);

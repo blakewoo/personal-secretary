@@ -41,6 +41,15 @@ function bindLoginEvent () {
     document.getElementById("signup_button").addEventListener('click', signUpClickEvent)
     document.getElementById("findpass_button").addEventListener('click', findClickEvent)
 
+    document.getElementById("user_input").addEventListener('keyup', enterKeyUpEvent)
+    document.getElementById("password_input").addEventListener('keyup', enterKeyUpEvent)
+
+    function enterKeyUpEvent(event) {
+        if(event.keyCode === 13) {
+            document.getElementById("login_button").click()
+        }
+    }
+
     function closeClickEvent (event) {
         ipcRenderer.send('loginFrameButtonEvent',{value:"close"});
     }
