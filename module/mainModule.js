@@ -55,6 +55,7 @@ exports.createWindow = function (pass) {
             indexFile = []
             fs.writeFileSync("./index",indexFile.toString())
         }
+        data = ""
         event.sender.send("sendInitData",data)
     })
 

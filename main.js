@@ -5,6 +5,7 @@ const mainFunction = require('./module/mainModule');
 const loginFunction = require('./module/loginModule');
 const fs = require('fs');
 const crypto = require('crypto');
+const path = require('path')
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
@@ -76,6 +77,52 @@ app.whenReady().then(() => {
     ipcMain.on('mainPageButtonEvent', (event,arg) => {
 
 
+    })
+
+    ipcMain.on('yesNoModal',(event,args) =>{
+        const yesNoModalWindow = new BrowserWindow({
+            show:false,
+            resizable:false,
+            minimizable:false,
+            maximizable:false,
+            fullscreenable:false,
+            frame:false,
+            width: 300,
+            height: 200,
+            autoHideMenuBar: true,
+            webPreferences: {
+                nodeIntegration: true, contextIsolation: false,
+                preload: path.join(__dirname, './preload/yesNoModalPreload.js')
+            }
+        })
+
+        yesNoModalWindow.loadFile('html/yesNoModal.html')
+        yesNoModalWindow.once('ready-to-show', () => {
+            yesNoModalWindow.show()
+        })
+    })
+
+    ipcMain.on('inputYesNoModal',(event,args) =>{
+        const inputYesNoModalWindow = new BrowserWindow({
+            show:false,
+            resizable:false,
+            minimizable:false,
+            maximizable:false,
+            fullscreenable:false,
+            frame:false,
+            width: 300,
+            height: 200,
+            autoHideMenuBar: true,
+            webPreferences: {
+                nodeIntegration: true, contextIsolation: false,
+                preload: path.join(__dirname, './preload/inputYesNoModalPreload.js')
+            }
+        })
+
+        inputYesNoModalWindow.loadFile('html/inputYesNoModal.html')
+        inputYesNoModalWindow.once('ready-to-show', () => {
+            inputYesNoModalWindow.show()
+        })
     })
 
 })

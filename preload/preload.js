@@ -11,15 +11,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) => {
-        initData = arg.toString()
+        console.log(arg)
+        if (arg) {
+            initData = arg.toString()
+        }
+        else {
+            initData = ""
+        }
+
 
         if(initData === "") {
             // init data
             initTodoCategory([])
-            initTodoDetail(new Set())
+            initTodoDetail(new Map())
         }
         else {
             // init data
+            console.log("aaa")
             initTodoCategory(initData)
             initTodoDetail(initData)
         }
@@ -116,27 +124,50 @@ function todoCheck(event) {
 function addCategoryButtonEvent() {
 
     document.getElementById("add_category").addEventListener("click",function (event){
+        // 모달 창 on
+
+        ipcRenderer.send('yesNoModal',{value:"close"});
+        // 입력 받고 accept
+
         let categoryContainer = document.getElementsByClassName("todo_category")[0]
         categoryContainer.innerHTML += "<label class='category_label'>ss </label>"
         addCategoryEvent()
+
+        // x거나 cancel일때
     })
 
     document.getElementById("modify_category").addEventListener("click",function (event){
+        // 모달 창 on
+
+        ipcRenderer.send('yesNoModal',{value:"close"});
+        // 입력받고 accept
+
         let category = document.getElementsByClassName("category_label")
         for (let i =0 ;i<category.length;i++) {
             if(category[i].classList.contains("selected_category")){
 
             }
         }
+
+        // x거나 cancel
     })
 
     document.getElementById("delete_category").addEventListener("click",function (event){
+
+        // 모달 창 on
+        ipcRenderer.send('yesNoModal',{value:"close"});
+        // accept
+
         let category = document.getElementsByClassName("category_label")
         for (let i =0 ;i<category.length;i++) {
             if (category[i].classList.contains("selected_category")){
                 category[i].remove()
             }
         }
+
+        // cancel
+
+
     })
 
 }
@@ -159,4 +190,3 @@ function categoryClickEvent(event) {
     let categoryDetail = event.currentTarget.getAttribute("categoryIndex")
     initTodoDetail(categoryDetail)
 }
-
