@@ -1,0 +1,19 @@
+*{
+    font-family: "이서윤체";
+}
+
+.window_header{
+    height: 20px;
+    width: 89%;
+    display: inline-block;
+    -webkit-app-region: drag;
+}
+
+.spring_span{
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 50px / 50px;
+    border: 1px solid #cbcbcb;
+}

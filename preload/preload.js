@@ -11,7 +11,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) => {
-        console.log(arg)
         if (arg) {
             initData = arg.toString()
         }
@@ -27,7 +26,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         else {
             // init data
-            console.log("aaa")
             initTodoCategory(initData)
             initTodoDetail(initData)
         }
