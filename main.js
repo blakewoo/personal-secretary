@@ -76,53 +76,15 @@ app.whenReady().then(() => {
 
     ipcMain.on('mainPageButtonEvent', (event,arg) => {
 
-
     })
 
     ipcMain.on('yesNoModal',(event,args) =>{
-        const yesNoModalWindow = new BrowserWindow({
-            show:false,
-            resizable:false,
-            minimizable:false,
-            maximizable:false,
-            fullscreenable:false,
-            frame:false,
-            width: 300,
-            height: 200,
-            autoHideMenuBar: true,
-            webPreferences: {
-                nodeIntegration: true, contextIsolation: false,
-                preload: path.join(__dirname, './preload/yesNoModalPreload.js')
-            }
-        })
-
-        yesNoModalWindow.loadFile('html/yesNoModal.html')
-        yesNoModalWindow.once('ready-to-show', () => {
-            yesNoModalWindow.show()
-        })
+        console.log(args)
+        yesNoModalFunction (args.title,args.explain)
     })
 
     ipcMain.on('inputYesNoModal',(event,args) =>{
-        const inputYesNoModalWindow = new BrowserWindow({
-            show:false,
-            resizable:false,
-            minimizable:false,
-            maximizable:false,
-            fullscreenable:false,
-            frame:false,
-            width: 300,
-            height: 200,
-            autoHideMenuBar: true,
-            webPreferences: {
-                nodeIntegration: true, contextIsolation: false,
-                preload: path.join(__dirname, './preload/inputYesNoModalPreload.js')
-            }
-        })
-
-        inputYesNoModalWindow.loadFile('html/inputYesNoModal.html')
-        inputYesNoModalWindow.once('ready-to-show', () => {
-            inputYesNoModalWindow.show()
-        })
+        inputYesNoModalFunction(args.title,args.explain,args.placeHolder)
     })
 
 })
@@ -130,6 +92,84 @@ app.disableHardwareAcceleration()
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
+
+
+function yesNoModalFunction (title,explain) {
+    const yesNoModalWindow = new BrowserWindow({
+        show:false,
+        resizable:false,
+        minimizable:false,
+        maximizable:false,
+        fullscreenable:false,
+        frame:false,
+        width: 300,
+        height: 200,
+        autoHideMenuBar: true,
+        webPreferences: {
+            nodeIntegration: true, contextIsolation: false,
+            preload: path.join(__dirname, './preload/yesNoModalPreload.js')
+        }
+    })
+
+    yesNoModalWindow.loadFile('html/yesNoModal.html')
+    yesNoModalWindow.once('ready-to-show', () => {
+        yesNoModalWindow.show()
+    })
+
+    ipcMain.on('yesNoModalClose',(event,args) =>{
+        yesNoModalWindow.close()
+    })
+
+    ipcMain.on('yesNoModalInitRequest',function (event) {
+        event.sender.send('yesNoModalInit',{title:title,explain:explain});
+    })
+
+    ipcMain.on('yesNoModalResponse',(event,args) =>{
+        return args.value === "Yes";
+    })
+
+}
+
+function inputYesNoModalFunction(title,explain,placeHolder) {
+    const inputYesNoModalWindow = new BrowserWindow({
+        show:false,
+        resizable:false,
+        minimizable:false,
+        maximizable:false,
+        fullscreenable:false,
+        frame:false,
+        width: 300,
+        height: 200,
+        autoHideMenuBar: true,
+        webPreferences: {
+            nodeIntegration: true, contextIsolation: false,
+            preload: path.join(__dirname, './preload/inputYesNoModalPreload.js')
+        }
+    })
+
+    inputYesNoModalWindow.loadFile('html/inputYesNoModal.html')
+    inputYesNoModalWindow.once('ready-to-show', () => {
+        inputYesNoModalWindow.show()
+    })
+
+    ipcMain.on('inputYesNoModalClose',(event,args) =>{
+        inputYesNoModalWindow.close()
+    })
+
+    ipcMain.on('inputYesNoModalInitRequest',function (event) {
+        event.sender.send('inputYesNoModalInit',{title:title,explain:explain,placeHolder:placeHolder});
+    })
+
+    ipcMain.on('inputYesNoModalResponse',(event,args) =>{
+        if(args.value === "Accept") {
+            return args.text
+        }
+        else {
+            return false
+        }
+    })
+}
+
 
 function isLogin(id,pass) {
     let data = {}
