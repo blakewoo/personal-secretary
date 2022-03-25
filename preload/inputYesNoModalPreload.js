@@ -10,4 +10,12 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById("main_html_div").innerHTML = str
     })
 
+    clovineButtonEvent()
+
 })
+
+function clovineButtonEvent() {
+    document.getElementById("close_button").addEventListener("click",function (event) {
+        ipcRenderer.send("inputYesNoModalClose",{value:true})
+    })
+}
