@@ -79,7 +79,6 @@ app.whenReady().then(() => {
     })
 
     ipcMain.on('yesNoModal',(event,args) =>{
-        console.log(args)
         yesNoModalFunction (args.title,args.explain)
     })
 

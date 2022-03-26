@@ -124,7 +124,7 @@ function addCategoryButtonEvent() {
     document.getElementById("add_category").addEventListener("click",function (event){
         // 모달 창 on
 
-        ipcRenderer.send('yesNoModal',{title:"",explain:""});
+        ipcRenderer.send('inputYesNoModal',{title:"",explain:"",placeHolder:""});
         // 입력 받고 accept
 
         let categoryContainer = document.getElementsByClassName("todo_category")[0]
@@ -137,7 +137,7 @@ function addCategoryButtonEvent() {
     document.getElementById("modify_category").addEventListener("click",function (event){
         // 모달 창 on
 
-        ipcRenderer.send('yesNoModal',{title:"",explain:""});
+        ipcRenderer.send('inputYesNoModal',{title:"",explain:"",placeHolder:""});
         // 입력받고 accept
 
         let category = document.getElementsByClassName("category_label")
