@@ -24,6 +24,11 @@
     border: 2px solid #5f5f5f;
     margin-right: 10px;
 }
+.public_button:hover{
+    color: white;
+    background-color: #5f5f5f;
+    cursor: pointer;
+}
 
 .close_div{
     width: 7%;
@@ -44,4 +49,13 @@
 #close_button:active{
     background-color: #111111;
     color:white;
+}
+
+.input_border{
+    border: 2px solid #5f5f5f;
+    width: 80px;
+}
+.modalInput{
+    width: 90%;
+    margin: 10px 0 10px 0;
 }

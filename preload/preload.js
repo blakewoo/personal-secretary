@@ -124,7 +124,7 @@ function addCategoryButtonEvent() {
     document.getElementById("add_category").addEventListener("click",function (event){
         // 모달 창 on
 
-        ipcRenderer.send('inputYesNoModal',{title:"",explain:"",placeHolder:""});
+        ipcRenderer.send('inputYesNoModal',{title:"카테고리 추가",explain:"새로 추가할 카테고리 이름을 입력해주세요.",placeHolder:"카테고리 이름"});
         // 입력 받고 accept
 
         let categoryContainer = document.getElementsByClassName("todo_category")[0]

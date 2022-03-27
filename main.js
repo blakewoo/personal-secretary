@@ -138,7 +138,7 @@ function inputYesNoModalFunction(title,explain,placeHolder) {
         fullscreenable:false,
         frame:false,
         width: 300,
-        height: 200,
+        height: 130,
         autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: true, contextIsolation: false,
