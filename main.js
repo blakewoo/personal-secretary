@@ -130,7 +130,7 @@ function yesNoModalFunction (title,explain) {
 }
 
 function inputYesNoModalFunction(title,explain,placeHolder) {
-    const inputYesNoModalWindow = new BrowserWindow({
+    let inputYesNoModalWindow = new BrowserWindow({
         show:false,
         resizable:false,
         minimizable:false,

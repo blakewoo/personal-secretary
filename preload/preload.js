@@ -135,36 +135,35 @@ function addCategoryButtonEvent() {
     })
 
     document.getElementById("modify_category").addEventListener("click",function (event){
-        // 모달 창 on
-
-        ipcRenderer.send('inputYesNoModal',{title:"",explain:"",placeHolder:""});
-        // 입력받고 accept
 
         let category = document.getElementsByClassName("category_label")
-        for (let i =0 ;i<category.length;i++) {
-            if(category[i].classList.contains("selected_category")){
-
+        if(category.length!==0) {
+            for (let i =0 ;i<category.length;i++) {
+                if(category[i].classList.contains("selected_category")){
+                    ipcRenderer.send('inputYesNoModal',{title:"카테고리 수정",explain:"변경할 카테고리 이름을 입력해주세요.",placeHolder:"카테고리 이름"});
+                }
             }
         }
+        else{
 
-        // x거나 cancel
+        }
+
     })
 
     document.getElementById("delete_category").addEventListener("click",function (event){
 
-        // 모달 창 on
-        ipcRenderer.send('yesNoModal',{title:"",explain:""});
-        // accept
-
         let category = document.getElementsByClassName("category_label")
-        for (let i =0 ;i<category.length;i++) {
-            if (category[i].classList.contains("selected_category")){
-                category[i].remove()
+        if (category.length!==0) {
+            for (let i =0 ;i<category.length;i++) {
+                if (category[i].classList.contains("selected_category")){
+                    ipcRenderer.send('yesNoModal',{title:"",explain:""});
+                    // category[i].remove()
+                }
             }
         }
+        else{
 
-        // cancel
-
+        }
 
     })
 
