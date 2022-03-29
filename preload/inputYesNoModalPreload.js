@@ -4,7 +4,6 @@ window.addEventListener('DOMContentLoaded', () => {
     ipcRenderer.send("inputYesNoModalInitRequest",{value:true})
     ipcRenderer.on('inputYesNoModalInit',(event, arg) => {
         document.getElementsByClassName("window_header")[0].innerHTML = " <span class=\"spring_span\"></span> <label>"+arg.title+"</label>"
-        console.log(arg.title)
 
         let str = "<label>"+arg.explain+"</label>"
         +"<input class='input_border modalInput' type='text' placeholder="+arg.placeHolder+"/> <br>"

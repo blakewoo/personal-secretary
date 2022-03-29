@@ -156,7 +156,7 @@ function addCategoryButtonEvent() {
         if (category.length!==0) {
             for (let i =0 ;i<category.length;i++) {
                 if (category[i].classList.contains("selected_category")){
-                    ipcRenderer.send('yesNoModal',{title:"",explain:""});
+                    ipcRenderer.send('yesNoModal',{title:"카테고리 삭제",explain:"선택한 카테고리를 삭제하시겠습니까?"});
                     // category[i].remove()
                 }
             }

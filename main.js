@@ -94,7 +94,7 @@ app.on('window-all-closed', function () {
 
 
 function yesNoModalFunction (title,explain) {
-    const yesNoModalWindow = new BrowserWindow({
+    let yesNoModalWindow = new BrowserWindow({
         show:false,
         resizable:false,
         minimizable:false,
@@ -102,7 +102,7 @@ function yesNoModalFunction (title,explain) {
         fullscreenable:false,
         frame:false,
         width: 300,
-        height: 200,
+        height: 110,
         autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: true, contextIsolation: false,
@@ -117,6 +117,7 @@ function yesNoModalFunction (title,explain) {
 
     ipcMain.on('yesNoModalClose',(event,args) =>{
         yesNoModalWindow.close()
+        yesNoModalWindow = null
     })
 
     ipcMain.on('yesNoModalInitRequest',function (event) {
@@ -130,6 +131,7 @@ function yesNoModalFunction (title,explain) {
 }
 
 function inputYesNoModalFunction(title,explain,placeHolder) {
+
     let inputYesNoModalWindow = new BrowserWindow({
         show:false,
         resizable:false,
@@ -151,8 +153,9 @@ function inputYesNoModalFunction(title,explain,placeHolder) {
         inputYesNoModalWindow.show()
     })
 
-    ipcMain.on('inputYesNoModalClose',(event,args) =>{
+    ipcMain.on('inputYesNoModalClose',function (event,args) {
         inputYesNoModalWindow.close()
+        inputYesNoModalWindow = null
     })
 
     ipcMain.on('inputYesNoModalInitRequest',function (event) {
