@@ -11,10 +11,8 @@ window.addEventListener('DOMContentLoaded', () => {
             +"<input class='public_button' type='button' value='Decline'/>"
 
         document.getElementById("main_html_div").innerHTML = str
+        clovineButtonEvent()
     })
-
-    clovineButtonEvent()
-
 })
 
 function clovineButtonEvent() {

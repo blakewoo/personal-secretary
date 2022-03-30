@@ -79,11 +79,15 @@ app.whenReady().then(() => {
     })
 
     ipcMain.on('yesNoModal',(event,args) =>{
-        yesNoModalFunction (args.title,args.explain)
+        yesNoModalFunction (args.title,args.explain,function (res) {
+
+        })
     })
 
     ipcMain.on('inputYesNoModal',(event,args) =>{
-        inputYesNoModalFunction(args.title,args.explain,args.placeHolder)
+        inputYesNoModalFunction(args.title,args.explain,args.placeHolder,function (res) {
+
+        })
     })
 
 })
@@ -93,7 +97,7 @@ app.on('window-all-closed', function () {
 })
 
 
-function yesNoModalFunction (title,explain) {
+function yesNoModalFunction (title,explain,callback) {
     let yesNoModalWindow = new BrowserWindow({
         show:false,
         resizable:false,
@@ -125,12 +129,12 @@ function yesNoModalFunction (title,explain) {
     })
 
     ipcMain.on('yesNoModalResponse',(event,args) =>{
-        return args.value === "Yes";
+        return callback(args.value === "Yes");
     })
 
 }
 
-function inputYesNoModalFunction(title,explain,placeHolder) {
+function inputYesNoModalFunction(title,explain,placeHolder,callback) {
 
     let inputYesNoModalWindow = new BrowserWindow({
         show:false,
@@ -164,10 +168,10 @@ function inputYesNoModalFunction(title,explain,placeHolder) {
 
     ipcMain.on('inputYesNoModalResponse',(event,args) =>{
         if(args.value === "Accept") {
-            return args.text
+            return callback(args.text)
         }
         else {
-            return false
+            return callback(false)
         }
     })
 }

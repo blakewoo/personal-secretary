@@ -12,10 +12,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
         document.getElementById("main_html_div").innerHTML = str
+        clovineButtonEvent()
     })
-
-    clovineButtonEvent()
-
 })
 
 function clovineButtonEvent() {
