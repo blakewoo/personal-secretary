@@ -14,3 +14,6 @@ This web application is designed to keep personal files, timeline and to-dos.
 - electron   
    
 ## Rlease note
+
+## License
+ MIT License
