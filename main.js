@@ -1,6 +1,7 @@
 const {app, BrowserWindow } = require('electron')
 const { dialog } = require('electron');  //새로 사용할 질문창
 const {ipcMain} = require('electron');
+const electron = require('electron')
 const mainFunction = require('./module/mainModule');
 const loginFunction = require('./module/loginModule');
 const fs = require('fs');
@@ -98,6 +99,8 @@ app.on('window-all-closed', function () {
 
 
 function yesNoModalFunction (title,explain,callback) {
+    let temp = null
+    let parentWindow = BrowserWindow.getFocusedWindow()
     let yesNoModalWindow = new BrowserWindow({
         show:false,
         resizable:false,
@@ -108,6 +111,8 @@ function yesNoModalFunction (title,explain,callback) {
         width: 300,
         height: 110,
         autoHideMenuBar: true,
+        parent:parentWindow,
+        modal:true,
         webPreferences: {
             nodeIntegration: true, contextIsolation: false,
             preload: path.join(__dirname, './preload/yesNoModalPreload.js')
@@ -117,11 +122,15 @@ function yesNoModalFunction (title,explain,callback) {
     yesNoModalWindow.loadFile('html/yesNoModal.html')
     yesNoModalWindow.once('ready-to-show', () => {
         yesNoModalWindow.show()
+        temp = yesNoModalWindow
+    })
+
+    yesNoModalWindow.on("close",function (){
+        yesNoModalWindow = null
     })
 
     ipcMain.on('yesNoModalClose',(event,args) =>{
-        yesNoModalWindow.close()
-        yesNoModalWindow = null
+        temp.hide()
     })
 
     ipcMain.on('yesNoModalInitRequest',function (event) {
@@ -132,10 +141,12 @@ function yesNoModalFunction (title,explain,callback) {
         return callback(args.value === "Yes");
     })
 
+
 }
 
 function inputYesNoModalFunction(title,explain,placeHolder,callback) {
-
+    let temp = null
+    let parentWindow = BrowserWindow.getFocusedWindow()
     let inputYesNoModalWindow = new BrowserWindow({
         show:false,
         resizable:false,
@@ -146,20 +157,27 @@ function inputYesNoModalFunction(title,explain,placeHolder,callback) {
         width: 300,
         height: 130,
         autoHideMenuBar: true,
+        parent:parentWindow,
+        modal:true,
         webPreferences: {
             nodeIntegration: true, contextIsolation: false,
             preload: path.join(__dirname, './preload/inputYesNoModalPreload.js')
         }
     })
 
+
     inputYesNoModalWindow.loadFile('html/inputYesNoModal.html')
     inputYesNoModalWindow.once('ready-to-show', () => {
         inputYesNoModalWindow.show()
+        temp = inputYesNoModalWindow
+    })
+
+    inputYesNoModalWindow.on("close",function (){
+        inputYesNoModalWindow = null
     })
 
     ipcMain.on('inputYesNoModalClose',function (event,args) {
-        inputYesNoModalWindow.close()
-        inputYesNoModalWindow = null
+        temp.hide()
     })
 
     ipcMain.on('inputYesNoModalInitRequest',function (event) {
@@ -174,6 +192,8 @@ function inputYesNoModalFunction(title,explain,placeHolder,callback) {
             return callback(false)
         }
     })
+
+
 }
 
 
