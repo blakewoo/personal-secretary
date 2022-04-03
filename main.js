@@ -133,6 +133,16 @@ function yesNoModalFunction (title,explain,callback) {
         temp.hide()
     })
 
+    ipcMain.on('YesNoModalRequestResponse',function (event,args) {
+        if (args.result) {
+            event.sender.send('inputYesNoModalResYes',{Text:args.value});
+            temp.hide()
+        }
+        else{
+            temp.hide()
+        }
+    })
+
     ipcMain.on('yesNoModalInitRequest',function (event) {
         event.sender.send('yesNoModalInit',{title:title,explain:explain});
     })
@@ -174,6 +184,17 @@ function inputYesNoModalFunction(title,explain,placeHolder,callback) {
 
     inputYesNoModalWindow.on("close",function (){
         inputYesNoModalWindow = null
+    })
+
+    ipcMain.on('inputYesNoModalRequestResponse',function (event,args) {
+
+        if (args.result === true) {
+            temp.hide()
+            event.sender.send('inputYesNoModalResYes',{Text:args.value});
+        }
+        else{
+            temp.hide()
+        }
     })
 
     ipcMain.on('inputYesNoModalClose',function (event,args) {

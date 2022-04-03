@@ -126,28 +126,32 @@ function addCategoryButtonEvent() {
 
         ipcRenderer.send('inputYesNoModal',{title:"카테고리 추가",explain:"새로 추가할 카테고리 이름을 입력해주세요.",placeHolder:"카테고리 이름"});
         // 입력 받고 accept
-
-        let categoryContainer = document.getElementsByClassName("todo_category")[0]
-        categoryContainer.innerHTML += "<label class='category_label'>ss </label>"
-        addCategoryEvent()
-
+        ipcRenderer.on("inputYesNoModalResYes",function (event, args) {
+            let categoryContainer = document.getElementsByClassName("todo_category")[0]
+            categoryContainer.innerHTML += "<label class='category_label'>"+args.Text+"</label>"
+            addCategoryEvent()
+        })
         // x거나 cancel일때
     })
 
     document.getElementById("modify_category").addEventListener("click",function (event){
 
         let category = document.getElementsByClassName("category_label")
+        let target = null
         if(category.length!==0) {
             for (let i =0 ;i<category.length;i++) {
                 if(category[i].classList.contains("selected_category")){
+                    target = category[i]
                     ipcRenderer.send('inputYesNoModal',{title:"카테고리 수정",explain:"변경할 카테고리 이름을 입력해주세요.",placeHolder:"카테고리 이름"});
                 }
             }
         }
         else{
-
+            return;
         }
-
+        ipcRenderer.on("inputYesNoModalResYes",function (event, args) {
+            target.innerText = args.Text
+        })
     })
 
     document.getElementById("delete_category").addEventListener("click",function (event){
