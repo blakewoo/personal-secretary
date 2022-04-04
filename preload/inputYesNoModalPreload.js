@@ -12,27 +12,36 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
         document.getElementById("main_html_div").innerHTML = str
-        closeButtonEvent()
-        yesNoInputButtonEvent()
+
+
+        document.getElementById("close_button").removeEventListener("click",closeButtonEvent)
+        document.getElementById("close_button").addEventListener("click",closeButtonEvent)
+
+        document.getElementById("yesButton").removeEventListener("click",yesButtonEvent)
+        document.getElementById("yesButton").addEventListener("click",yesButtonEvent)
+
+        document.getElementById("noButton").removeEventListener("click",noButtonEvent)
+        document.getElementById("noButton").addEventListener("click",noButtonEvent)
+
+        document.getElementById("inputTextbox").removeEventListener("keyup",inputButtonEvent)
+        document.getElementById("inputTextbox").addEventListener("keyup",inputButtonEvent)
     })
 })
 
-function closeButtonEvent() {
-    document.getElementById("close_button").addEventListener("click",function (event) {
-        ipcRenderer.send("inputYesNoModalClose",{value:true})
-    })
+function closeButtonEvent(event) {
+    ipcRenderer.send("inputYesNoModalClose",{value:true})
 }
-function yesNoInputButtonEvent() {
+function yesButtonEvent(event) {
     let textValue = document.getElementById("inputTextbox").value
-    document.getElementById("yesButton").addEventListener("click",function (event){
-        ipcRenderer.send("inputYesNoModalRequestResponse",{result:true, value:textValue})
-    })
-    document.getElementById("noButton").addEventListener("click",function (event){
-        ipcRenderer.send("inputYesNoModalRequestResponse",{result:false})
-    })
-    document.getElementById("inputTextbox").addEventListener("keyup",function (event){
-        if (event.keyCode === 13) {
-            document.getElementById("yesButton").click()
-        }
-    })
+    ipcRenderer.send("inputYesNoModalRequestResponse",{result:true, value:textValue})
+}
+
+function noButtonEvent(event) {
+    ipcRenderer.send("inputYesNoModalRequestResponse",{result:false})
+}
+
+function inputButtonEvent(event) {
+    if (event.keyCode === 13) {
+        document.getElementById("yesButton").click()
+    }
 }

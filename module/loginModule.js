@@ -31,6 +31,7 @@ exports.createLoginWindow = function() {
     ipcMain.on('loginFrameButtonEvent', (event,arg) => {
         if (arg.value === "close") {
             mainWindow.close()
+            app.quit()
         }
     })
 

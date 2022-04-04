@@ -7,10 +7,56 @@ const loginFunction = require('./module/loginModule');
 const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path')
+let inputYesNoModalWindow
+let yesNoModalWindow
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
+
     let mainWindow;
+
+    let inputYesNoModalTitle = ""
+    let inputYesNoModalExplain = ""
+    let inputYesNoModalPlaceHolder = ""
+
+    let YesNoModalTitle = ""
+    let YesNoModalExplain = ""
+
+    yesNoModalWindow = new BrowserWindow({
+        show:false,
+        resizable:false,
+        minimizable:false,
+        maximizable:false,
+        fullscreenable:false,
+        frame:false,
+        width: 300,
+        height: 110,
+        autoHideMenuBar: true,
+        modal:true,
+        webPreferences: {
+            nodeIntegration: true, contextIsolation: false,
+            preload: path.join(__dirname, './preload/yesNoModalPreload.js')
+        }
+    })
+
+
+    inputYesNoModalWindow = new BrowserWindow({
+        show:false,
+        resizable:false,
+        minimizable:false,
+        maximizable:false,
+        fullscreenable:false,
+        frame:false,
+        width: 300,
+        height: 130,
+        autoHideMenuBar: true,
+        // parent:parentWindow,
+        modal:true,
+        webPreferences: {
+            nodeIntegration: true, contextIsolation: false,
+            preload: path.join(__dirname, './preload/inputYesNoModalPreload.js')
+        }
+    })
 
 
     ipcMain.on('findIdButtonEvent', (event,arg) => {
@@ -32,6 +78,10 @@ app.whenReady().then(() => {
             if(isLogin(id,pass)) {
                 loginWindow.close()
                 mainWindow = mainFunction.createWindow(pass)
+                mainWindow.on("close", function (event) {
+                    inputYesNoModalWindow.close()
+                    yesNoModalWindow.close()
+                })
             }
             else {
                 event.sender.send('errorLogin',true);
@@ -80,16 +130,68 @@ app.whenReady().then(() => {
     })
 
     ipcMain.on('yesNoModal',(event,args) =>{
-        yesNoModalFunction (args.title,args.explain,function (res) {
-
-        })
+        yesNoModalFunction (args.title,args.explain)
     })
+
+
+    ipcMain.on('yesNoModalClose',(event,args) =>{
+        yesNoModalWindow.hide()
+    })
+
+    ipcMain.on('YesNoModalRequestResponse',function (event,args) {
+        if (args.result) {
+            mainWindow.webContents.send('inputYesNoModalResYes', {Text:args.value})
+            yesNoModalWindow.hide()
+        }
+        else{
+            yesNoModalWindow.hide()
+        }
+    })
+
+    ipcMain.on('yesNoModalInitRequest',function (event) {
+        event.sender.send('yesNoModalInit',{title:YesNoModalTitle,explain:YesNoModalExplain});
+    })
+
 
     ipcMain.on('inputYesNoModal',(event,args) =>{
-        inputYesNoModalFunction(args.title,args.explain,args.placeHolder,function (res) {
-
-        })
+        inputYesNoModalFunction(args.title,args.explain,args.placeHolder)
     })
+
+    ipcMain.on('inputYesNoModalRequestResponse',function (event,args) {
+        if (args.result === true) {
+            mainWindow.webContents.send('inputYesNoModalResYes', {Text:args.value})
+            inputYesNoModalWindow.hide()
+        }
+        else{
+            inputYesNoModalWindow.hide()
+        }
+    })
+
+    ipcMain.on('inputYesNoModalClose',function (event,args) {
+        inputYesNoModalWindow.hide()
+    })
+
+    ipcMain.on('inputYesNoModalInitRequest',function (event) {
+        event.sender.send('inputYesNoModalInit',{title:inputYesNoModalTitle,explain:inputYesNoModalExplain,placeHolder:inputYesNoModalPlaceHolder});
+    })
+
+
+    function yesNoModalFunction (title,explain) {
+        YesNoModalTitle = title
+        YesNoModalExplain = explain
+
+        yesNoModalWindow.loadFile('html/yesNoModal.html')
+        yesNoModalWindow.show()
+    }
+
+    function inputYesNoModalFunction(title,explain,placeHolder) {
+        inputYesNoModalTitle = title
+        inputYesNoModalExplain = explain
+        inputYesNoModalPlaceHolder = placeHolder
+
+        inputYesNoModalWindow.loadFile('html/inputYesNoModal.html')
+        inputYesNoModalWindow.show()
+    }
 
 })
 app.disableHardwareAcceleration()
@@ -97,125 +199,6 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
 
-
-function yesNoModalFunction (title,explain,callback) {
-    let temp = null
-    let parentWindow = BrowserWindow.getFocusedWindow()
-    let yesNoModalWindow = new BrowserWindow({
-        show:false,
-        resizable:false,
-        minimizable:false,
-        maximizable:false,
-        fullscreenable:false,
-        frame:false,
-        width: 300,
-        height: 110,
-        autoHideMenuBar: true,
-        parent:parentWindow,
-        modal:true,
-        webPreferences: {
-            nodeIntegration: true, contextIsolation: false,
-            preload: path.join(__dirname, './preload/yesNoModalPreload.js')
-        }
-    })
-
-    yesNoModalWindow.loadFile('html/yesNoModal.html')
-    yesNoModalWindow.once('ready-to-show', () => {
-        yesNoModalWindow.show()
-        temp = yesNoModalWindow
-    })
-
-    yesNoModalWindow.on("close",function (){
-        yesNoModalWindow = null
-    })
-
-    ipcMain.on('yesNoModalClose',(event,args) =>{
-        temp.hide()
-    })
-
-    ipcMain.on('YesNoModalRequestResponse',function (event,args) {
-        if (args.result) {
-            event.sender.send('inputYesNoModalResYes',{Text:args.value});
-            temp.hide()
-        }
-        else{
-            temp.hide()
-        }
-    })
-
-    ipcMain.on('yesNoModalInitRequest',function (event) {
-        event.sender.send('yesNoModalInit',{title:title,explain:explain});
-    })
-
-    ipcMain.on('yesNoModalResponse',(event,args) =>{
-        return callback(args.value === "Yes");
-    })
-
-
-}
-
-function inputYesNoModalFunction(title,explain,placeHolder,callback) {
-    let temp = null
-    let parentWindow = BrowserWindow.getFocusedWindow()
-    let inputYesNoModalWindow = new BrowserWindow({
-        show:false,
-        resizable:false,
-        minimizable:false,
-        maximizable:false,
-        fullscreenable:false,
-        frame:false,
-        width: 300,
-        height: 130,
-        autoHideMenuBar: true,
-        parent:parentWindow,
-        modal:true,
-        webPreferences: {
-            nodeIntegration: true, contextIsolation: false,
-            preload: path.join(__dirname, './preload/inputYesNoModalPreload.js')
-        }
-    })
-
-
-    inputYesNoModalWindow.loadFile('html/inputYesNoModal.html')
-    inputYesNoModalWindow.once('ready-to-show', () => {
-        inputYesNoModalWindow.show()
-        temp = inputYesNoModalWindow
-    })
-
-    inputYesNoModalWindow.on("close",function (){
-        inputYesNoModalWindow = null
-    })
-
-    ipcMain.on('inputYesNoModalRequestResponse',function (event,args) {
-
-        if (args.result === true) {
-            temp.hide()
-            event.sender.send('inputYesNoModalResYes',{Text:args.value});
-        }
-        else{
-            temp.hide()
-        }
-    })
-
-    ipcMain.on('inputYesNoModalClose',function (event,args) {
-        temp.hide()
-    })
-
-    ipcMain.on('inputYesNoModalInitRequest',function (event) {
-        event.sender.send('inputYesNoModalInit',{title:title,explain:explain,placeHolder:placeHolder});
-    })
-
-    ipcMain.on('inputYesNoModalResponse',(event,args) =>{
-        if(args.value === "Accept") {
-            return callback(args.text)
-        }
-        else {
-            return callback(false)
-        }
-    })
-
-
-}
 
 
 function isLogin(id,pass) {
