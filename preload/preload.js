@@ -123,7 +123,7 @@ function addCategoryButtonEvent() {
 
     document.getElementById("add_category").addEventListener("click",function (event){
         // 모달 창 on
-        ipcRenderer.send('inputYesNoModal',{title:"카테고리 추가",explain:"새로 추가할 카테고리 이름을 입력해주세요.",placeHolder:"카테고리 이름"});
+        ipcRenderer.send('inputYesNoModal',{title:"카테고리 추가",explain:"새로 추가할 카테고리 이름을 입력해주세요.",placeHolder:"카테고리 이름",type:"add"});
         // 입력 받고 accept
     })
 
@@ -141,14 +141,14 @@ function addCategoryButtonEvent() {
             for (let i =0 ;i<category.length;i++) {
                 if(category[i].classList.contains("selected_category")){
                     target = category[i]
-                    ipcRenderer.send('inputYesNoModal',{title:"카테고리 수정",explain:"변경할 카테고리 이름을 입력해주세요.",placeHolder:"카테고리 이름"});
+                    ipcRenderer.send('inputYesNoModal',{title:"카테고리 수정",explain:"변경할 카테고리 이름을 입력해주세요.",placeHolder:"카테고리 이름",type:'modify'});
                 }
             }
         }
         else{
             return;
         }
-        ipcRenderer.on("inputYesNoModalResYes",function (event, args) {
+        ipcRenderer.on("inputYesNoModalResModifyYes",function (event, args) {
             target.innerText = args.Text
         })
     })

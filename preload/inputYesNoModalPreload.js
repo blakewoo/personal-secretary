@@ -1,6 +1,8 @@
 const {ipcRenderer} = require('electron')
 
 window.addEventListener('DOMContentLoaded', () => {
+    let type = "input"
+
     ipcRenderer.send("inputYesNoModalInitRequest",{value:true})
     ipcRenderer.on('inputYesNoModalInit',(event, arg) => {
         document.getElementsByClassName("window_header")[0].innerHTML = " <span class=\"spring_span\"></span> <label>"+arg.title+"</label>"
@@ -26,22 +28,24 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById("inputTextbox").removeEventListener("keyup",inputButtonEvent)
         document.getElementById("inputTextbox").addEventListener("keyup",inputButtonEvent)
     })
+
+
+    function closeButtonEvent(event) {
+        ipcRenderer.send("inputYesNoModalClose",{value:true})
+    }
+    function yesButtonEvent(event) {
+        let textValue = document.getElementById("inputTextbox").value
+        ipcRenderer.send("inputYesNoModalRequestResponse",{result:true, value:textValue})
+    }
+
+    function noButtonEvent(event) {
+        ipcRenderer.send("inputYesNoModalRequestResponse",{result:false})
+    }
+
+    function inputButtonEvent(event) {
+        if (event.keyCode === 13) {
+            document.getElementById("yesButton").click()
+        }
+    }
 })
 
-function closeButtonEvent(event) {
-    ipcRenderer.send("inputYesNoModalClose",{value:true})
-}
-function yesButtonEvent(event) {
-    let textValue = document.getElementById("inputTextbox").value
-    ipcRenderer.send("inputYesNoModalRequestResponse",{result:true, value:textValue})
-}
-
-function noButtonEvent(event) {
-    ipcRenderer.send("inputYesNoModalRequestResponse",{result:false})
-}
-
-function inputButtonEvent(event) {
-    if (event.keyCode === 13) {
-        document.getElementById("yesButton").click()
-    }
-}

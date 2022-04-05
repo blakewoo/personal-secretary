@@ -18,46 +18,13 @@ app.whenReady().then(() => {
     let inputYesNoModalTitle = ""
     let inputYesNoModalExplain = ""
     let inputYesNoModalPlaceHolder = ""
+    let inputYesNoModalType = "add"
 
     let YesNoModalTitle = ""
     let YesNoModalExplain = ""
 
-    yesNoModalWindow = new BrowserWindow({
-        show:false,
-        resizable:false,
-        minimizable:false,
-        maximizable:false,
-        fullscreenable:false,
-        frame:false,
-        width: 300,
-        height: 110,
-        autoHideMenuBar: true,
-        modal:true,
-        webPreferences: {
-            nodeIntegration: true, contextIsolation: false,
-            preload: path.join(__dirname, './preload/yesNoModalPreload.js')
-        }
-    })
-
-
-    inputYesNoModalWindow = new BrowserWindow({
-        show:false,
-        resizable:false,
-        minimizable:false,
-        maximizable:false,
-        fullscreenable:false,
-        frame:false,
-        width: 300,
-        height: 130,
-        autoHideMenuBar: true,
-        // parent:parentWindow,
-        modal:true,
-        webPreferences: {
-            nodeIntegration: true, contextIsolation: false,
-            preload: path.join(__dirname, './preload/inputYesNoModalPreload.js')
-        }
-    })
-
+    yesNoModalWindow = initYesNoModal()
+    inputYesNoModalWindow = initInputYesNoModal()
 
     ipcMain.on('findIdButtonEvent', (event,arg) => {
 
@@ -154,12 +121,17 @@ app.whenReady().then(() => {
 
 
     ipcMain.on('inputYesNoModal',(event,args) =>{
-        inputYesNoModalFunction(args.title,args.explain,args.placeHolder)
+        inputYesNoModalFunction(args.title,args.explain,args.placeHolder,args.type)
     })
 
     ipcMain.on('inputYesNoModalRequestResponse',function (event,args) {
         if (args.result === true) {
-            mainWindow.webContents.send('inputYesNoModalResYes', {Text:args.value})
+            if (inputYesNoModalType ==="add") {
+                mainWindow.webContents.send('inputYesNoModalResYes', {Text:args.value})
+            }
+            else{
+                mainWindow.webContents.send('inputYesNoModalResModifyYes', {Text:args.value})
+            }
             inputYesNoModalWindow.hide()
         }
         else{
@@ -176,6 +148,46 @@ app.whenReady().then(() => {
     })
 
 
+    function initYesNoModal() {
+        return new BrowserWindow({
+            show:false,
+            resizable:false,
+            minimizable:false,
+            maximizable:false,
+            fullscreenable:false,
+            frame:false,
+            width: 300,
+            height: 110,
+            autoHideMenuBar: true,
+            modal:true,
+            webPreferences: {
+                nodeIntegration: true, contextIsolation: false,
+                preload: path.join(__dirname, './preload/yesNoModalPreload.js')
+            }
+        })
+    }
+
+    function initInputYesNoModal() {
+        return new BrowserWindow({
+            show:false,
+            resizable:false,
+            minimizable:false,
+            maximizable:false,
+            fullscreenable:false,
+            frame:false,
+            width: 300,
+            height: 130,
+            autoHideMenuBar: true,
+            // parent:parentWindow,
+            modal:true,
+            webPreferences: {
+                nodeIntegration: true, contextIsolation: false,
+                preload: path.join(__dirname, './preload/inputYesNoModalPreload.js')
+            }
+        })
+    }
+
+
     function yesNoModalFunction (title,explain) {
         YesNoModalTitle = title
         YesNoModalExplain = explain
@@ -184,10 +196,11 @@ app.whenReady().then(() => {
         yesNoModalWindow.show()
     }
 
-    function inputYesNoModalFunction(title,explain,placeHolder) {
+    function inputYesNoModalFunction(title,explain,placeHolder,type) {
         inputYesNoModalTitle = title
         inputYesNoModalExplain = explain
         inputYesNoModalPlaceHolder = placeHolder
+        inputYesNoModalType = type
 
         inputYesNoModalWindow.loadFile('html/inputYesNoModal.html')
         inputYesNoModalWindow.show()
