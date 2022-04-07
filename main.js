@@ -107,7 +107,7 @@ app.whenReady().then(() => {
 
     ipcMain.on('YesNoModalRequestResponse',function (event,args) {
         if (args.result) {
-            mainWindow.webContents.send('inputYesNoModalResYes', {Text:args.value})
+            mainWindow.webContents.send('yesNoModalRequestDelete', {Text:args.value})
             yesNoModalWindow.hide()
         }
         else{
