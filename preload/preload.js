@@ -18,7 +18,6 @@ window.addEventListener('DOMContentLoaded', () => {
             initData = ""
         }
 
-
         if(initData === "") {
             // init data
             initTodoCategory([])
@@ -32,7 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // init event binder
         addCategoryButtonEvent()
-        addCategoryEvent(0)
+        addCategoryEvent()
         todoDetailEventBinder()
         addTodoDetailEvent()
     })
@@ -51,10 +50,10 @@ function initTodoCategory(initData) {
     }
 
     categoryContainer.innerHTML = str
-    addCategoryEvent()
+    addCategoryEvent(initData)
 }
-function initTodoDetail(initData,categoryIndex){
-    let targetIndex = categoryIndex;
+function initTodoDetail(initData,categoryName){
+    let targetIndex = categoryName;
 
     let todoDetailContainer = document.getElementsByClassName("todo_detail_top")[0]
     let rawData = new Map(initData)
@@ -62,7 +61,7 @@ function initTodoDetail(initData,categoryIndex){
     // rawData.set(0,[{value:1,date:new Date()},{value:2,date:new Date()},{value:3,date:new Date()}])
 
     if (targetIndex!== undefined) {
-        let data = rawData.get(Number(targetIndex))
+        let data = rawData.get(targetIndex)
         let str = ""
 
         for (let i =0;i<data.length;i++) {
@@ -178,25 +177,24 @@ function deleteCategorySend(event) {
                 })
             }
         }
-
     }
 }
 
-function addCategoryEvent() {
+function addCategoryEvent(initData) {
     let category = document.getElementsByClassName("category_label")
-    for (let i =0 ;i<category.length;i++) {
-        category[i].removeEventListener("click",categoryClickEvent)
-        category[i].addEventListener("click",categoryClickEvent)
-    }
-}
-
-function categoryClickEvent(event) {
-    let category = document.getElementsByClassName("category_label")
-    for (let i =0 ;i<category.length;i++) {
-        category[i].classList.remove("selected_category")
+    for (let i = 0; i < category.length; i++) {
+        category[i].removeEventListener("click", categoryClickEvent)
+        category[i].addEventListener("click", categoryClickEvent)
     }
 
-    event.currentTarget.classList.add("selected_category")
-    let categoryDetail = event.currentTarget.getAttribute("categoryIndex")
-    initTodoDetail(categoryDetail)
+
+    function categoryClickEvent(event) {
+        let category = document.getElementsByClassName("category_label")
+        for (let i = 0; i < category.length; i++) {
+            category[i].classList.remove("selected_category")
+        }
+
+        event.currentTarget.classList.add("selected_category")
+        initTodoDetail(initData, event.currentTarget.text)
+    }
 }
