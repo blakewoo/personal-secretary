@@ -36,7 +36,7 @@ app.whenReady().then(() => {
         }
     })
 
-
+    // 로그인 버튼
     ipcMain.on('loginButtonEvent', (event,arg) => {
         if (arg.value === "login") {
             let id = arg.ID
@@ -65,6 +65,7 @@ app.whenReady().then(() => {
         }
     })
 
+    // 회원가입 버튼
     ipcMain.on('signupButtonEvent', (event,arg) => {
 
         function saveData(type,title,message){
@@ -96,15 +97,17 @@ app.whenReady().then(() => {
 
     })
 
+    // YES NO 모달
     ipcMain.on('yesNoModal',(event,args) =>{
         yesNoModalFunction (args.title,args.explain)
     })
 
-
+    // YES NO 모달 닫기
     ipcMain.on('yesNoModalClose',(event,args) =>{
         yesNoModalWindow.hide()
     })
 
+    // YES NO 답신
     ipcMain.on('YesNoModalRequestResponse',function (event,args) {
         if (args.result) {
             mainWindow.webContents.send('yesNoModalRequestDelete', {Text:args.value})
@@ -115,16 +118,18 @@ app.whenReady().then(() => {
         }
     })
 
+    // YES NO 모달 초기화
     ipcMain.on('yesNoModalInitRequest',function (event) {
         event.sender.send('yesNoModalInit',{title:YesNoModalTitle,explain:YesNoModalExplain});
     })
 
-
+    // INPUT YES NO 모달
     ipcMain.on('inputYesNoModal',(event,args) =>{
         inputYesNoModalFunction(args.title,args.explain,args.placeHolder,args.type)
     })
 
-    ipcMain.on('inputYesNoModalRequestResponse',function (event,args) {
+    // INPUT YES NO 모달 답신
+    ipcMain.on(inputYesNoModalRequestResponse',function (event,args) {
         if (args.result === true) {
             if (inputYesNoModalType ==="add") {
                 mainWindow.webContents.send('inputYesNoModalResYes', {Text:args.value})

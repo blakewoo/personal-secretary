@@ -40,8 +40,6 @@ window.addEventListener('DOMContentLoaded', () => {
 function initTodoCategory(initData) {
     let categoryContainer = document.getElementsByClassName("todo_category")[0]
 
-    //example data
-    // let data = [{index:0,value:"ABA"},{index:1,value:"BABA"}]
     let data = initData
     let str = ""
 
@@ -57,8 +55,6 @@ function initTodoDetail(initData,categoryName){
 
     let todoDetailContainer = document.getElementsByClassName("todo_detail_top")[0]
     let rawData = new Map(initData)
-    // data type example
-    // rawData.set(0,[{value:1,date:new Date()},{value:2,date:new Date()},{value:3,date:new Date()}])
 
     if (targetIndex!== undefined) {
         let data = rawData.get(targetIndex)
