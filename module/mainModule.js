@@ -35,49 +35,6 @@ exports.createWindow = function (pass) {
         }
     })
 
-    ipcMain.on('mainPageInitData', (event,arg) => {
-        let data;
-        let indexFile;
-        // const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
-        try{
-            indexFile = Array(fs.readFileSync("./index"));
-
-            try {
-                data = fs.readFileSync("./"+indexFile[0]);
-            }
-            catch(e) {
-                data = {}
-                fs.writeFileSync("./"+indexFile[0]);
-            }
-
-        }
-        catch(e){
-            indexFile = []
-            fs.writeFileSync("./index",indexFile.toString())
-        }
-        data = ""
-        event.sender.send("sendInitData",data)
-    })
-
-    // Read category
-    ipcMain.on('categoryReadData', (event,arg) => {
-
-    })
-
-    // Update category
-    ipcMain.on('categoryUpdateData', (event,arg) => {
-
-    })
-
-    // Read todo
-    ipcMain.on('detailTodoReadData', (event,arg) => {
-
-    })
-
-    // Update todo
-    ipcMain.on('detailTodoUpdateData', (event,arg) => {
-
-    })
 
     return mainWindow
 }

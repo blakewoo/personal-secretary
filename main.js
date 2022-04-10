@@ -9,6 +9,7 @@ const crypto = require('crypto');
 const path = require('path')
 let inputYesNoModalWindow
 let yesNoModalWindow
+let mainData = new Set();
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
@@ -93,8 +94,28 @@ app.whenReady().then(() => {
 
     })
 
-    ipcMain.on('mainPageButtonEvent', (event,arg) => {
+    ipcMain.on('mainPageInitData', (event,arg) => {
+        let data;
+        let indexFile;
+        // const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
+        try{
+            indexFile = Array(fs.readFileSync("./index"));
 
+            try {
+                data = fs.readFileSync("./"+indexFile[0]);
+            }
+            catch(e) {
+                data = {}
+                fs.writeFileSync("./"+indexFile[0]);
+            }
+
+        }
+        catch(e){
+            indexFile = []
+            fs.writeFileSync("./index",indexFile.toString())
+        }
+        data = ""
+        event.sender.send("sendInitData",data)
     })
 
     // YES NO 모달
@@ -129,7 +150,7 @@ app.whenReady().then(() => {
     })
 
     // INPUT YES NO 모달 답신
-    ipcMain.on(inputYesNoModalRequestResponse',function (event,args) {
+    ipcMain.on('inputYesNoModalRequestResponse',function (event,args) {
         if (args.result === true) {
             if (inputYesNoModalType ==="add") {
                 mainWindow.webContents.send('inputYesNoModalResYes', {Text:args.value})
@@ -150,6 +171,46 @@ app.whenReady().then(() => {
 
     ipcMain.on('inputYesNoModalInitRequest',function (event) {
         event.sender.send('inputYesNoModalInit',{title:inputYesNoModalTitle,explain:inputYesNoModalExplain,placeHolder:inputYesNoModalPlaceHolder});
+    })
+
+    // 카테고리 추가시
+    ipcMain.on('createCategory',function (event,args) {
+        mainData.set(args.category,{})
+    })
+    // 카테고리 열람시
+    ipcMain.on('readCategory',function (event,args) {
+        // 전체 Set 목록 호출
+    })
+    // 카테고리 변경시
+    ipcMain.on('updateCategory',function (event,args) {
+        // 메모리 변경
+        let targetCategory = mainData.get(args.prevCategory)
+        let resultCategory = mainData.set(args.nextCategory,targetCategory)
+        mainData.delete(args.prevCategory)
+        
+        // 하드에서 변경
+
+    })
+    // 카테고리 삭제시
+    ipcMain.on('deleteCategory',function (event,args) {
+        mainData.delete(args.category)
+    })
+
+    // Todo 추가시
+    ipcMain.on('createTodo',function (event,args) {
+
+    })
+    // Todo 열람시
+    ipcMain.on('readTodo',function (event,args) {
+
+    })
+    // Todo 변경시
+    ipcMain.on('updateTodo',function (event,args) {
+
+    })
+    // Todo 삭제시
+    ipcMain.on('deleteTodo',function (event,args) {
+
     })
 
 
@@ -218,7 +279,6 @@ app.on('window-all-closed', function () {
 })
 
 
-
 function isLogin(id,pass) {
     let data = {}
     try{
@@ -247,6 +307,5 @@ const createHashedPassword = (password) => {
 };
 
 function findId(email) {
-
-
+    return true
 }
