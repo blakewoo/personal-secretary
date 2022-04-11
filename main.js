@@ -189,7 +189,6 @@ app.whenReady().then(() => {
         mainData.delete(args.prevCategory)
         
         // 하드에서 변경
-
     })
     // 카테고리 삭제시
     ipcMain.on('deleteCategory',function (event,args) {
@@ -198,19 +197,27 @@ app.whenReady().then(() => {
 
     // Todo 추가시
     ipcMain.on('createTodo',function (event,args) {
-
+        let target = mainData.get(args.category)
+        target.add(args.todo)
     })
+
     // Todo 열람시
     ipcMain.on('readTodo',function (event,args) {
-
+        let result = mainData.get(args.category)
+        event.sender.send("readTodoResponse",{value:result})
     })
+
     // Todo 변경시
     ipcMain.on('updateTodo',function (event,args) {
-
+        let target = mainData.get(args.category)
+        target.delete(args.prevTodo)
+        target.add(args.afterTodo)
     })
+
     // Todo 삭제시
     ipcMain.on('deleteTodo',function (event,args) {
-
+        let target = mainData.get(args.category)
+        target.delete(args.todo)
     })
 
 
