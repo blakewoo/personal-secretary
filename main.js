@@ -9,7 +9,7 @@ const crypto = require('crypto');
 const path = require('path')
 let inputYesNoModalWindow
 let yesNoModalWindow
-let mainData = new Set();
+let mainData = new Map();
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
@@ -179,26 +179,39 @@ app.whenReady().then(() => {
     })
     // 카테고리 열람시
     ipcMain.on('readCategory',function (event,args) {
-        // 전체 Set 목록 호출
+        // 전체 Map 목록 호출
+        let categorys = []
+        mainData.forEach(function (key,value) {
+            categorys.push(key)
+        })
+        event.sender.send("readCategoryResponse",categorys)
     })
     // 카테고리 변경시
     ipcMain.on('updateCategory',function (event,args) {
         // 메모리 변경
         let targetCategory = mainData.get(args.prevCategory)
-        let resultCategory = mainData.set(args.nextCategory,targetCategory)
+        mainData.set(args.nextCategory,targetCategory)
         mainData.delete(args.prevCategory)
         
         // 하드에서 변경
+
     })
     // 카테고리 삭제시
     ipcMain.on('deleteCategory',function (event,args) {
+        // 메모리 변경
         mainData.delete(args.category)
+
+        //하드에서 변경
+
     })
 
     // Todo 추가시
     ipcMain.on('createTodo',function (event,args) {
+        // 메모리 변경
         let target = mainData.get(args.category)
         target.add(args.todo)
+
+        // 하드 변경
     })
 
     // Todo 열람시
@@ -209,15 +222,23 @@ app.whenReady().then(() => {
 
     // Todo 변경시
     ipcMain.on('updateTodo',function (event,args) {
+        // 메모리 변경
         let target = mainData.get(args.category)
         target.delete(args.prevTodo)
         target.add(args.afterTodo)
+
+        // 하드 변경
+
     })
 
     // Todo 삭제시
     ipcMain.on('deleteTodo',function (event,args) {
+        // 메모리 변경
         let target = mainData.get(args.category)
-        target.delete(args.todo)
+        target.delete(args.Todo)
+
+        // 하드 변경
+
     })
 
 
