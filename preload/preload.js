@@ -1,9 +1,10 @@
 const {ipcRenderer} = require('electron')
 let checkedList = new Set();
+let initData = {}
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    let initData = {}
+
     document.getElementById("close_button").addEventListener('click', closeClickEvent)
     function closeClickEvent() {
         ipcRenderer.send('mainFrameButtonEvent',{value:"close"});
@@ -123,6 +124,7 @@ function addCategoryButtonEvent() {
         let categoryContainer = document.getElementsByClassName("todo_category")[0]
         categoryContainer.innerHTML += "<label class='category_label'>"+args.Text+"</label>"
         addCategoryEvent()
+        ipcRenderer.send('createCategory',{category:args.Text});
     })
 
     document.getElementById("modify_category").removeEventListener("click",modifyCategorySend)
@@ -153,7 +155,9 @@ function modifyCategorySend(event) {
             let category = document.getElementsByClassName("category_label")
             for (let i = 0; i < category.length; i++) {
                 if (category[i].classList.contains("selected_category")) {
+                    let prevStr = category[i].innerText
                     category[i].innerText = args.Text
+                    ipcRenderer.send('updateCategory',{prevCategory:prevStr,nextCategory:args.Text});
                 }
             }
         })
@@ -169,6 +173,8 @@ function deleteCategorySend(event) {
             if (category[i].classList.contains("selected_category")){
                 ipcRenderer.send('yesNoModal',{title:"카테고리 삭제",explain:"선택한 카테고리를 삭제하시겠습니까?"});
                 ipcRenderer.on("yesNoModalRequestDelete",function (event, args) {
+                    let removeCategory = category[i].innerText
+                    ipcRenderer.send('deleteCategory',{category:removeCategory});
                     category[i].remove()
                 })
             }
