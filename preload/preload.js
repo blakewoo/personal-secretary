@@ -13,21 +13,21 @@ window.addEventListener('DOMContentLoaded', () => {
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) => {
         if (arg) {
-            initData = arg.toString()
+            initData = arg
         }
         else {
             initData = ""
         }
 
-        if(initData === "") {
-            // init data
-            initTodoCategory([])
-            initTodoDetail(new Map())
-        }
-        else {
+        if(initData) {
             // init data
             initTodoCategory(initData)
             initTodoDetail(initData)
+        }
+        else {
+            // init data
+            initTodoCategory([])
+            initTodoDetail(new Map())
         }
 
         // init event binder

@@ -95,14 +95,17 @@ app.whenReady().then(() => {
     })
 
     ipcMain.on('mainPageInitData', (event,arg) => {
-        let data;
+        let data=new Map();
         let indexFile;
         // const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
         try{
             indexFile = Array(fs.readFileSync("./index"));
 
             try {
-                data = fs.readFileSync("./"+indexFile[0]);
+                for(let i =0;i<indexFile.length;i++) {
+
+                    data = fs.readFileSync("./"+indexFile[i]);
+                }
             }
             catch(e) {
                 data = {}
@@ -112,7 +115,7 @@ app.whenReady().then(() => {
         }
         catch(e){
             indexFile = []
-            fs.writeFileSync("./index",indexFile.toString())
+            fs.writeFileSync("./index",{index:indexFile,detail:data})
         }
         data = ""
         event.sender.send("sendInitData",data)
