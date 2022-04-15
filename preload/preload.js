@@ -12,8 +12,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) => {
+        let categoryList = []
         if (arg) {
-            initData = arg
+            initData = new Map(arg)
+            categoryList = initData.keys()
         }
         else {
             initData = ""
@@ -21,8 +23,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if(initData) {
             // init data
-            initTodoCategory(initData)
-            initTodoDetail(initData)
+            initTodoCategory(categoryList)
+            initTodoDetail(initData.get(categoryList[0]))
         }
         else {
             // init data

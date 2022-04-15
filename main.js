@@ -115,7 +115,7 @@ app.whenReady().then(() => {
         }
         catch(e){
             indexFile = []
-            fs.writeFileSync("./index",{index:indexFile,detail:data})
+            fs.writeFileSync("./index",data.toString())
         }
         data = ""
         event.sender.send("sendInitData",data)
