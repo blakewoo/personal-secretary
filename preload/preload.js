@@ -83,8 +83,13 @@ function addTodoDetailEvent() {
     let add_todo = document.getElementById("input_todo_detail")
 
     add_todo.addEventListener("keyup",function (event) {
+        let selectedCategory = document.getElementsByClassName("selected_category")
         if(event.key === "Enter") {
             if (add_todo.value === "") {
+                return;
+            }
+
+            if(selectedCategory.length === 0){
                 return;
             }
 
@@ -97,6 +102,8 @@ function addTodoDetailEvent() {
                 "   <span class=\"checkbox_text detail_date\">"+new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
             todoDetailEventBinder()
+
+            ipcRenderer.send('createTodo',{category:selectedCategory[0].value,todo:add_todo.value});
 
             add_todo.value = ""
         }

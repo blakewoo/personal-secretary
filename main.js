@@ -212,7 +212,12 @@ app.whenReady().then(() => {
     ipcMain.on('createTodo',function (event,args) {
         // 메모리 변경
         let target = mainData.get(args.category)
-        target.add(args.todo)
+        if(target) {
+            target.add(args.todo)
+        }
+        else{
+            mainData.set(args.category,new Set([args.todo]));
+        }
 
         // 하드 변경
     })
