@@ -18,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
             categoryList = initData.keys()
         }
         else {
-            initData = ""
+            initData = new Map()
         }
 
         if(initData) {
@@ -102,6 +102,13 @@ function addTodoDetailEvent() {
                 "   <span class=\"checkbox_text detail_date\">"+new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
             todoDetailEventBinder()
+            let temp = initData.get(selectedCategory[0].value)
+            if(temp) {
+                temp.add(add_todo.value)
+            }
+            else {
+                temp = new Set([add_todo.value])
+            }
 
             ipcRenderer.send('createTodo',{category:selectedCategory[0].value,todo:add_todo.value});
 
