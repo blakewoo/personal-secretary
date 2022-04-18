@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
         else {
             // init data
             initTodoCategory([])
-            initTodoDetail(new Map())
+            initTodoDetail(new Set())
         }
 
         // init event binder
@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 })
 
-function initTodoCategory(initData) {
+function initTodoCategory() {
     let categoryContainer = document.getElementsByClassName("todo_category")[0]
 
     let data = initData
@@ -51,16 +51,16 @@ function initTodoCategory(initData) {
     }
 
     categoryContainer.innerHTML = str
-    addCategoryEvent(initData)
+    addCategoryEvent()
 }
-function initTodoDetail(initData,categoryName){
+function initTodoDetail(categoryName){
     let targetIndex = categoryName;
 
     let todoDetailContainer = document.getElementsByClassName("todo_detail_top")[0]
-    let rawData = new Map(initData)
+    let rawData = initData
 
     if (targetIndex!== undefined) {
-        let data = rawData.get(targetIndex)
+        let data = Array.from(rawData.get(targetIndex))
         let str = ""
 
         for (let i =0;i<data.length;i++) {
@@ -72,7 +72,13 @@ function initTodoDetail(initData,categoryName){
                 "</div>"
         }
 
-        todoDetailContainer.innerHTML = str
+        if(data.length!==0){
+            todoDetailContainer.innerHTML = str
+        }
+        else{
+            todoDetailContainer.innerHTML = ""
+        }
+
     }
 
     todoDetailEventBinder()
@@ -102,12 +108,16 @@ function addTodoDetailEvent() {
                 "   <span class=\"checkbox_text detail_date\">"+new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
             todoDetailEventBinder()
-            let temp = initData.get(selectedCategory[0].value)
+
+            let temp = initData.get(selectedCategory[0].innerText)
             if(temp) {
-                temp.add(add_todo.value)
+                temp.add({value:add_todo.value,date:new Date()})
+                initData.set(selectedCategory[0].innerText,temp)
             }
             else {
-                temp = new Set([add_todo.value])
+                temp = new Set()
+                temp.add({value:add_todo.value,date:new Date()})
+                initData.set(selectedCategory[0].innerText,temp)
             }
 
             ipcRenderer.send('createTodo',{category:selectedCategory[0].value,todo:add_todo.value});
@@ -140,6 +150,7 @@ function addCategoryButtonEvent() {
         let categoryContainer = document.getElementsByClassName("todo_category")[0]
         categoryContainer.innerHTML += "<label class='category_label'>"+args.Text+"</label>"
         addCategoryEvent()
+        initData.set(args.Text,new Set())
         ipcRenderer.send('createCategory',{category:args.Text});
     })
 
@@ -198,7 +209,7 @@ function deleteCategorySend(event) {
     }
 }
 
-function addCategoryEvent(initData) {
+function addCategoryEvent() {
     let category = document.getElementsByClassName("category_label")
     for (let i = 0; i < category.length; i++) {
         category[i].removeEventListener("click", categoryClickEvent)
@@ -213,6 +224,6 @@ function addCategoryEvent(initData) {
         }
 
         event.currentTarget.classList.add("selected_category")
-        initTodoDetail(initData, event.currentTarget.text)
+        initTodoDetail(event.currentTarget.innerText)
     }
 }
