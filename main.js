@@ -178,7 +178,8 @@ app.whenReady().then(() => {
 
     // 카테고리 추가시
     ipcMain.on('createCategory',function (event,args) {
-        mainData.set(args.category,{})
+        mainData.set(args.category,new Set())
+
     })
     // 카테고리 열람시
     ipcMain.on('readCategory',function (event,args) {
@@ -218,7 +219,6 @@ app.whenReady().then(() => {
         else{
             mainData.set(args.category,new Set([args.todo]));
         }
-
         // 하드 변경
     })
 

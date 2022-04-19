@@ -120,7 +120,7 @@ function addTodoDetailEvent() {
                 initData.set(selectedCategory[0].innerText,temp)
             }
 
-            ipcRenderer.send('createTodo',{category:selectedCategory[0].value,todo:add_todo.value});
+            ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:{value:add_todo.value,date:new Date()}});
 
             add_todo.value = ""
         }
