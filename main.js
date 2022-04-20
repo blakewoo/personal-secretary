@@ -178,27 +178,27 @@ app.whenReady().then(() => {
 
     // 카테고리 추가시
     ipcMain.on('createCategory',function (event,args) {
-        mainData.set(args.category,new Set())
+        try{
+            mainData.set(args.category,new Set())
+        }
+        catch(e) {
 
+        }
     })
-    // 카테고리 열람시
-    ipcMain.on('readCategory',function (event,args) {
-        // 전체 Map 목록 호출
-        let categorys = []
-        mainData.forEach(function (key,value) {
-            categorys.push(key)
-        })
-        event.sender.send("readCategoryResponse",categorys)
-    })
+
     // 카테고리 변경시
     ipcMain.on('updateCategory',function (event,args) {
         // 메모리 변경
-        let targetCategory = mainData.get(args.prevCategory)
-        mainData.set(args.nextCategory,targetCategory)
-        mainData.delete(args.prevCategory)
-        
-        // 하드에서 변경
+        try{
+            let targetCategory = mainData.get(args.prevCategory)
+            mainData.set(args.nextCategory,targetCategory)
+            mainData.delete(args.prevCategory)
 
+            // 하드에서 변경
+        }
+        catch(e) {
+
+        }
     })
     // 카테고리 삭제시
     ipcMain.on('deleteCategory',function (event,args) {
@@ -211,42 +211,51 @@ app.whenReady().then(() => {
 
     // Todo 추가시
     ipcMain.on('createTodo',function (event,args) {
-        // 메모리 변경
-        let target = mainData.get(args.category)
-        if(target) {
-            target.add(args.todo)
-        }
-        else{
-            mainData.set(args.category,new Set([args.todo]));
-        }
-        // 하드 변경
-    })
 
-    // Todo 열람시
-    ipcMain.on('readTodo',function (event,args) {
-        let result = mainData.get(args.category)
-        event.sender.send("readTodoResponse",{value:result})
+        try{
+            // 메모리 변경
+            let target = mainData.get(args.category)
+            if(target) {
+                target.add(args.todo)
+            }
+            else{
+                mainData.set(args.category,new Set([args.todo]));
+            }
+            // 하드 변경
+        }
+        catch(e) {
+
+        }
     })
 
     // Todo 변경시
     ipcMain.on('updateTodo',function (event,args) {
-        // 메모리 변경
-        let target = mainData.get(args.category)
-        target.delete(args.prevTodo)
-        target.add(args.afterTodo)
 
-        // 하드 변경
+        try{
+            // 메모리 변경
+            let target = mainData.get(args.category)
+            target.delete(args.prevTodo)
+            target.add(args.afterTodo)
 
+            // 하드 변경
+        }
+        catch(e){
+
+        }
     })
 
     // Todo 삭제시
     ipcMain.on('deleteTodo',function (event,args) {
-        // 메모리 변경
-        let target = mainData.get(args.category)
-        target.delete(args.Todo)
+        try{
+            // 메모리 변경
+            let target = mainData.get(args.category)
+            target.delete(args.Todo)
 
-        // 하드 변경
+            // 하드 변경
+        }
+        catch(e) {
 
+        }
     })
 
 
