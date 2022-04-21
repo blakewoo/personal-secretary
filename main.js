@@ -222,9 +222,11 @@ app.whenReady().then(() => {
                 mainData.set(args.category,new Set([args.todo]));
             }
             // 하드 변경
+            fs.writeFileSync(args.category,target.toString())
+
         }
         catch(e) {
-
+            console.log("write error")
         }
     })
 
@@ -238,6 +240,7 @@ app.whenReady().then(() => {
             target.add(args.afterTodo)
 
             // 하드 변경
+
         }
         catch(e){
 
@@ -252,6 +255,7 @@ app.whenReady().then(() => {
             target.delete(args.Todo)
 
             // 하드 변경
+
         }
         catch(e) {
 
