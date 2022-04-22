@@ -180,6 +180,8 @@ app.whenReady().then(() => {
     ipcMain.on('createCategory',function (event,args) {
         try{
             mainData.set(args.category,new Set())
+            // 하드 변경
+            fs.writeFileSync(args.category,"")
         }
         catch(e) {
 
@@ -195,6 +197,8 @@ app.whenReady().then(() => {
             mainData.delete(args.prevCategory)
 
             // 하드에서 변경
+            let prev = fs.readFileSync(args.prevCategory)
+            fs.writeFileSync(args.nextCategory,prev)
         }
         catch(e) {
 
@@ -206,6 +210,10 @@ app.whenReady().then(() => {
         mainData.delete(args.category)
 
         //하드에서 변경
+        fs.unlink(args.category,function (error){
+            if(error)
+                console.log(error)
+        })
 
     })
 
@@ -240,7 +248,7 @@ app.whenReady().then(() => {
             target.add(args.afterTodo)
 
             // 하드 변경
-
+            fs.writeFileSync(args.category,target.toString())
         }
         catch(e){
 
@@ -254,8 +262,11 @@ app.whenReady().then(() => {
             let target = mainData.get(args.category)
             target.delete(args.Todo)
 
-            // 하드 변경
-
+            //하드에서 변경
+            fs.unlink(args.category,function (error){
+                if(error)
+                    console.log(error)
+            })
         }
         catch(e) {
 
