@@ -10,6 +10,9 @@ const path = require('path')
 let inputYesNoModalWindow
 let yesNoModalWindow
 let mainData = new Map();
+let id
+let pass
+
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
@@ -40,8 +43,8 @@ app.whenReady().then(() => {
     // 로그인 버튼
     ipcMain.on('loginButtonEvent', (event,arg) => {
         if (arg.value === "login") {
-            let id = arg.ID
-            let pass = arg.PASSWORD
+            id = arg.ID
+            pass = arg.PASSWORD
 
             if(isLogin(id,pass)) {
                 loginWindow.close()
@@ -181,7 +184,7 @@ app.whenReady().then(() => {
         try{
             mainData.set(args.category,new Set())
             // 하드 변경
-            fs.writeFileSync(args.category,"")
+            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),"");
         }
         catch(e) {
 
@@ -197,8 +200,8 @@ app.whenReady().then(() => {
             mainData.delete(args.prevCategory)
 
             // 하드에서 변경
-            let prev = fs.readFileSync(args.prevCategory)
-            fs.writeFileSync(args.nextCategory,prev)
+            let prev = fs.readFileSync("./"+encrytionFiles(id+args.prevCategory,pass))
+            fs.writeFileSync("./"+encrytionFiles(id+args.nextCategory,pass),prev)
         }
         catch(e) {
 
@@ -210,7 +213,7 @@ app.whenReady().then(() => {
         mainData.delete(args.category)
 
         //하드에서 변경
-        fs.unlink(args.category,function (error){
+        fs.unlink("./"+encrytionFiles(id+args.category,pass),function (error){
             if(error)
                 console.log(error)
         })
@@ -230,7 +233,7 @@ app.whenReady().then(() => {
                 mainData.set(args.category,new Set([args.todo]));
             }
             // 하드 변경
-            fs.writeFileSync(args.category,target.toString())
+            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),target.toString())
 
         }
         catch(e) {
@@ -248,7 +251,7 @@ app.whenReady().then(() => {
             target.add(args.afterTodo)
 
             // 하드 변경
-            fs.writeFileSync(args.category,target.toString())
+            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),target.toString())
         }
         catch(e){
 
@@ -263,7 +266,7 @@ app.whenReady().then(() => {
             target.delete(args.Todo)
 
             //하드에서 변경
-            fs.unlink(args.category,function (error){
+            fs.unlink("./"+encrytionFiles(id+args.category,pass),function (error){
                 if(error)
                     console.log(error)
             })
@@ -368,4 +371,16 @@ const createHashedPassword = (password) => {
 
 function findId(email) {
     return true
+}
+
+function encrytionFiles(input, key) {
+    const cipher = crypto.createCipheriv('aes-256-cbc', key);
+    let result = cipher.update(input, 'utf8', 'base64');
+    result += cipher.final('base64');
+}
+
+function decryptionFiles(input, key) {
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key);
+    let result2 = decipher.update(input, 'base64', 'utf8');
+    result2 += decipher.final('utf8');
 }
