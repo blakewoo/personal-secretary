@@ -187,7 +187,7 @@ app.whenReady().then(() => {
             fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),"");
         }
         catch(e) {
-
+            console.log(e)
         }
     })
 
@@ -204,7 +204,7 @@ app.whenReady().then(() => {
             fs.writeFileSync("./"+encrytionFiles(id+args.nextCategory,pass),prev)
         }
         catch(e) {
-
+            console.log(e)
         }
     })
     // 카테고리 삭제시
@@ -237,7 +237,7 @@ app.whenReady().then(() => {
 
         }
         catch(e) {
-            console.log("write error")
+            console.log(e)
         }
     })
 
@@ -254,7 +254,7 @@ app.whenReady().then(() => {
             fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),target.toString())
         }
         catch(e){
-
+            console.log(e)
         }
     })
 
@@ -272,7 +272,7 @@ app.whenReady().then(() => {
             })
         }
         catch(e) {
-
+            console.log(e)
         }
     })
 
@@ -374,13 +374,19 @@ function findId(email) {
 }
 
 function encrytionFiles(input, key) {
-    const cipher = crypto.createCipheriv('aes-256-cbc', key);
+    const encKey =crypto.scryptSync(key,"salt",32)
+    const iv = Buffer.alloc(16,0)
+    const cipher = crypto.createCipheriv('aes-256-cbc', encKey,iv);
     let result = cipher.update(input, 'utf8', 'base64');
     result += cipher.final('base64');
+    return result
 }
 
 function decryptionFiles(input, key) {
-    const decipher = crypto.createDecipheriv('aes-256-cbc', key);
+    const decKey =crypto.scryptSync(key,"salt",32)
+    const iv = Buffer.alloc(16,0)
+    const decipher = crypto.createDecipheriv('aes-256-cbc', decKey,iv);
     let result2 = decipher.update(input, 'base64', 'utf8');
     result2 += decipher.final('utf8');
+    return result2
 }
