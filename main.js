@@ -12,7 +12,7 @@ let yesNoModalWindow
 let mainData = new Map();
 let id
 let pass
-
+let userIndex
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
@@ -98,30 +98,29 @@ app.whenReady().then(() => {
     })
 
     ipcMain.on('mainPageInitData', (event,arg) => {
-        let data=new Map();
+        let data={}
         let indexFile;
+        userIndex = createHashedPassword(id+pass)
         // const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
         try{
-            indexFile = Array(fs.readFileSync("./index"));
+            indexFile = Array(fs.readFileSync("./"+userIndex+"_index"));
 
             try {
                 for(let i =0;i<indexFile.length;i++) {
-
                     data = fs.readFileSync("./"+indexFile[i]);
+                    mainData.set(indexFile,data)
                 }
             }
             catch(e) {
-                data = {}
                 fs.writeFileSync("./"+indexFile[0]);
             }
 
         }
         catch(e){
-            indexFile = []
-            fs.writeFileSync("./index",data.toString())
+            fs.writeFileSync("./"+userIndex+"index",mainData.toString())
         }
-        data = ""
-        event.sender.send("sendInitData",data)
+
+        event.sender.send("sendInitData",mainData)
     })
 
     // YES NO 모달
