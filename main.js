@@ -103,16 +103,16 @@ app.whenReady().then(() => {
         userIndex = createHashedPassword(id+pass)
         // const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
         try{
-            indexFile = Array(fs.readFileSync("./"+userIndex+"_index"));
+            indexFile = fs.readFileSync("./"+userIndex+"_index").toString().split("\n");;
 
             try {
                 for(let i =0;i<indexFile.length;i++) {
-                    data = fs.readFileSync("./"+indexFile[i]);
+                    data = fs.readFileSync("./"+indexFile[i]).toString();
                     mainData.set(indexFile,data)
                 }
             }
             catch(e) {
-                fs.writeFileSync("./"+indexFile[0]);
+                fs.writeFileSync("./"+indexFile[0],"");
             }
 
         }
@@ -200,7 +200,7 @@ app.whenReady().then(() => {
 
             // 하드에서 변경
             let prev = fs.readFileSync("./"+encrytionFiles(id+args.prevCategory,pass))
-            fs.writeFileSync("./"+encrytionFiles(id+args.nextCategory,pass),prev)
+            fs.writeFileSync("./"+encrytionFiles(id+args.nextCategory,pass),prev.toString())
         }
         catch(e) {
             console.log(e)
@@ -265,10 +265,7 @@ app.whenReady().then(() => {
             target.delete(args.Todo)
 
             //하드에서 변경
-            fs.unlink("./"+encrytionFiles(id+args.category,pass),function (error){
-                if(error)
-                    console.log(error)
-            })
+            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),target.toString())
         }
         catch(e) {
             console.log(e)
