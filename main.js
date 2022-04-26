@@ -13,6 +13,7 @@ let mainData = new Map();
 let id
 let pass
 let userIndex
+let indexFile
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
@@ -99,16 +100,16 @@ app.whenReady().then(() => {
 
     ipcMain.on('mainPageInitData', (event,arg) => {
         let data={}
-        let indexFile;
+        indexFile = [];
         userIndex = createHashedPassword(id+pass)
         // const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
         try{
-            indexFile = fs.readFileSync("./"+userIndex+"_index").toString().split("\n");;
+            indexFile = fs.readFileSync("./"+userIndex+"_index").toString().split("\n");
 
             try {
                 for(let i =0;i<indexFile.length;i++) {
                     data = fs.readFileSync("./"+indexFile[i]).toString();
-                    mainData.set(indexFile,data)
+                    mainData.set(indexFile[i],data)
                 }
             }
             catch(e) {
@@ -183,6 +184,8 @@ app.whenReady().then(() => {
         try{
             mainData.set(args.category,new Set())
             // 하드 변경
+            indexFile.push(encrytionFiles(id+args.category,pass))
+            fs.writeFileSync("./"+userIndex+"index",indexFile.toString())
             fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),"");
         }
         catch(e) {
@@ -199,6 +202,8 @@ app.whenReady().then(() => {
             mainData.delete(args.prevCategory)
 
             // 하드에서 변경
+            indexFile.push(encrytionFiles(id+args.category,pass))
+            fs.writeFileSync("./"+userIndex+"index",indexFile.toString())
             let prev = fs.readFileSync("./"+encrytionFiles(id+args.prevCategory,pass))
             fs.writeFileSync("./"+encrytionFiles(id+args.nextCategory,pass),prev.toString())
         }
@@ -215,6 +220,8 @@ app.whenReady().then(() => {
         fs.unlink("./"+encrytionFiles(id+args.category,pass),function (error){
             if(error)
                 console.log(error)
+            indexFile.push(encrytionFiles(id+args.category,pass))
+            fs.writeFileSync("./"+userIndex+"index",indexFile.toString())
         })
 
     })
