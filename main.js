@@ -237,9 +237,16 @@ app.whenReady().then(() => {
             }
             else{
                 mainData.set(args.category,new Set([args.todo]));
+                target = new Set([args.todo])
             }
+
+            let tempStr = ""
+            target.forEach((value,key,set) => {
+                tempStr += encrytionFiles(value.toString(),pass)+"\n"
+            })
+
             // 하드 변경
-            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),target.toString())
+            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),tempStr)
 
         }
         catch(e) {
@@ -256,8 +263,13 @@ app.whenReady().then(() => {
             target.delete(args.prevTodo)
             target.add(args.afterTodo)
 
+            let tempStr = ""
+            target.forEach((value,key,set) => {
+                tempStr += encrytionFiles(value.toString(),pass)+"\n"
+            })
+
             // 하드 변경
-            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),target.toString())
+            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),tempStr)
         }
         catch(e){
             console.log(e)
@@ -271,8 +283,13 @@ app.whenReady().then(() => {
             let target = mainData.get(args.category)
             target.delete(args.Todo)
 
-            //하드에서 변경
-            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),target.toString())
+            let tempStr = ""
+            target.forEach((value,key,set) => {
+                tempStr += encrytionFiles(value.toString(),pass)+"\n"
+            })
+
+            // 하드 변경
+            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),tempStr)
         }
         catch(e) {
             console.log(e)
