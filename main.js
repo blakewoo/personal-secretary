@@ -100,16 +100,21 @@ app.whenReady().then(() => {
 
     ipcMain.on('mainPageInitData', (event,arg) => {
         let data={}
+        let indexTempFile = []
         indexFile = [];
         userIndex = createHashedPassword(id+pass)
         // const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
         try{
-            indexFile = fs.readFileSync("./"+userIndex+"_index").toString().split("\n");
+            indexTempFile = fs.readFileSync("./"+userIndex+"_index").toString().split("\n");
+
+            for(let i =0;i<indexTempFile.length;i++){
+                indexFile.push(decryptionFiles(indexTempFile[i],pass))
+            }
 
             try {
                 for(let i =0;i<indexFile.length;i++) {
                     data = fs.readFileSync("./"+indexFile[i]).toString();
-                    mainData.set(indexFile[i],data)
+                    mainData.set(indexFile[i],decryptionFiles(data,pass))
                 }
             }
             catch(e) {
