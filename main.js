@@ -110,7 +110,6 @@ app.whenReady().then(() => {
             for(let i =0;i<indexTempFile.length;i++){
                 indexFile.push(decryptionFiles(indexTempFile[i],pass))
             }
-
             try {
                 for(let i =0;i<indexFile.length;i++) {
                     data = fs.readFileSync("./"+indexFile[i]).toString();
@@ -187,7 +186,9 @@ app.whenReady().then(() => {
     // 카테고리 추가시
     ipcMain.on('createCategory',function (event,args) {
         try{
+            // 메모리에서 변경
             mainData.set(args.category,new Set())
+
             // 하드 변경
             indexFile.push(encrytionFiles(id+args.category,pass))
             fs.writeFileSync("./"+userIndex+"index",indexFile.toString())
@@ -223,8 +224,10 @@ app.whenReady().then(() => {
 
         //하드에서 변경
         fs.unlink("./"+encrytionFiles(id+args.category,pass),function (error){
-            if(error)
+            if(error) {
                 console.log(error)
+            }
+
             indexFile.push(encrytionFiles(id+args.category,pass))
             fs.writeFileSync("./"+userIndex+"index",indexFile.toString())
         })
