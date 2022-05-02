@@ -9,6 +9,7 @@ const crypto = require('crypto');
 const path = require('path')
 let inputYesNoModalWindow
 let yesNoModalWindow
+const base64url = require('base64url');
 let mainData = new Map();
 let id
 let pass
@@ -105,11 +106,12 @@ app.whenReady().then(() => {
         userIndex = createHashedPassword(id+pass)
         // const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
         try{
-            indexTempFile = fs.readFileSync("./"+userIndex+"_index").toString().split("\n");
+            indexTempFile = fs.readFileSync("./"+base64url(userIndex)+"_index").toString().split("\n");
 
             for(let i =0;i<indexTempFile.length;i++){
                 indexFile.push(decryptionFiles(indexTempFile[i],pass))
             }
+
             try {
                 for(let i =0;i<indexFile.length;i++) {
                     data = fs.readFileSync("./"+indexFile[i]).toString();
@@ -117,12 +119,14 @@ app.whenReady().then(() => {
                 }
             }
             catch(e) {
+                console.log(e)
                 fs.writeFileSync("./"+indexFile[0],"");
             }
 
         }
         catch(e){
-            fs.writeFileSync("./"+userIndex+"index",mainData.toString())
+            console.log(e)
+            fs.writeFileSync("./"+base64url(userIndex)+"_index","")
         }
 
         event.sender.send("sendInitData",mainData)
