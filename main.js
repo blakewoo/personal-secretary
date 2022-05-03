@@ -104,18 +104,17 @@ app.whenReady().then(() => {
         let indexTempFile = []
         indexFile = [];
         userIndex = createHashedPassword(id+pass)
-        // const toAscii = (string) => string.split('').map(char=>char.charCodeAt(0)).join("")
+
         try{
             indexTempFile = fs.readFileSync("./"+base64url(userIndex)+"_index").toString().split("\n");
 
             for(let i =0;i<indexTempFile.length;i++){
-                indexFile.push(decryptionFiles(indexTempFile[i],pass))
+                indexFile.push(indexTempFile[i])
             }
-
             try {
                 for(let i =0;i<indexFile.length;i++) {
                     data = fs.readFileSync("./"+indexFile[i]).toString();
-                    mainData.set(indexFile[i],decryptionFiles(data,pass))
+                    mainData.set(decryptionFiles(indexFile[i],pass),decryptionFiles(data,pass))
                 }
             }
             catch(e) {
@@ -195,7 +194,7 @@ app.whenReady().then(() => {
 
             // 하드 변경
             indexFile.push(encrytionFiles(id+args.category,pass))
-            fs.writeFileSync("./"+userIndex+"index",indexFile.toString())
+            fs.writeFileSync("./"+base64url(userIndex)+"_index",indexFile.toString())
             fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),"");
         }
         catch(e) {
@@ -213,7 +212,7 @@ app.whenReady().then(() => {
 
             // 하드에서 변경
             indexFile.push(encrytionFiles(id+args.category,pass))
-            fs.writeFileSync("./"+userIndex+"index",indexFile.toString())
+            fs.writeFileSync("./"+base64url(userIndex)+"_index",indexFile.toString())
             let prev = fs.readFileSync("./"+encrytionFiles(id+args.prevCategory,pass))
             fs.writeFileSync("./"+encrytionFiles(id+args.nextCategory,pass),prev.toString())
         }
@@ -233,7 +232,7 @@ app.whenReady().then(() => {
             }
 
             indexFile.push(encrytionFiles(id+args.category,pass))
-            fs.writeFileSync("./"+userIndex+"index",indexFile.toString())
+            fs.writeFileSync("./"+base64url(userIndex)+"_index",indexFile.toString())
         })
 
     })
