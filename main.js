@@ -105,21 +105,22 @@ app.whenReady().then(() => {
         indexFile = [];
         userIndex = createHashedPassword(id+pass)
 
-        try{
-            indexTempFile = fs.readFileSync("./"+base64url(userIndex)+"_index").toString().split("\n");
+        try {
+            //index file
+            indexFile = fs.readFileSync("./" + base64url(userIndex) + "_index").toString().split("\n");
 
-            for(let i =0;i<indexTempFile.length;i++){
-                indexFile.push(indexTempFile[i])
+            // index file to index
+            for (let i = 0; i < indexTempFile.length; i++) {
+                indexTempFile.push(decryptionFiles(indexFile[i], pass).split(",")[1])
             }
             try {
-                for(let i =0;i<indexFile.length;i++) {
-                    data = fs.readFileSync("./"+indexFile[i]).toString();
-                    mainData.set(decryptionFiles(indexFile[i],pass),decryptionFiles(data,pass))
+                for (let i = 0; i < indexFile.length; i++) {
+                    data = fs.readFileSync("./" + indexFile[i]).toString();
+                    mainData.set(indexTempFile[i], base64url.decode(decryptionFiles(data, pass)))
                 }
-            }
-            catch(e) {
+
+            } catch (e) {
                 console.log(e)
-                fs.writeFileSync("./"+indexFile[0],"");
             }
 
         }
@@ -191,11 +192,11 @@ app.whenReady().then(() => {
         try{
             // 메모리에서 변경
             mainData.set(args.category,new Set())
+            indexFile.push(base64url(encrytionFiles(id+","+args.category,pass)))
 
             // 하드 변경
-            indexFile.push(encrytionFiles(id+args.category,pass))
-            fs.writeFileSync("./"+base64url(userIndex)+"_index",indexFile.toString())
-            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),"");
+            fs.appendFileSync("./"+base64url(userIndex)+"_index",indexFile.toString()+"\n")
+            fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.category,pass)),"");
         }
         catch(e) {
             console.log(e)
@@ -209,12 +210,19 @@ app.whenReady().then(() => {
             let targetCategory = mainData.get(args.prevCategory)
             mainData.set(args.nextCategory,targetCategory)
             mainData.delete(args.prevCategory)
+            indexFile.push(args.category)
 
             // 하드에서 변경
-            indexFile.push(encrytionFiles(id+args.category,pass))
+
             fs.writeFileSync("./"+base64url(userIndex)+"_index",indexFile.toString())
-            let prev = fs.readFileSync("./"+encrytionFiles(id+args.prevCategory,pass))
-            fs.writeFileSync("./"+encrytionFiles(id+args.nextCategory,pass),prev.toString())
+            let prev = fs.readFileSync("./"+base64url(encrytionFiles(id+","+args.prevCategory,pass)))
+            fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.nextCategory,pass)),prev.toString())
+            fs.unlink("./"+base64url(encrytionFiles(id+","+args.prevCategory,pass)),function (error){
+                if(error) {
+                    console.log(error)
+                }
+            })
+
         }
         catch(e) {
             console.log(e)
@@ -226,12 +234,10 @@ app.whenReady().then(() => {
         mainData.delete(args.category)
 
         //하드에서 변경
-        fs.unlink("./"+encrytionFiles(id+args.category,pass),function (error){
+        fs.unlink("./"+base64url(encrytionFiles(id+","+args.category,pass)),function (error){
             if(error) {
                 console.log(error)
             }
-
-            indexFile.push(encrytionFiles(id+args.category,pass))
             fs.writeFileSync("./"+base64url(userIndex)+"_index",indexFile.toString())
         })
 
