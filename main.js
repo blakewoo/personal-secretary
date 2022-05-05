@@ -85,7 +85,6 @@ app.whenReady().then(() => {
             else {
                 event.sender.send('singupDeclineButton',true);
             }
-
         }
         else if(arg.value === "passConfirm") {
             saveData("error","패스워드 오류","패스워드가 일치하지 않습니다")
@@ -110,16 +109,17 @@ app.whenReady().then(() => {
             indexFile = fs.readFileSync("./" + base64url(userIndex) + "_index").toString().split("\n");
 
             // index file to index
-            for (let i = 0; i < indexTempFile.length; i++) {
+            for (let i = 0; i < indexTempFile.length-1; i++) {
                 indexTempFile.push(decryptionFiles(indexFile[i], pass).split(",")[1])
             }
             try {
-                for (let i = 0; i < indexFile.length; i++) {
+                for (let i = 0; i < indexFile.length-1; i++) {
                     data = fs.readFileSync("./" + indexFile[i]).toString();
                     mainData.set(indexTempFile[i], base64url.decode(decryptionFiles(data, pass)))
                 }
-
-            } catch (e) {
+                indexFile= new Set(indexFile)
+            }
+            catch (e) {
                 console.log(e)
             }
 
@@ -127,6 +127,7 @@ app.whenReady().then(() => {
         catch(e){
             console.log(e)
             fs.writeFileSync("./"+base64url(userIndex)+"_index","")
+            indexFile = new Set()
         }
 
         event.sender.send("sendInitData",mainData)
@@ -192,10 +193,10 @@ app.whenReady().then(() => {
         try{
             // 메모리에서 변경
             mainData.set(args.category,new Set())
-            indexFile.push(base64url(encrytionFiles(id+","+args.category,pass)))
+            indexFile.add(base64url(encrytionFiles(id+","+args.category,pass)))
 
             // 하드 변경
-            fs.appendFileSync("./"+base64url(userIndex)+"_index",indexFile.toString()+"\n")
+            fs.writeFileSync("./"+base64url(userIndex)+"_index",indexFile.toString()+"\n")
             fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.category,pass)),"");
         }
         catch(e) {
@@ -210,10 +211,10 @@ app.whenReady().then(() => {
             let targetCategory = mainData.get(args.prevCategory)
             mainData.set(args.nextCategory,targetCategory)
             mainData.delete(args.prevCategory)
-            indexFile.push(args.category)
+            indexFile.delete(base64url(encrytionFiles(id+","+args.prevCategory,pass)))
+            indexFile.add(base64url(encrytionFiles(id+","+args.nextCategory,pass)))
 
             // 하드에서 변경
-
             fs.writeFileSync("./"+base64url(userIndex)+"_index",indexFile.toString())
             let prev = fs.readFileSync("./"+base64url(encrytionFiles(id+","+args.prevCategory,pass)))
             fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.nextCategory,pass)),prev.toString())
@@ -232,6 +233,7 @@ app.whenReady().then(() => {
     ipcMain.on('deleteCategory',function (event,args) {
         // 메모리 변경
         mainData.delete(args.category)
+        indexFile.delete(base64url(encrytionFiles(id+","+args.prevCategory,pass)))
 
         //하드에서 변경
         fs.unlink("./"+base64url(encrytionFiles(id+","+args.category,pass)),function (error){
