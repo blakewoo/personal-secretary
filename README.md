@@ -15,7 +15,7 @@ Sever source codes in private repository
 - nodejs
 - electron   
    
-## Rlease note   
+## Release note   
 - Not finished yet
 
 ## License
