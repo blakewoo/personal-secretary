@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementsByClassName("window_header")[0].innerHTML = " <span class=\"spring_span\"></span> <label>"+arg.title+"</label>"
 
         let str = "<label>"+arg.explain+"</label>"
-        +"<input class='input_border modalInput' id='inputTextbox' type='text' placeholder="+arg.placeHolder+"/> <br>"
+        +"<input class='input_border modalInput' id='inputTextbox' type='text' placeholder="+arg.placeHolder+"/> <lable class='warning_label'>카테고리 이름을 입력해주세요.</lable>"
         +"<input class='public_button' id='yesButton' type='button' value='Accept'/>"
         +"<input class='public_button' id='noButton' type='button' value='Decline'/>"
 
@@ -35,7 +35,13 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     function yesButtonEvent(event) {
         let textValue = document.getElementById("inputTextbox").value
-        ipcRenderer.send("inputYesNoModalRequestResponse",{result:true, value:textValue})
+
+        if (textValue === "") {
+            document.getElementsByClassName("warning_label")[0].style.color = "red"
+        }
+        else {
+            ipcRenderer.send("inputYesNoModalRequestResponse",{result:true, value:textValue})
+        }
     }
 
     function noButtonEvent(event) {

@@ -57,5 +57,12 @@
 }
 .modalInput{
     width: 90%;
-    margin: 10px 0 10px 0;
+    margin: 10px 0 0 0;
+}
+
+.warning_label{
+    color: white;
+    display: block;
+    font-size: 8px;
+    font-weight: bold;
 }
