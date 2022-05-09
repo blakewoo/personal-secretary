@@ -11,16 +11,18 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     ipcRenderer.send('mainPageInitData',{value:true});
-    ipcRenderer.on('sendInitData', (event,arg) => {
+    ipcRenderer.on('sendInitData', (event,arg) =>{
         let categoryList = []
         if (arg) {
             initData = new Map(arg)
-            categoryList = initData.keys()
+            let temp = initData.keys()
+            for(let value of temp){
+                categoryList.push(value)
+            }
         }
         else {
             initData = new Map()
         }
-
         if(initData) {
             // init data
             initTodoCategory(categoryList)
@@ -40,14 +42,13 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 })
 
-function initTodoCategory() {
+function initTodoCategory(categoryList) {
     let categoryContainer = document.getElementsByClassName("todo_category")[0]
 
-    let data = initData
     let str = ""
 
-    for (let i =0;i<data.length;i++) {
-        str += "<label class='category_label' categoryIndex="+data[i].index+">"+data[i].value+"</label>"
+    for (let i =0;i<categoryList.length;i++) {
+        str += "<label class='category_label>"+categoryList[i]+"</label>"
     }
 
     categoryContainer.innerHTML = str
@@ -59,7 +60,7 @@ function initTodoDetail(categoryName){
     let todoDetailContainer = document.getElementsByClassName("todo_detail_top")[0]
     let rawData = initData
 
-    if (targetIndex!== undefined) {
+    if (rawData.get(targetIndex)) {
         let data = Array.from(rawData.get(targetIndex))
         let str = ""
 
