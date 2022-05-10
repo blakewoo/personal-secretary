@@ -48,9 +48,8 @@ function initTodoCategory(categoryList) {
     let str = ""
 
     for (let i =0;i<categoryList.length;i++) {
-        str += "<label class='category_label>"+categoryList[i]+"</label>"
+        str += "<label class='category_label'>"+categoryList[i]+"</label>"
     }
-
     categoryContainer.innerHTML = str
     addCategoryEvent()
 }

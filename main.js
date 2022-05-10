@@ -107,14 +107,12 @@ app.whenReady().then(() => {
         try {
             //index file
             indexFile = fs.readFileSync("./" + base64url(userIndex) + "_index").toString().split(",");
-
             // index file to index
-            for (let i = 0; i < indexFile.length-1; i++) {
+            for (let i = 0; i < indexFile.length; i++) {
                 indexTempFile.push(decryptionFiles(base64url.decode(indexFile[i]), pass).split(",")[1])
             }
-            console.log(indexTempFile)
             try {
-                for (let i = 0; i < indexFile.length-1; i++) {
+                for (let i = 0; i < indexTempFile.length; i++) {
                     data = fs.readFileSync("./" + indexFile[i]).toString();
                     if (data) {
                         mainData.set(indexTempFile[i], decryptionFiles(base64url.decode(data), pass))
@@ -134,7 +132,6 @@ app.whenReady().then(() => {
             fs.writeFileSync("./"+base64url(userIndex)+"_index","")
             indexFile = new Set()
         }
-
         indexFile= new Set(indexFile)
         event.sender.send("sendInitData",mainData)
     })
