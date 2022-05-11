@@ -262,13 +262,13 @@ app.whenReady().then(() => {
                 target = new Set([args.todo])
             }
 
-            let tempStr = ""
+            let tempStr = []
             target.forEach((value,key,set) => {
-                tempStr += encrytionFiles(value.toString(),pass)+"\n"
+                tempStr.push(base64url(encrytionFiles(value.toString(),pass)))
             })
 
             // 하드 변경
-            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),tempStr)
+            fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
 
         }
         catch(e) {
@@ -291,7 +291,7 @@ app.whenReady().then(() => {
             })
 
             // 하드 변경
-            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),tempStr)
+            fs.writeFileSync("./"+encrytionFiles(id+","+args.category,pass),tempStr)
         }
         catch(e){
             console.log(e)
