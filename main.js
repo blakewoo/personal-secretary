@@ -264,12 +264,11 @@ app.whenReady().then(() => {
 
             let tempStr = []
             target.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(value.toString(),pass)))
+                tempStr.push(base64url(encrytionFiles(("{"+value.value+","+value.date+"}"),pass)))
             })
 
             // 하드 변경
             fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
-
         }
         catch(e) {
             console.log(e)

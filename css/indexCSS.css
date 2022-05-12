@@ -44,15 +44,16 @@ body{
 .left_container{
     height: 95%;
     width: 30%;
-    background-color: #b9dff6;
+    background-color: #efecdb;
     display: inline-block;
+    border-right: #222222 dashed 2px;
     float: left;
 }
 
 .right_container{
     height: 95%;
     width: 69%;
-    background-color: #cbdbcc;
+    background-color: #efecdb;
     display: inline-block;
     float: left;
 }
@@ -98,7 +99,7 @@ body{
 }
 
 .selected_category{
-    background-color: #5f5f5f;
+    background-color: #fff8bb;
 }
 
 .category_button:hover{
@@ -164,13 +165,13 @@ body{
     overflow: auto;
     height: 93%;
     width: 100%;
-    background-color: #e7a8a8;
+    background-color: #efecdb;
 }
 
 .todo_detail_bottom{
     height: 4%;
     width: 100%;
-    background-color: #646464;
+    background-color: #efecdb;
 }
 
 .todo_detail_text{
