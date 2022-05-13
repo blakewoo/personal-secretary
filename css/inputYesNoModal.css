@@ -2,6 +2,11 @@
     font-family: "이서윤체";
 }
 
+html{
+    border: #222222 1px solid;
+    height: 98%;
+}
+
 .window_header{
     height: 20px;
     width: 89%;

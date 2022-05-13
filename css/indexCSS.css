@@ -6,6 +6,7 @@ html{
     margin: 0;
     padding: 0;
     height: 99%;
+    background-color: #ffffff;
 }
 
 
@@ -36,7 +37,7 @@ body{
     display: inline-block;
     width: 15px;
     height: 15px;
-    background: white;
+    background: #ffffff;
     border-radius: 50px / 50px;
     border: 1px solid #cbcbcb;
 }
@@ -44,7 +45,7 @@ body{
 .left_container{
     height: 95%;
     width: 30%;
-    background-color: #efecdb;
+    background-color: #ffffff;
     display: inline-block;
     border-right: #222222 dashed 2px;
     float: left;
@@ -53,7 +54,7 @@ body{
 .right_container{
     height: 95%;
     width: 69%;
-    background-color: #efecdb;
+    background-color: #ffffff;
     display: inline-block;
     float: left;
 }
@@ -165,13 +166,13 @@ body{
     overflow: auto;
     height: 93%;
     width: 100%;
-    background-color: #efecdb;
+    background-color:#ffffff;
 }
 
 .todo_detail_bottom{
     height: 4%;
     width: 100%;
-    background-color: #efecdb;
+    background-color: #ffffff;
 }
 
 .todo_detail_text{

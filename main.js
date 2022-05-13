@@ -107,25 +107,26 @@ app.whenReady().then(() => {
         try {
             //index file
             indexFile = fs.readFileSync("./" + base64url(userIndex) + "_index").toString().split(",");
-            // index file to index
-            for (let i = 0; i < indexFile.length; i++) {
-                indexTempFile.push(decryptionFiles(base64url.decode(indexFile[i]), pass).split(",")[1])
-            }
-            try {
-                for (let i = 0; i < indexTempFile.length; i++) {
-                    data = fs.readFileSync("./" + indexFile[i]).toString();
-                    if (data) {
-                        mainData.set(indexTempFile[i], decryptionFiles(base64url.decode(data), pass))
-                    }
-                    else {
-                        mainData.set(indexTempFile[i], null)
+            if(indexFile[0] !== "") {
+                //  index file to index
+                for (let i = 0; i < indexFile.length; i++) {
+                    indexTempFile.push(decryptionFiles(base64url.decode(indexFile[i]), pass).split(",")[1])
+                }
+                try {
+                    for (let i = 0; i < indexTempFile.length; i++) {
+                        data = fs.readFileSync("./" + indexFile[i]).toString();
+                        if (data) {
+                            mainData.set(indexTempFile[i], decryptionFiles(base64url.decode(data), pass))
+                        }
+                        else {
+                            mainData.set(indexTempFile[i], null)
+                        }
                     }
                 }
+                catch (e) {
+                    console.log(e)
+                }
             }
-            catch (e) {
-                console.log(e)
-            }
-
         }
         catch(e){
             console.log(e)
