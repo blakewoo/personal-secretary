@@ -114,9 +114,13 @@ app.whenReady().then(() => {
                 }
                 try {
                     for (let i = 0; i < indexTempFile.length; i++) {
-                        data = fs.readFileSync("./" + indexFile[i]).toString();
-                        if (data) {
-                            mainData.set(indexTempFile[i], decryptionFiles(base64url.decode(data), pass))
+                        data = Array.from(fs.readFileSync("./" + indexFile[i]));
+                        if (data.length !== 0) {
+                            let tempDataSet = new Set()
+                            for(let i=0;i<data.length ;i++) {
+                                tempDataSet.add(JSON.parse(decryptionFiles(base64url.decode(data), pass)))
+                            }
+                            mainData.set(indexTempFile[i], tempDataSet)
                         }
                         else {
                             mainData.set(indexTempFile[i], null)
@@ -265,9 +269,8 @@ app.whenReady().then(() => {
 
             let tempStr = []
             target.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(("{"+value.value+","+value.date+"}"),pass)))
+                tempStr.push(base64url(encrytionFiles(("{value:"+value.value+",date:"+value.date+"}"),pass)))
             })
-
             // 하드 변경
             fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
         }
@@ -285,13 +288,13 @@ app.whenReady().then(() => {
             target.delete(args.prevTodo)
             target.add(args.afterTodo)
 
-            let tempStr = ""
+            let tempStr = []
             target.forEach((value,key,set) => {
-                tempStr += encrytionFiles(value.toString(),pass)+"\n"
+                tempStr.push(base64url(encrytionFiles(("{value:"+value.value+",date:"+value.date+"}"),pass)))
             })
 
             // 하드 변경
-            fs.writeFileSync("./"+encrytionFiles(id+","+args.category,pass),tempStr)
+            fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
         }
         catch(e){
             console.log(e)
@@ -305,13 +308,13 @@ app.whenReady().then(() => {
             let target = mainData.get(args.category)
             target.delete(args.Todo)
 
-            let tempStr = ""
+            let tempStr = []
             target.forEach((value,key,set) => {
-                tempStr += encrytionFiles(value.toString(),pass)+"\n"
+                tempStr.push(base64url(encrytionFiles(("{value:"+value.value+",date:"+value.date+"}"),pass)))
             })
 
             // 하드 변경
-            fs.writeFileSync("./"+encrytionFiles(id+args.category,pass),tempStr)
+            fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
         }
         catch(e) {
             console.log(e)

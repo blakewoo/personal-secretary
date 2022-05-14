@@ -17,7 +17,7 @@ window.addEventListener('DOMContentLoaded', () => {
             initData = new Map(arg)
             let temp = initData.keys()
             for(let value of temp){
-                categoryList.push(value)
+                categoryList.push(JSON.parse(value))
             }
         }
         else {
@@ -26,12 +26,10 @@ window.addEventListener('DOMContentLoaded', () => {
         if(initData) {
             // init data
             initTodoCategory(categoryList)
-            initTodoDetail(initData.get(categoryList[0]))
         }
         else {
             // init data
             initTodoCategory([])
-            initTodoDetail(new Set())
         }
 
         // init event binder
@@ -68,7 +66,7 @@ function initTodoDetail(categoryName){
                 "   <input type=\"checkbox\">\n" +
                 "   <span class=\"checkbox_icon\"></span></label>\n" +
                 "   <span class=\"checkbox_text category_detail\">"+data[i].value+"</span>"+
-                "   <span class=\"checkbox_text detail_date\">"+new Date(+data[i].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
+                // "   <span class=\"checkbox_text detail_date\">"+new Date(+data[i].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
         }
 
