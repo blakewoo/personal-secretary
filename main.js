@@ -7,6 +7,7 @@ const loginFunction = require('./module/loginModule');
 const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path')
+const filePath = "./"
 let inputYesNoModalWindow
 let yesNoModalWindow
 const base64url = require('base64url');
@@ -106,7 +107,7 @@ app.whenReady().then(() => {
 
         try {
             //index file
-            indexFile = fs.readFileSync("./" + base64url(userIndex) + "_index").toString().split(",");
+            indexFile = fs.readFileSync(filePath + base64url(userIndex) + "_index").toString().split(",");
             if(indexFile[0] !== "") {
                 //  index file to index
                 for (let i = 0; i < indexFile.length; i++) {
@@ -114,11 +115,14 @@ app.whenReady().then(() => {
                 }
                 try {
                     for (let i = 0; i < indexTempFile.length; i++) {
-                        data = Array.from(fs.readFileSync("./" + indexFile[i]));
+                        data = fs.readFileSync(filePath + indexFile[i]).toString().split(",");
                         if (data.length !== 0) {
                             let tempDataSet = new Set()
                             for(let i=0;i<data.length ;i++) {
-                                tempDataSet.add(JSON.parse(decryptionFiles(base64url.decode(data), pass)))
+                                if (data[0] !== "") {
+                                    tempDataSet.add(decryptionFiles(base64url.decode(data), pass))
+                                    console.log(tempDataSet)
+                                }
                             }
                             mainData.set(indexTempFile[i], tempDataSet)
                         }
@@ -134,7 +138,7 @@ app.whenReady().then(() => {
         }
         catch(e){
             console.log(e)
-            fs.writeFileSync("./"+base64url(userIndex)+"_index","")
+            fs.writeFileSync(filePath+base64url(userIndex)+"_index","")
             indexFile = new Set()
         }
         indexFile= new Set(indexFile)
@@ -204,8 +208,8 @@ app.whenReady().then(() => {
             indexFile.add(base64url(encrytionFiles(id+","+args.category,pass)))
 
             // 하드 변경
-            fs.writeFileSync("./"+base64url(userIndex)+"_index",(Array.from(indexFile)).toString())
-            fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.category,pass)),"");
+            fs.writeFileSync(filePath+base64url(userIndex)+"_index",(Array.from(indexFile)).toString())
+            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),"");
         }
         catch(e) {
             console.log(e)
@@ -223,10 +227,10 @@ app.whenReady().then(() => {
             indexFile.add(base64url(encrytionFiles(id+","+args.nextCategory,pass)))
 
             // 하드에서 변경
-            fs.writeFileSync("./"+base64url(userIndex)+"_index",Array(indexFile).toString())
-            let prev = fs.readFileSync("./"+base64url(encrytionFiles(id+","+args.prevCategory,pass)))
-            fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.nextCategory,pass)),prev.toString())
-            fs.unlink("./"+base64url(encrytionFiles(id+","+args.prevCategory,pass)),function (error){
+            fs.writeFileSync(filePath+base64url(userIndex)+"_index",Array(indexFile).toString())
+            let prev = fs.readFileSync(filePath+base64url(encrytionFiles(id+","+args.prevCategory,pass)))
+            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.nextCategory,pass)),prev.toString())
+            fs.unlink(filePath+base64url(encrytionFiles(id+","+args.prevCategory,pass)),function (error){
                 if(error) {
                     console.log(error)
                 }
@@ -244,11 +248,11 @@ app.whenReady().then(() => {
         indexFile.delete(base64url(encrytionFiles(id+","+args.prevCategory,pass)))
 
         //하드에서 변경
-        fs.unlink("./"+base64url(encrytionFiles(id+","+args.category,pass)),function (error){
+        fs.unlink(filePath+base64url(encrytionFiles(id+","+args.category,pass)),function (error){
             if(error) {
                 console.log(error)
             }
-            fs.writeFileSync("./"+base64url(userIndex)+"_index",Array(indexFile).toString())
+            fs.writeFileSync(filePath+base64url(userIndex)+"_index",Array(indexFile).toString())
         })
 
     })
@@ -272,7 +276,7 @@ app.whenReady().then(() => {
                 tempStr.push(base64url(encrytionFiles(("{value:"+value.value+",date:"+value.date+"}"),pass)))
             })
             // 하드 변경
-            fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
+            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
         }
         catch(e) {
             console.log(e)
@@ -294,7 +298,7 @@ app.whenReady().then(() => {
             })
 
             // 하드 변경
-            fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
+            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
         }
         catch(e){
             console.log(e)
@@ -314,7 +318,7 @@ app.whenReady().then(() => {
             })
 
             // 하드 변경
-            fs.writeFileSync("./"+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
+            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
         }
         catch(e) {
             console.log(e)
