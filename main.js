@@ -120,8 +120,7 @@ app.whenReady().then(() => {
                             let tempDataSet = new Set()
                             for(let i=0;i<data.length ;i++) {
                                 if (data[0] !== "") {
-                                    tempDataSet.add(decryptionFiles(base64url.decode(data), pass))
-                                    console.log(tempDataSet)
+                                    tempDataSet.add(decryptionFiles(base64url.decode(data[i]), pass))
                                 }
                             }
                             mainData.set(indexTempFile[i], tempDataSet)
@@ -273,7 +272,7 @@ app.whenReady().then(() => {
 
             let tempStr = []
             target.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(("{value:"+value.value+",date:"+value.date+"}"),pass)))
+                tempStr.push(base64url(encrytionFiles(("{value:"+value.value+",date:"+value.date.getTime()+"}"),pass)))
             })
             // 하드 변경
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
@@ -294,7 +293,7 @@ app.whenReady().then(() => {
 
             let tempStr = []
             target.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(("{value:"+value.value+",date:"+value.date+"}"),pass)))
+                tempStr.push(base64url(encrytionFiles(("{value:"+value.value+",date:"+value.date.getTime()+"}"),pass)))
             })
 
             // 하드 변경
