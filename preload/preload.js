@@ -12,6 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) =>{
+        console.log(arg)
         let categoryList = []
         if (arg) {
             initData = new Map(arg)
@@ -58,7 +59,9 @@ function initTodoDetail(categoryName){
     let rawData = initData
 
     if (rawData.get(targetIndex)) {
-        let data = Array.from(rawData.get(targetIndex))
+        let data = []
+        let temp =rawData.get(targetIndex)
+        temp.forEach(v =>{data.push(JSON.parse(v))} );
         let str = ""
 
         for (let i =0;i<data.length;i++) {
