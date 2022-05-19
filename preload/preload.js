@@ -12,7 +12,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) =>{
-        console.log(arg)
         let categoryList = []
         if (arg) {
             initData = new Map(arg)
@@ -20,6 +19,17 @@ window.addEventListener('DOMContentLoaded', () => {
             for(let value of temp){
                 categoryList.push(JSON.parse(value))
             }
+            for(let i=0;i<categoryList.length;i++) {
+                let tempTarget = initData.get(categoryList[i].toString())
+                let tempResult = new Set();
+                if (tempTarget) {
+                    tempTarget.forEach(v =>{
+                        tempResult.add(JSON.parse(v))
+                    } );
+                    initData.set(categoryList[i],tempResult)
+                }
+            }
+
         }
         else {
             initData = new Map()
@@ -61,7 +71,12 @@ function initTodoDetail(categoryName){
     if (rawData.get(targetIndex)) {
         let data = []
         let temp =rawData.get(targetIndex)
-        temp.forEach(v =>{data.push(JSON.parse(v))} );
+        if (temp) {
+            temp.forEach(v =>{
+                data.push(JSON.parse(v))
+            } );
+        }
+
         let str = ""
 
         for (let i =0;i<data.length;i++) {
@@ -112,15 +127,17 @@ function addTodoDetailEvent() {
 
             let temp = initData.get(selectedCategory[0].innerText)
             if(temp) {
-                temp.add({value:add_todo.value,date:new Date()})
+                let tempObject = {value:add_todo.value,date:new Date().getTime()}
+                temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
             else {
                 temp = new Set()
-                temp.add({value:add_todo.value,date:new Date()})
+                let tempObject = {value:add_todo.value,date:new Date().getTime()}
+                temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
-
+            console.log(initData)
             ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:{value:add_todo.value,date:new Date()}});
 
             add_todo.value = ""
