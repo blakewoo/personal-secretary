@@ -73,7 +73,9 @@ function initTodoDetail(categoryName){
         let temp =rawData.get(targetIndex)
         if (temp) {
             temp.forEach(v =>{
-                data.push(JSON.parse(v))
+                if(v) {
+                    data.push(v)
+                }
             } );
         }
 
@@ -202,6 +204,8 @@ function modifyCategorySend(event) {
                 if (category[i].classList.contains("selected_category")) {
                     let prevStr = category[i].innerText
                     category[i].innerText = args.Text
+                    let todoData = initData.get(prevStr)
+                    initData.set(args.Text,todoData)
                     ipcRenderer.send('updateCategory',{prevCategory:prevStr,nextCategory:args.Text});
                 }
             }
