@@ -273,7 +273,7 @@ app.whenReady().then(() => {
 
             let tempStr = []
             target.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value+',"date":'+value.date.getTime()+'}'),pass)))
+                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value+',"date":'+new Date(value.date).getTime()+'}'),pass)))
             })
             // 하드 변경
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
@@ -294,7 +294,7 @@ app.whenReady().then(() => {
 
             let tempStr = []
             target.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value+',"date":'+value.date.getTime()+'}'),pass)))
+                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value+',"date":'+new Date(value.date).getTime()+'}'),pass)))
             })
 
             // 하드 변경
@@ -314,7 +314,7 @@ app.whenReady().then(() => {
 
             let tempStr = []
             target.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value+',"date":'+value.date.getTime()+'}'),pass)))
+                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value+',"date":'+new Date(value.date).getTime()+'}'),pass)))
             })
 
             // 하드 변경
