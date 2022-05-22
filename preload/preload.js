@@ -74,7 +74,7 @@ function initTodoDetail(categoryName){
         if (temp) {
             temp.forEach(v =>{
                 if(v) {
-                    data.push(v)
+                    data.push(JSON.parse(v))
                 }
             } );
         }
@@ -129,13 +129,13 @@ function addTodoDetailEvent() {
 
             let temp = initData.get(selectedCategory[0].innerText)
             if(temp) {
-                let tempObject = {value:add_todo.value,date:new Date().getTime()}
+                let tempObject = '{"value":'+add_todo.value+',"date":'+new Date().getTime()+'}'
                 temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
             else {
                 temp = new Set()
-                let tempObject = {value:add_todo.value,date:new Date().getTime()}
+                let tempObject = '{"value":'+add_todo.value+',"date":'+new Date().getTime()+'}'
                 temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
