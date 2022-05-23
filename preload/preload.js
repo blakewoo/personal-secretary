@@ -129,17 +129,16 @@ function addTodoDetailEvent() {
 
             let temp = initData.get(selectedCategory[0].innerText)
             if(temp) {
-                let tempObject = '{"value":'+add_todo.value+',"date":'+new Date().getTime()+'}'
+                let tempObject = '{"value":"'+add_todo.value+'","date":'+new Date().getTime()+'}'
                 temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
             else {
                 temp = new Set()
-                let tempObject = '{"value":'+add_todo.value+',"date":'+new Date().getTime()+'}'
+                let tempObject = '{"value":"'+add_todo.value+'","date":'+new Date().getTime()+'}'
                 temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
-            console.log(initData)
             ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:{value:add_todo.value,date:new Date()}});
 
             add_todo.value = ""
@@ -149,7 +148,7 @@ function addTodoDetailEvent() {
 }
 
 function todoDetailEventBinder(){
-    let todo_checkbox = document.getElementsByClassName("checkbox")
+    let todo_checkbox = document.getElementsByClassName("checkbox_icon")
 
     for (let i =0;i<todo_checkbox.length;i++) {
         todo_checkbox[i].removeEventListener("click",todoCheck)
@@ -158,7 +157,8 @@ function todoDetailEventBinder(){
 }
 
 function todoCheck(event) {
-    checkedList.add(event.currentTarget.getAttribute("id"))
+    console.log(event.currentTarget.parent.Text)
+
 }
 
 function addCategoryButtonEvent() {

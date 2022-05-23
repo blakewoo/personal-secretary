@@ -141,7 +141,6 @@ app.whenReady().then(() => {
             indexFile = new Set()
         }
         indexFile= new Set(indexFile)
-        console.log(indexFile)
         event.sender.send("sendInitData",mainData)
     })
 
