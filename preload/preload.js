@@ -82,7 +82,7 @@ function initTodoDetail(categoryName){
         let str = ""
 
         for (let i =0;i<data.length;i++) {
-            str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+i+">\n" +
+            str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+targetIndex+"_"+data[i].date+">\n" +
                 "   <input type=\"checkbox\">\n" +
                 "   <span class=\"checkbox_icon\"></span></label>\n" +
                 "   <span class=\"checkbox_text category_detail\">"+data[i].value+"</span>"+
@@ -118,12 +118,13 @@ function addTodoDetailEvent() {
             }
 
             let categoryContainer = document.getElementsByClassName("todo_detail_top")[0]
+            let targetData = new Date().getTime()
             categoryContainer.innerHTML += "<div class='todo_detail_row'>" +
-                "<label class=\"checkbox\">\n" +
+                "<label class=\"checkbox\" id="+selectedCategory[0].innerText+"_"+targetData+">\n" +
                 "   <input type=\"checkbox\">\n" +
                 "   <span class=\"checkbox_icon\"></span></label>\n" +
                 "   <span class=\"checkbox_text category_detail\">"+add_todo.value+"</span>" +
-                "   <span class=\"checkbox_text detail_date\">"+new Date(+new Date() + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
+                "   <span class=\"checkbox_text detail_date\">"+new Date(+targetData + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
             todoDetailEventBinder()
 
@@ -157,8 +158,14 @@ function todoDetailEventBinder(){
 }
 
 function todoCheck(event) {
-    console.log(event.currentTarget.parent.Text)
-
+    let targetNode = event.currentTarget.parentNode.id
+    let temp = checkedList.get(targetNode)
+    if(temp) {
+        temp.delete(targetNode)
+    }
+    else{
+        temp.add(targetNode)
+    }
 }
 
 function addCategoryButtonEvent() {
