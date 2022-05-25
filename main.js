@@ -12,6 +12,7 @@ let inputYesNoModalWindow
 let yesNoModalWindow
 const base64url = require('base64url');
 let mainData = new Map();
+let checkTodoMap = new Map();
 let id
 let pass
 let userIndex
@@ -321,6 +322,15 @@ app.whenReady().then(() => {
         }
         catch(e) {
             console.log(e)
+        }
+    })
+
+    ipcMain.on("checkTodo",function (event,args) {
+        try{
+
+        }
+        catch(e){
+
         }
     })
 

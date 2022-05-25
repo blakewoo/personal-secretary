@@ -82,9 +82,14 @@ function initTodoDetail(categoryName){
         let str = ""
 
         for (let i =0;i<data.length;i++) {
-            str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+targetIndex+"_"+data[i].date+">\n" +
-                "   <input type=\"checkbox\">\n" +
-                "   <span class=\"checkbox_icon\"></span></label>\n" +
+            str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+targetIndex+"_"+data[i].date+">\n"
+            if(checkedList.has(targetIndex+"_"+data[i].date)) {
+                str +=    "   <input type=\"checkbox\" checked>\n"
+            }
+            else{
+                str +=    "   <input type=\"checkbox\">\n"
+            }
+            str +=    "   <span class=\"checkbox_icon\"></span></label>\n" +
                 "   <span class=\"checkbox_text category_detail\">"+data[i].value+"</span>"+
                 "   <span class=\"checkbox_text detail_date\">"+new Date(+data[i].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
@@ -158,14 +163,22 @@ function todoDetailEventBinder(){
 }
 
 function todoCheck(event) {
+    let selectedCategory = document.getElementsByClassName("selected_category")
     let targetNode = event.currentTarget.parentNode.id
-    let temp = checkedList.get(targetNode)
-    if(temp) {
-        temp.delete(targetNode)
+    let statusFlag= false
+    if(checkedList.has(targetNode)) {
+        checkedList.delete(targetNode)
+        statusFlag = false
     }
     else{
-        temp.add(targetNode)
+        checkedList.add(targetNode)
+        statusFlag = true
     }
+    ipcRenderer.send('checkTodo', {
+        category: selectedCategory[0].innerText,
+        todoID: targetNode,
+        status: statusFlag
+    });
 }
 
 function addCategoryButtonEvent() {
