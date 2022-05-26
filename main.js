@@ -298,7 +298,7 @@ app.whenReady().then(() => {
             })
 
             // 하드 변경
-            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
+            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category+"_checked",pass)),tempStr.toString())
         }
         catch(e){
             console.log(e)
@@ -327,10 +327,27 @@ app.whenReady().then(() => {
 
     ipcMain.on("checkTodo",function (event,args) {
         try{
+            // 메모리
+            let tempMap = checkTodoMap.get(args.category)
+            if (tempMap) {
+                if(tempMap.has(args.todo)) {
+                    tempMap.delete(args.todo)
+                }
+                else {
+                    tempMap.add(args.todo)
+                }
+            }
+            else {
+                tempMap = new Set(args.todo)
+                checkTodoMap.set(args.category,tempMap)
+            }
 
+            //파일
+            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),(Array.from(tempMap)).toString())
         }
         catch(e){
-
+            // 에러
+            console.log(e)
         }
     })
 
