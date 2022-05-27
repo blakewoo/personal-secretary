@@ -1,5 +1,5 @@
 const {ipcRenderer} = require('electron')
-let checkedList = new Set();
+let checkedList = new Map();
 let initData = {}
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -13,8 +13,8 @@ window.addEventListener('DOMContentLoaded', () => {
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) =>{
         let categoryList = []
-        if (arg) {
-            initData = new Map(arg)
+        if (arg.all) {
+            initData = new Map(arg.all)
             let temp = initData.keys()
             for(let value of temp){
                 categoryList.push(JSON.parse(value))
@@ -34,6 +34,14 @@ window.addEventListener('DOMContentLoaded', () => {
         else {
             initData = new Map()
         }
+
+        if(arg.checked) {
+            checkedList = arg.checked
+        }
+        else{
+            checkedList = new Map()
+        }
+
         if(initData) {
             // init data
             initTodoCategory(categoryList)
@@ -83,7 +91,8 @@ function initTodoDetail(categoryName){
 
         for (let i =0;i<data.length;i++) {
             str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+targetIndex+"_"+data[i].date+">\n"
-            if(checkedList.has(targetIndex+"_"+data[i].date)) {
+            let tempCheckList = checkedList.get(targetIndex)
+            if(tempCheckList && tempCheckList.has(targetIndex+"_"+data[i].date)){
                 str +=    "   <input type=\"checkbox\" checked>\n"
             }
             else{
@@ -166,19 +175,25 @@ function todoCheck(event) {
     let selectedCategory = document.getElementsByClassName("selected_category")
     let targetNode = event.currentTarget.parentNode.id
     let statusFlag= false
-    if(checkedList.has(targetNode)) {
-        checkedList.delete(targetNode)
+
+    let tempCheckList = checkedList.get(selectedCategory)
+    if(tempCheckList && tempCheckList.has(targetNode)) {
+        tempCheckList.delete(targetNode)
+        checkedList.set(selectedCategory,tempCheckList)
         statusFlag = false
     }
     else{
-        checkedList.add(targetNode)
+        tempCheckList.add(targetNode)
+        checkedList.set(selectedCategory,tempCheckList)
         statusFlag = true
     }
+    console.log("send!")
     ipcRenderer.send('checkTodo', {
         category: selectedCategory[0].innerText,
         todoID: targetNode,
         status: statusFlag
     });
+    console.log("send finished!")
 }
 
 function addCategoryButtonEvent() {

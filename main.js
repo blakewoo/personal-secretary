@@ -102,6 +102,7 @@ app.whenReady().then(() => {
 
     ipcMain.on('mainPageInitData', (event,arg) => {
         let data={}
+        let checkedData = {}
         let indexTempFile = []
         indexFile = [];
         userIndex = createHashedPassword(id+pass)
@@ -124,9 +125,19 @@ app.whenReady().then(() => {
                                     tempDataSet.add(decryptionFiles(base64url.decode(data[i]), pass))
                                 }
                             }
+
+                            checkedData = fs.readFileSync(filePath + indexFile[i]+"_checked").toString().split(",");
+                            let tempCheckedDataSet = new Set()
+                            for(let i=0;i<checkedData.length ;i++) {
+                                if (checkedData[0] !== "") {
+                                    tempCheckedDataSet.add(decryptionFiles(base64url.decode(data[i]), pass))
+                                }
+                            }
+                            checkTodoMap.set(indexTempFile[i], tempCheckedDataSet)
                             mainData.set(indexTempFile[i], tempDataSet)
                         }
                         else {
+                            checkTodoMap.set(indexTempFile[i], null)
                             mainData.set(indexTempFile[i], null)
                         }
                     }
@@ -142,7 +153,7 @@ app.whenReady().then(() => {
             indexFile = new Set()
         }
         indexFile= new Set(indexFile)
-        event.sender.send("sendInitData",mainData)
+        event.sender.send("sendInitData",{all:mainData,checked:checkTodoMap})
     })
 
     // YES NO 모달
@@ -343,7 +354,7 @@ app.whenReady().then(() => {
             }
 
             //파일
-            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),(Array.from(tempMap)).toString())
+            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass))+"_checked",(Array.from(tempMap)).toString())
         }
         catch(e){
             // 에러
