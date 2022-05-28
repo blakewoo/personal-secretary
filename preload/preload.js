@@ -144,17 +144,17 @@ function addTodoDetailEvent() {
 
             let temp = initData.get(selectedCategory[0].innerText)
             if(temp) {
-                let tempObject = '{"value":"'+add_todo.value+'","date":'+new Date().getTime()+'}'
+                let tempObject = '{"value":"'+add_todo.value+'","date":'+targetData+'}'
                 temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
             else {
                 temp = new Set()
-                let tempObject = '{"value":"'+add_todo.value+'","date":'+new Date().getTime()+'}'
+                let tempObject = '{"value":"'+add_todo.value+'","date":'+targetData+'}'
                 temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
-            ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:{value:add_todo.value,date:new Date()}});
+            ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:{value:add_todo.value,date:targetData}});
 
             add_todo.value = ""
         }
@@ -174,26 +174,28 @@ function todoDetailEventBinder(){
 function todoCheck(event) {
     let selectedCategory = document.getElementsByClassName("selected_category")
     let targetNode = event.currentTarget.parentNode.id
-    let statusFlag= false
 
-    let tempCheckList = checkedList.get(selectedCategory)
+    let tempCheckList = checkedList.get(selectedCategory[0].innerText)
     if(tempCheckList && tempCheckList.has(targetNode)) {
         tempCheckList.delete(targetNode)
-        checkedList.set(selectedCategory,tempCheckList)
-        statusFlag = false
+        checkedList.set(selectedCategory[0].innerText,tempCheckList)
     }
     else{
-        tempCheckList.add(targetNode)
-        checkedList.set(selectedCategory,tempCheckList)
-        statusFlag = true
+        if(tempCheckList) {
+            tempCheckList.add(targetNode)
+            checkedList.set(selectedCategory[0].innerText,tempCheckList)
+        }
+        else{
+            tempCheckList = new Set();
+            tempCheckList.add(targetNode)
+            checkedList.set(selectedCategory[0].innerText,tempCheckList)
+        }
+
     }
-    console.log("send!")
     ipcRenderer.send('checkTodo', {
         category: selectedCategory[0].innerText,
-        todoID: targetNode,
-        status: statusFlag
+        todoID: targetNode
     });
-    console.log("send finished!")
 }
 
 function addCategoryButtonEvent() {

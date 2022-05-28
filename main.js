@@ -130,7 +130,7 @@ app.whenReady().then(() => {
                             let tempCheckedDataSet = new Set()
                             for(let i=0;i<checkedData.length ;i++) {
                                 if (checkedData[0] !== "") {
-                                    tempCheckedDataSet.add(decryptionFiles(base64url.decode(data[i]), pass))
+                                    tempCheckedDataSet.add(decryptionFiles(base64url.decode(checkedData[i]), pass))
                                 }
                             }
                             checkTodoMap.set(indexTempFile[i], tempCheckedDataSet)
@@ -341,15 +341,15 @@ app.whenReady().then(() => {
             // 메모리
             let tempMap = checkTodoMap.get(args.category)
             if (tempMap) {
-                if(tempMap.has(args.todo)) {
-                    tempMap.delete(args.todo)
+                if(tempMap.has(args.todoID)) {
+                    tempMap.delete(args.todoID)
                 }
                 else {
-                    tempMap.add(args.todo)
+                    tempMap.add(args.todoID)
                 }
             }
             else {
-                tempMap = new Set(args.todo)
+                tempMap = new Set(args.todoID)
                 checkTodoMap.set(args.category,tempMap)
             }
 
