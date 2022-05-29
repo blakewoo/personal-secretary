@@ -104,6 +104,7 @@ app.whenReady().then(() => {
         let data={}
         let checkedData = {}
         let indexTempFile = []
+        let tempCheckedDataSet = new Set()
         indexFile = [];
         userIndex = createHashedPassword(id+pass)
 
@@ -125,13 +126,18 @@ app.whenReady().then(() => {
                                     tempDataSet.add(decryptionFiles(base64url.decode(data[i]), pass))
                                 }
                             }
+                            try{
+                                tempCheckedDataSet = new Set()
+                                checkedData = fs.readFileSync(filePath + indexFile[i]+"_checked").toString().split(",");
 
-                            checkedData = fs.readFileSync(filePath + indexFile[i]+"_checked").toString().split(",");
-                            let tempCheckedDataSet = new Set()
-                            for(let i=0;i<checkedData.length ;i++) {
-                                if (checkedData[0] !== "") {
-                                    tempCheckedDataSet.add(decryptionFiles(base64url.decode(checkedData[i]), pass))
+                                for(let i=0;i<checkedData.length ;i++) {
+                                    if (checkedData[0] !== "") {
+                                        tempCheckedDataSet.add(decryptionFiles(base64url.decode(checkedData[i]), pass))
+                                    }
                                 }
+                            }
+                            catch(e) {
+
                             }
                             checkTodoMap.set(indexTempFile[i], tempCheckedDataSet)
                             mainData.set(indexTempFile[i], tempDataSet)
@@ -349,12 +355,15 @@ app.whenReady().then(() => {
                 }
             }
             else {
-                tempMap = new Set(args.todoID)
+                tempMap = new Set([args.todoID])
                 checkTodoMap.set(args.category,tempMap)
             }
-
+            let tempStr = []
+            tempMap.forEach((value,key,set) => {
+                tempStr.push(base64url(encrytionFiles((value),pass)))
+            })
             //파일
-            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass))+"_checked",(Array.from(tempMap)).toString())
+            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass))+"_checked",tempStr.toString())
         }
         catch(e){
             // 에러
