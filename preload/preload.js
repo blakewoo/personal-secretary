@@ -100,6 +100,7 @@ function initTodoDetail(categoryName){
             }
             str +=    "   <span class=\"checkbox_icon\"></span></label>\n" +
                 "   <span class=\"checkbox_text category_detail\">"+data[i].value+"</span>"+
+                "<span class='delete_detail'>X</span>"+
                 "   <span class=\"checkbox_text detail_date\">"+new Date(+data[i].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
         }
@@ -138,6 +139,7 @@ function addTodoDetailEvent() {
                 "   <input type=\"checkbox\">\n" +
                 "   <span class=\"checkbox_icon\"></span></label>\n" +
                 "   <span class=\"checkbox_text category_detail\">"+add_todo.value+"</span>" +
+                "<span class='delete_detail'>X</span>"+
                 "   <span class=\"checkbox_text detail_date\">"+new Date(+targetData + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
             todoDetailEventBinder()
@@ -164,10 +166,17 @@ function addTodoDetailEvent() {
 
 function todoDetailEventBinder(){
     let todo_checkbox = document.getElementsByClassName("checkbox_icon")
+    let delete_todo = document.getElementsByClassName("delete_detail")
 
     for (let i =0;i<todo_checkbox.length;i++) {
         todo_checkbox[i].removeEventListener("click",todoCheck)
         todo_checkbox[i].addEventListener("click",todoCheck)
+    }
+
+    for(let i=0;i<delete_todo.length;i++) {
+        delete_todo[i].removeEventListener("click",deleteTodoEvent)
+        delete_todo[i].addEventListener("click",deleteTodoEvent)
+
     }
 }
 
@@ -197,6 +206,27 @@ function todoCheck(event) {
         todoID: targetNode
     });
 }
+
+function deleteTodoEvent(event) {
+    let selectedCategory = document.getElementsByClassName("selected_category")
+    let targetNode = event.currentTarget.parentNode
+    let todoValue = targetNode.querySelector(".category_detail").innerText
+    let targetId = event.currentTarget.parentNode.querySelector('label').id
+    let targetDate = Number(targetId.split("_")[1])
+    let targetObj = {value:todoValue,date:targetDate}
+
+    if(checkedList.has(targetId)) {
+        checkedList.delete(targetId)
+    }
+
+    ipcRenderer.send('deleteTodo', {
+        category: selectedCategory[0].innerText,
+        todo: targetObj
+    });
+
+    targetNode.remove()
+}
+
 
 function addCategoryButtonEvent() {
 

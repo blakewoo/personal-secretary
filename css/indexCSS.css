@@ -90,13 +90,14 @@ body{
     border-right: none;
     border-bottom: solid 2px #222222;
     background-color: transparent;
-    width: 85%;
+    width: 90%;
 }
 
 .detail_date{
     font-size: 12px;
     font-weight: bold;
     float: right;
+    margin-right:5%
 }
 
 .selected_category{
