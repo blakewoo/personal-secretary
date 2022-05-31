@@ -24,6 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 let tempResult = new Set();
                 if (tempTarget) {
                     tempTarget.forEach(v =>{
+                        console.log(v)
                         tempResult.add(JSON.parse(v))
                     } );
                     initData.set(categoryList[i],tempResult)
@@ -219,10 +220,7 @@ function deleteTodoEvent(event) {
         checkedList.delete(targetId)
     }
 
-    ipcRenderer.send('deleteTodo', {
-        category: selectedCategory[0].innerText,
-        todo: targetObj
-    });
+    ipcRenderer.send('deleteTodo', "'category':"+selectedCategory[0].innerText+",'todo'"+ targetObj );
 
     targetNode.remove()
 }

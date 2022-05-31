@@ -327,7 +327,16 @@ app.whenReady().then(() => {
         try{
             // 메모리 변경
             let target = mainData.get(args.category)
-            target.delete(args.todo)
+            if(target) {
+                target.delete(args.todo)
+            }
+            else {
+                target = new Set()
+            }
+
+            mainData.set(args.category,target)
+
+            console.log(args.todo);
 
             let tempStr = []
             target.forEach((value,key,set) => {
