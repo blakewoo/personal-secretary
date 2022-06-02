@@ -338,7 +338,8 @@ app.whenReady().then(() => {
 
             let tempStr = []
             target.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value.toString()+',"date":'+new Date(value.date).getTime()+'}'),pass)))
+                let tempValue = JSON.parse(value)
+                tempStr.push(base64url(encrytionFiles(('{"value":'+tempValue.value.toString()+',"date":'+new Date(tempValue.date).getTime()+'}'),pass)))
             })
 
             // 하드 변경

@@ -215,18 +215,15 @@ function deleteTodoEvent(event) {
     let todoValue = targetNode.querySelector(".category_detail").innerText
     let targetId = event.currentTarget.parentNode.querySelector('label').id
     let targetDate = Number(targetId.split("_")[1])
-    let targetObj = "{'value':"+todoValue+",'date':"+targetDate+"}"
+    let targetObj = '{"value":'+todoValue+',"date":'+targetDate+'}'
 
     if(checkedList.has(targetId)) {
         checkedList.delete(targetId)
     }
 
     let memoryTodo = initData.get(selectedCategory[0].innerText)
-    console.log("targetObj")
-    console.log(memoryTodo)
-    console.log(targetObj)
     if(memoryTodo) {
-        memoryTodo.delete(targetObj)
+        memoryTodo.delete(targetObj.toString())
         initData.set(selectedCategory[0].innerText,memoryTodo)
     }
 
