@@ -123,7 +123,7 @@ app.whenReady().then(() => {
                             let tempDataSet = new Set()
                             for(let i=0;i<data.length ;i++) {
                                 if (data[0] !== "") {
-                                    tempDataSet.add(decryptionFiles(base64url.decode(data[i]), pass))
+                                    tempDataSet.add(JSON.parse(decryptionFiles(base64url.decode(data[i]), pass)))
                                 }
                             }
                             try{
@@ -337,9 +337,9 @@ app.whenReady().then(() => {
             mainData.set(args.category,target)
 
             let tempStr = []
+
             target.forEach((value,key,set) => {
-                let tempValue = JSON.parse(value)
-                tempStr.push(base64url(encrytionFiles(('{"value":'+tempValue.value.toString()+',"date":'+new Date(tempValue.date).getTime()+'}'),pass)))
+                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value.toString()+',"date":'+new Date(value.date).getTime()+'}'),pass)))
             })
 
             // 하드 변경
