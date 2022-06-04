@@ -11,7 +11,7 @@ exports.createWindow = function (pass) {
         resizable:false,
         minimizable:false,
         maximizable:false,
-        fullscreenable:false,
+        fullscreenable:true,
         frame:false,
         width: 800,
         height: 600,
@@ -32,6 +32,17 @@ exports.createWindow = function (pass) {
     ipcMain.on('mainFrameButtonEvent', (event,arg) => {
         if (arg.value === "close") {
             mainWindow.close()
+        }
+        else if (arg.value === "size") {
+            if(arg.size === "big") {
+                mainWindow.setFullScreen(true)
+            }
+            else {
+                mainWindow.setFullScreen(false)
+            }
+        }
+        else if(arg.value === "under") {
+            mainWindow.minimize()
         }
     })
 

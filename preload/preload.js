@@ -1,6 +1,7 @@
 const {ipcRenderer} = require('electron')
 let checkedList = new Map();
 let initData = {}
+let sizeFlag = "small"
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -8,6 +9,23 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById("close_button").addEventListener('click', closeClickEvent)
     function closeClickEvent() {
         ipcRenderer.send('mainFrameButtonEvent',{value:"close"});
+    }
+
+    document.getElementById("under_button").addEventListener('click', underClickEvent)
+    function underClickEvent() {
+
+        ipcRenderer.send('mainFrameButtonEvent',{value:"under"});
+    }
+
+    document.getElementById("sizeSwitch_button").addEventListener('click', sizeClickEvent)
+    function sizeClickEvent() {
+        if (sizeFlag === "small") {
+            sizeFlag = "big"
+        }
+        else {
+            sizeFlag = "small"
+        }
+        ipcRenderer.send('mainFrameButtonEvent',{value:"size",size:sizeFlag});
     }
 
     ipcRenderer.send('mainPageInitData',{value:true});
@@ -24,7 +42,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 let tempResult = new Set();
                 if (tempTarget) {
                     tempTarget.forEach(v =>{
-                        tempResult.add(v)
+                        tempResult.add(v.toString())
                     } );
                     initData.set(categoryList[i],tempResult)
                 }
@@ -41,7 +59,7 @@ window.addEventListener('DOMContentLoaded', () => {
         else{
             checkedList = new Map()
         }
-
+        console.log(initData)
         if(initData) {
             // init data
             initTodoCategory(categoryList)
@@ -82,7 +100,7 @@ function initTodoDetail(categoryName){
         if (temp) {
             console.log(temp)
             temp.forEach(v =>{
-                data.push(v)
+                data.push(JSON.parse(v))
             });
         }
 
@@ -146,15 +164,16 @@ function addTodoDetailEvent() {
             let temp = initData.get(selectedCategory[0].innerText)
             if(temp) {
                 let tempObject = {value:add_todo.value,date:targetData}
-                temp.add(tempObject)
+                temp.add(tempObject.toString())
                 initData.set(selectedCategory[0].innerText,temp)
             }
             else {
                 temp = new Set()
                 let tempObject = {value:add_todo.value,date:targetData}
-                temp.add(tempObject)
+                temp.add(tempObject.toString())
                 initData.set(selectedCategory[0].innerText,temp)
             }
+            console.log(initData)
             ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:{value:add_todo.value,date:targetData}});
 
             add_todo.value = ""
@@ -220,11 +239,11 @@ function deleteTodoEvent(event) {
 
     let memoryTodo = initData.get(selectedCategory[0].innerText)
     if(memoryTodo) {
-        memoryTodo.delete(targetObj)
+        memoryTodo.delete(targetObj.toString())
         initData.set(selectedCategory[0].innerText,memoryTodo)
     }
-
-    ipcRenderer.send('deleteTodo', {category:selectedCategory[0].innerText,todo:targetObj })
+    console.log(initData)
+    ipcRenderer.send('deleteTodo', {category:selectedCategory[0].innerText,todo:targetObj})
 
     targetNode.remove()
 }
