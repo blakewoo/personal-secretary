@@ -119,14 +119,14 @@ body{
 
 .window_header{
     height: 15px;
-    width: 85%;
+    width: calc(98% - 100px);
     display: inline-block;
     -webkit-app-region: drag;
     padding-left: 5px;
     padding-top: 5px;
 }
 .close_div{
-    width: 13%;
+    width: 100px;
     display: inline-block;
 }
 
@@ -154,7 +154,7 @@ body{
 }
 
 .mainframe_button{
-    margin-right: 2px !important;
+    margin-right: -2px !important;
 }
 
 .public_button:hover{
@@ -191,7 +191,7 @@ body{
     border-right: none;
     border-bottom: solid 2px #222222;
     background-color: transparent;
-    width: 80%;
+    width: 95%;
 }
 
 .todo_detail_row{

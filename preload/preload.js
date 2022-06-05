@@ -21,9 +21,11 @@ window.addEventListener('DOMContentLoaded', () => {
     function sizeClickEvent() {
         if (sizeFlag === "small") {
             sizeFlag = "big"
+            document.getElementById("sizeSwitch_button").value="ㅁ"
         }
         else {
             sizeFlag = "small"
+            document.getElementById("sizeSwitch_button").value="□"
         }
         ipcRenderer.send('mainFrameButtonEvent',{value:"size",size:sizeFlag});
     }
