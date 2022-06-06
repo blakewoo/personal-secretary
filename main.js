@@ -123,7 +123,7 @@ app.whenReady().then(() => {
                             let tempDataSet = new Set()
                             for(let i=0;i<data.length ;i++) {
                                 if (data[0] !== "") {
-                                    tempDataSet.add(JSON.parse(decryptionFiles(base64url.decode(data[i]), pass)))
+                                    tempDataSet.add(decryptionFiles(base64url.decode(data[i]), pass))
                                 }
                             }
                             try{
@@ -158,6 +158,7 @@ app.whenReady().then(() => {
             fs.writeFileSync(filePath+base64url(userIndex)+"_index","")
             indexFile = new Set()
         }
+        console.log(mainData)
         indexFile= new Set(indexFile)
         event.sender.send("sendInitData",{all:mainData,checked:checkTodoMap})
     })
@@ -337,10 +338,11 @@ app.whenReady().then(() => {
             mainData.set(args.category,target)
 
             let tempStr = []
-
-            target.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value.toString()+',"date":'+new Date(value.date).getTime()+'}'),pass)))
-            })
+            if(target.size!==0) {
+                target.forEach((value,key,set) => {
+                    tempStr.push(base64url(encrytionFiles(('{"value":'+value.value.toString()+',"date":'+new Date(value.date).getTime()+'}'),pass)))
+                })
+            }
 
             // 하드 변경
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())

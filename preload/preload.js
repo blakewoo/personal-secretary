@@ -46,7 +46,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     tempTarget.forEach(v =>{
                         tempResult.add(v.toString())
                     } );
-                    initData.set(categoryList[i],tempResult)
+                    initData.set(categoryList[i].toString(),tempResult)
                 }
             }
 
@@ -100,7 +100,6 @@ function initTodoDetail(categoryName){
         let data = []
         let temp =rawData.get(targetIndex)
         if (temp) {
-            console.log(temp)
             temp.forEach(v =>{
                 data.push(JSON.parse(v))
             });
@@ -165,18 +164,18 @@ function addTodoDetailEvent() {
 
             let temp = initData.get(selectedCategory[0].innerText)
             if(temp) {
-                let tempObject = {value:add_todo.value,date:targetData}
-                temp.add(tempObject.toString())
+                let tempObject = '{"value":'+add_todo.value.toString()+',"date":'+targetData+'}'
+                temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
             else {
                 temp = new Set()
-                let tempObject = {value:add_todo.value,date:targetData}
-                temp.add(tempObject.toString())
+                let tempObject = '{"value":'+add_todo.value.toString()+',"date":'+targetData+'}'
+                temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
             console.log(initData)
-            ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:{value:add_todo.value,date:targetData}});
+            ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:{value:add_todo.value.toString(),date:targetData}});
 
             add_todo.value = ""
         }
@@ -233,7 +232,7 @@ function deleteTodoEvent(event) {
     let todoValue = targetNode.querySelector(".category_detail").innerText
     let targetId = event.currentTarget.parentNode.querySelector('label').id
     let targetDate = Number(targetId.split("_")[1])
-    let targetObj = {value:todoValue,date:targetDate}
+    let targetObj = '{"value":'+todoValue.toString()+',"date":'+targetDate+'}'
 
     if(checkedList.has(targetId)) {
         checkedList.delete(targetId)
