@@ -90,7 +90,12 @@ body{
     border-right: none;
     border-bottom: solid 2px #222222;
     background-color: transparent;
-    width: 90%;
+    width: calc(98% - 40px);
+}
+
+.checkbox_text:hover{
+    background-color: #a8a8a8;
+    cursor: pointer;
 }
 
 .detail_date{
@@ -200,12 +205,6 @@ body{
     width: 99%;
 }
 
-.todo_detail_row:hover{
-    background-color: #959595;
-    cursor: pointer;
-}
-
-
 .checkbox input {
    display: none;
 }
@@ -257,4 +256,12 @@ body{
 .checkbox input:checked + .checkbox_icon::after {
    height: 20px;
    transition: all 0.15s ease 0.15s;
+}
+
+.delete_detail{
+    width: 25px;
+}
+
+.delete_detail:hover{
+    font-weight: bold;
 }
