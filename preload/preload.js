@@ -186,6 +186,7 @@ function addTodoDetailEvent() {
 function todoDetailEventBinder(){
     let todo_checkbox = document.getElementsByClassName("checkbox_icon")
     let delete_todo = document.getElementsByClassName("delete_detail")
+    let modify_todo = document.getElementsByClassName("category_detail")
 
     for (let i =0;i<todo_checkbox.length;i++) {
         todo_checkbox[i].removeEventListener("click",todoCheck)
@@ -195,9 +196,34 @@ function todoDetailEventBinder(){
     for(let i=0;i<delete_todo.length;i++) {
         delete_todo[i].removeEventListener("click",deleteTodoEvent)
         delete_todo[i].addEventListener("click",deleteTodoEvent)
-
     }
+
+    for(let i=0;i<modify_todo.length;i++) {
+        modify_todo[i].removeEventListener("click",modifyTodoEvent)
+        modify_todo[i].addEventListener("click",modifyTodoEvent)
+    }
+
 }
+
+function modifyTodoEvent(event) {
+    let target = event.currentTarget
+
+    target.innerHTML = "<input type='text' value='"+target.innerText+"'/>"
+
+    let targetInput = document.querySelector("input")
+    targetInput.focus()
+    targetInput.addEventListener("keyup",function (event) {
+        if(event.key === "Enter") {
+            target.innerText = targetInput.value
+        }
+    })
+
+    targetInput.addEventListener("focusout",function (event) {
+        target.innerText = targetInput.value
+    })
+}
+
+
 
 function todoCheck(event) {
     let selectedCategory = document.getElementsByClassName("selected_category")
