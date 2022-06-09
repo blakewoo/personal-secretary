@@ -200,8 +200,11 @@ app.whenReady().then(() => {
             if (inputYesNoModalType ==="add") {
                 mainWindow.webContents.send('inputYesNoModalResYes', {Text:args.value})
             }
-            else{
+            else if(inputYesNoModalType ==="modify"){
                 mainWindow.webContents.send('inputYesNoModalResModifyYes', {Text:args.value})
+            }
+            else {
+                mainWindow.webContents.send('inputYesNoModalResDeleteYes', {})
             }
             inputYesNoModalWindow.hide()
         }

@@ -253,26 +253,35 @@ function todoCheck(event) {
 }
 
 function deleteTodoEvent(event) {
-    let selectedCategory = document.getElementsByClassName("selected_category")
-    let targetNode = event.currentTarget.parentNode
-    let todoValue = targetNode.querySelector(".category_detail").innerText
-    let targetId = event.currentTarget.parentNode.querySelector('label').id
-    let targetDate = Number(targetId.split("_")[1])
-    let targetObj = '{"value":'+todoValue.toString()+',"date":'+targetDate+'}'
+    ipcRenderer.send('inputYesNoModal', {
+        title: "삭제 확인",
+        explain: "정말로 삭제하시겠습니까?",
+        type:"delete"
+    });
 
-    if(checkedList.has(targetId)) {
-        checkedList.delete(targetId)
-    }
+    ipcRenderer.on("inputYesNoModalResDeleteYes",function (event, args) {
+            let selectedCategory = document.getElementsByClassName("selected_category")
+            let targetNode = event.currentTarget.parentNode
+            let todoValue = targetNode.querySelector(".category_detail").innerText
+            let targetId = event.currentTarget.parentNode.querySelector('label').id
+            let targetDate = Number(targetId.split("_")[1])
+            let targetObj = '{"value":'+todoValue.toString()+',"date":'+targetDate+'}'
 
-    let memoryTodo = initData.get(selectedCategory[0].innerText)
-    if(memoryTodo) {
-        memoryTodo.delete(targetObj.toString())
-        initData.set(selectedCategory[0].innerText,memoryTodo)
-    }
-    console.log(initData)
-    ipcRenderer.send('deleteTodo', {category:selectedCategory[0].innerText,todo:targetObj})
+            if(checkedList.has(targetId)) {
+                checkedList.delete(targetId)
+            }
 
-    targetNode.remove()
+            let memoryTodo = initData.get(selectedCategory[0].innerText)
+            if(memoryTodo) {
+                memoryTodo.delete(targetObj.toString())
+                initData.set(selectedCategory[0].innerText,memoryTodo)
+            }
+            console.log(initData)
+            ipcRenderer.send('deleteTodo', {category:selectedCategory[0].innerText,todo:targetObj})
+
+            targetNode.remove()
+    })
+
 }
 
 
