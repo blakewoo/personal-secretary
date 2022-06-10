@@ -30,6 +30,7 @@ app.whenReady().then(() => {
 
     let YesNoModalTitle = ""
     let YesNoModalExplain = ""
+    let YesNoModalType = ""
 
     yesNoModalWindow = initYesNoModal()
     inputYesNoModalWindow = initInputYesNoModal()
@@ -165,7 +166,7 @@ app.whenReady().then(() => {
 
     // YES NO 모달
     ipcMain.on('yesNoModal',(event,args) =>{
-        yesNoModalFunction (args.title,args.explain)
+        yesNoModalFunction (args.title,args.explain,args.type)
     })
 
     // YES NO 모달 닫기
@@ -176,8 +177,14 @@ app.whenReady().then(() => {
     // YES NO 답신
     ipcMain.on('YesNoModalRequestResponse',function (event,args) {
         if (args.result) {
-            mainWindow.webContents.send('yesNoModalRequestDelete', {Text:args.value})
-            yesNoModalWindow.hide()
+            if(args.type === "category") {
+                mainWindow.webContents.send('yesNoModalRequestDelete', {Text:args.value})
+                yesNoModalWindow.hide()
+            }
+            else {
+                mainWindow.webContents.send('yesNoModalResDeleteYes', {Text:args.value})
+                yesNoModalWindow.hide()
+            }
         }
         else{
             yesNoModalWindow.hide()
@@ -200,12 +207,10 @@ app.whenReady().then(() => {
             if (inputYesNoModalType ==="add") {
                 mainWindow.webContents.send('inputYesNoModalResYes', {Text:args.value})
             }
-            else if(inputYesNoModalType ==="modify"){
+            else {
                 mainWindow.webContents.send('inputYesNoModalResModifyYes', {Text:args.value})
             }
-            else {
-                mainWindow.webContents.send('inputYesNoModalResDeleteYes', {})
-            }
+
             inputYesNoModalWindow.hide()
         }
         else{
@@ -425,9 +430,10 @@ app.whenReady().then(() => {
     }
 
 
-    function yesNoModalFunction (title,explain) {
+    function yesNoModalFunction (title,explain,type) {
         YesNoModalTitle = title
         YesNoModalExplain = explain
+        YesNoModalType = type
 
         yesNoModalWindow.loadFile('html/yesNoModal.html')
         yesNoModalWindow.show()

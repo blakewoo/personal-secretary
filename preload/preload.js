@@ -253,13 +253,12 @@ function todoCheck(event) {
 }
 
 function deleteTodoEvent(event) {
-    ipcRenderer.send('inputYesNoModal', {
+    ipcRenderer.send('yesNoModal', {
         title: "삭제 확인",
-        explain: "정말로 삭제하시겠습니까?",
-        type:"delete"
+        explain: "정말로 삭제하시겠습니까?"
     });
 
-    ipcRenderer.on("inputYesNoModalResDeleteYes",function (event, args) {
+    ipcRenderer.on("yesNoModalResDeleteYes",function (event, args) {
             let selectedCategory = document.getElementsByClassName("selected_category")
             let targetNode = event.currentTarget.parentNode
             let todoValue = targetNode.querySelector(".category_detail").innerText
@@ -344,7 +343,7 @@ function deleteCategorySend(event) {
     if (category.length!==0) {
         for (let i =0 ;i<category.length;i++) {
             if (category[i].classList.contains("selected_category")){
-                ipcRenderer.send('yesNoModal',{title:"카테고리 삭제",explain:"선택한 카테고리를 삭제하시겠습니까?"});
+                ipcRenderer.send('yesNoModal',{title:"카테고리 삭제",explain:"선택한 카테고리를 삭제하시겠습니까?",type:"category"});
                 ipcRenderer.on("yesNoModalRequestDelete",function (event, args) {
                     let removeCategory = category[i].innerText
                     ipcRenderer.send('deleteCategory',{category:removeCategory});
