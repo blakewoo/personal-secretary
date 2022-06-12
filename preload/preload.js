@@ -207,18 +207,30 @@ function todoDetailEventBinder(){
 
 function modifyTodoEvent(event) {
     let target = event.currentTarget
-
+    let selectedCategory = document.getElementsByClassName("selected_category")
+    let tempPrevTodo =  target.innerText
     target.innerHTML = "<input type='text' value='"+target.innerText+"'/>"
 
-    let targetInput = document.querySelector("input")
+    let targetInput = target.querySelector("input")
     targetInput.focus()
     targetInput.addEventListener("keyup",function (event) {
         if(event.key === "Enter") {
+            ipcRenderer.send('updateTodo', {
+                category: selectedCategory[0].innerText,
+                prevTodo: tempPrevTodo,
+                afterTodo:targetInput.value
+            });
             target.innerText = targetInput.value
         }
     })
 
     targetInput.addEventListener("focusout",function (event) {
+
+        ipcRenderer.send('updateTodo', {
+            category: selectedCategory[0].innerText,
+            prevTodo: tempPrevTodo,
+            afterTodo:targetInput.value
+        });
         target.innerText = targetInput.value
     })
 }

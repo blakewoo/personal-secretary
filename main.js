@@ -311,7 +311,6 @@ app.whenReady().then(() => {
 
     // Todo 변경시
     ipcMain.on('updateTodo',function (event,args) {
-
         try{
             // 메모리 변경
             let target = mainData.get(args.category)
