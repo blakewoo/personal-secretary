@@ -215,21 +215,29 @@ function modifyTodoEvent(event) {
     targetInput.focus()
     targetInput.addEventListener("keyup",function (event) {
         if(event.key === "Enter") {
+            let targetId = event.currentTarget.parentNode.querySelector('label').id
+            let targetDate = Number(targetId.split("_")[1])
+            let prevTargetObj = '{"value":'+tempPrevTodo+',"date":'+targetDate+'}'
+            let afterTargetObj = '{"value":'+targetInput.value+',"date":'+targetDate+'}'
             ipcRenderer.send('updateTodo', {
                 category: selectedCategory[0].innerText,
-                prevTodo: tempPrevTodo,
-                afterTodo:targetInput.value
+                prevTodo: prevTargetObj,
+                afterTodo:afterTargetObj
             });
             target.innerText = targetInput.value
         }
     })
 
     targetInput.addEventListener("focusout",function (event) {
+        let targetId = event.currentTarget.parentNode.querySelector('label').id
+        let targetDate = Number(targetId.split("_")[1])
+        let prevTargetObj = '{"value":'+tempPrevTodo+',"date":'+targetDate+'}'
+        let afterTargetObj = '{"value":'+targetInput.value+',"date":'+targetDate+'}'
 
         ipcRenderer.send('updateTodo', {
             category: selectedCategory[0].innerText,
-            prevTodo: tempPrevTodo,
-            afterTodo:targetInput.value
+            prevTodo: prevTargetObj,
+            afterTodo:afterTargetObj
         });
         target.innerText = targetInput.value
     })
