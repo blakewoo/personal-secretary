@@ -209,7 +209,7 @@ function modifyTodoEvent(event) {
     let target = event.currentTarget
     let selectedCategory = document.getElementsByClassName("selected_category")
     let tempPrevTodo =  target.innerText
-    target.innerHTML = "<input type='text' value='"+target.innerText+"'/>"
+    target.innerHTML = "<input type='text' class='todoModifyInput' value='"+target.innerText+"'/>"
 
     let targetInput = target.querySelector("input")
     targetInput.focus()

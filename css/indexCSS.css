@@ -265,3 +265,11 @@ body{
 .delete_detail:hover{
     font-weight: bold;
 }
+
+.todoModifyInput{
+    border: none;
+    outline: none;
+    font-size:16px;
+    height: 100%;
+    width: 100%;
+}
