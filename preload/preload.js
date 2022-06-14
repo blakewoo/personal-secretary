@@ -215,10 +215,18 @@ function modifyTodoEvent(event) {
     targetInput.focus()
     targetInput.addEventListener("keyup",function (event) {
         if(event.key === "Enter") {
-            let targetId = event.currentTarget.parentNode.querySelector('label').id
+            let targetId = event.currentTarget.parentNode.parentNode.querySelector('label').id
             let targetDate = Number(targetId.split("_")[1])
             let prevTargetObj = '{"value":'+tempPrevTodo+',"date":'+targetDate+'}'
             let afterTargetObj = '{"value":'+targetInput.value+',"date":'+targetDate+'}'
+
+            let memoryTodo = initData.get(selectedCategory[0].innerText)
+            if(memoryTodo) {
+                memoryTodo.delete(prevTargetObj.toString())
+                memoryTodo.delete(afterTargetObj.toString())
+                initData.set(selectedCategory[0].innerText,memoryTodo)
+            }
+
             ipcRenderer.send('updateTodo', {
                 category: selectedCategory[0].innerText,
                 prevTodo: prevTargetObj,
@@ -229,10 +237,17 @@ function modifyTodoEvent(event) {
     })
 
     targetInput.addEventListener("focusout",function (event) {
-        let targetId = event.currentTarget.parentNode.querySelector('label').id
+        let targetId = event.currentTarget.parentNode.parentNode.querySelector('label').id
         let targetDate = Number(targetId.split("_")[1])
         let prevTargetObj = '{"value":'+tempPrevTodo+',"date":'+targetDate+'}'
         let afterTargetObj = '{"value":'+targetInput.value+',"date":'+targetDate+'}'
+
+        let memoryTodo = initData.get(selectedCategory[0].innerText)
+        if(memoryTodo) {
+            memoryTodo.delete(prevTargetObj.toString())
+            memoryTodo.delete(afterTargetObj.toString())
+            initData.set(selectedCategory[0].innerText,memoryTodo)
+        }
 
         ipcRenderer.send('updateTodo', {
             category: selectedCategory[0].innerText,

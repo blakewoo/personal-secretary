@@ -323,7 +323,7 @@ app.whenReady().then(() => {
             })
 
             // 하드 변경
-            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category+"_checked",pass)),tempStr.toString())
+            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
         }
         catch(e){
             console.log(e)
