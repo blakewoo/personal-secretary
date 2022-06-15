@@ -209,7 +209,7 @@ function modifyTodoEvent(event) {
     let target = event.currentTarget
     let selectedCategory = document.getElementsByClassName("selected_category")
     let tempPrevTodo =  target.innerText
-    target.innerHTML = "<input type='text' class='todoModifyInput' value='"+target.innerText+"'/>"
+    target.innerHTML = "<input type='text' class='todoModifyInput' value='"+tempPrevTodo+"'/>"
 
     let targetInput = target.querySelector("input")
     targetInput.focus()
@@ -232,7 +232,8 @@ function modifyTodoEvent(event) {
                 prevTodo: prevTargetObj,
                 afterTodo:afterTargetObj
             });
-            target.innerText = targetInput.value
+            let tempText = targetInput.value
+            target.innerText = tempText
         }
     })
 
@@ -245,16 +246,18 @@ function modifyTodoEvent(event) {
         let memoryTodo = initData.get(selectedCategory[0].innerText)
         if(memoryTodo) {
             memoryTodo.delete(prevTargetObj.toString())
-            memoryTodo.delete(afterTargetObj.toString())
-            initData.set(selectedCategory[0].innerText,memoryTodo)
+            memoryTodo.add(afterTargetObj.toString())
+            initData.set(selectedCategory[0].innerText, memoryTodo)
         }
+        console.log(memoryTodo)
 
         ipcRenderer.send('updateTodo', {
             category: selectedCategory[0].innerText,
             prevTodo: prevTargetObj,
             afterTodo:afterTargetObj
         });
-        target.innerText = targetInput.value
+        let tempText = targetInput.value
+        target.innerText = tempText
     })
 }
 
