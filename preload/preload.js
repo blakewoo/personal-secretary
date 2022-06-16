@@ -217,8 +217,8 @@ function modifyTodoEvent(event) {
         if(event.key === "Enter") {
             let targetId = event.currentTarget.parentNode.parentNode.querySelector('label').id
             let targetDate = Number(targetId.split("_")[1])
-            let prevTargetObj = '{"value":'+tempPrevTodo+',"date":'+targetDate+'}'
-            let afterTargetObj = '{"value":'+targetInput.value+',"date":'+targetDate+'}'
+            let prevTargetObj = '{"value":'+tempPrevTodo.toString()+',"date":'+targetDate+'}'
+            let afterTargetObj = '{"value":'+targetInput.value.toString()+',"date":'+targetDate+'}'
 
             let memoryTodo = initData.get(selectedCategory[0].innerText)
             if(memoryTodo) {
@@ -240,8 +240,8 @@ function modifyTodoEvent(event) {
     targetInput.addEventListener("focusout",function (event) {
         let targetId = event.currentTarget.parentNode.parentNode.querySelector('label').id
         let targetDate = Number(targetId.split("_")[1])
-        let prevTargetObj = '{"value":'+tempPrevTodo+',"date":'+targetDate+'}'
-        let afterTargetObj = '{"value":'+targetInput.value+',"date":'+targetDate+'}'
+        let prevTargetObj = '{"value":'+tempPrevTodo.toString()+',"date":'+targetDate+'}'
+        let afterTargetObj = '{"value":'+targetInput.value.toString()+',"date":'+targetDate+'}'
 
         let memoryTodo = initData.get(selectedCategory[0].innerText)
         if(memoryTodo) {

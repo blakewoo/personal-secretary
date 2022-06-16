@@ -314,6 +314,12 @@ app.whenReady().then(() => {
         try{
             // 메모리 변경
             let target = mainData.get(args.category)
+            args.prevTodo  =JSON.parse(args.prevTodo)
+            args.prevTodo.value = args.prevTodo.value.toString()
+
+            args.afterTodo  =JSON.parse(args.afterTodo)
+            args.afterTodo.value = args.afterTodo.value.toString()
+
             target.delete(args.prevTodo)
             target.add(args.afterTodo)
 
