@@ -193,7 +193,7 @@ app.whenReady().then(() => {
 
     // YES NO 모달 초기화
     ipcMain.on('yesNoModalInitRequest',function (event) {
-        event.sender.send('yesNoModalInit',{title:YesNoModalTitle,explain:YesNoModalExplain});
+        event.sender.send('yesNoModalInit',{title:YesNoModalTitle,explain:YesNoModalExplain,type:YesNoModalType});
     })
 
     // INPUT YES NO 모달
