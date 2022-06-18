@@ -1,6 +1,7 @@
 # personal-secretary
 This web application is designed to keep personal files, timeline and to-dos.
-Sever source codes in private repository
+Sever source codes in private repository (not yet developed)
+
 
 ## Functions   
 - Manage todo list(basically todo crud)
