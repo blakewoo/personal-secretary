@@ -6,7 +6,7 @@ Sever source codes in private repository (not yet developed)
 ## Functions   
 - Manage todo list(basically todo crud)
 - Remind your jobs (with timeline)
-- Upload files (just 프로 일잘러 grade)   
+- Upload files (just "프로 일잘러" grade - not yet developed)   
 - Manage your time  
 
 ## Tech stack
