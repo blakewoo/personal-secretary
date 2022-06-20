@@ -174,8 +174,8 @@ function addTodoDetailEvent() {
                 temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
-            console.log(initData)
-            ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:{value:add_todo.value.toString(),date:targetData}});
+
+            ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:temp});
 
             add_todo.value = ""
         }
@@ -223,14 +223,13 @@ function modifyTodoEvent(event) {
             let memoryTodo = initData.get(selectedCategory[0].innerText)
             if(memoryTodo) {
                 memoryTodo.delete(prevTargetObj.toString())
-                memoryTodo.delete(afterTargetObj.toString())
+                memoryTodo.add(afterTargetObj.toString())
                 initData.set(selectedCategory[0].innerText,memoryTodo)
             }
 
             ipcRenderer.send('updateTodo', {
                 category: selectedCategory[0].innerText,
-                prevTodo: prevTargetObj,
-                afterTodo:afterTargetObj
+                todo:memoryTodo
             });
             let tempText = targetInput.value
             target.innerText = tempText
@@ -253,8 +252,7 @@ function modifyTodoEvent(event) {
 
         ipcRenderer.send('updateTodo', {
             category: selectedCategory[0].innerText,
-            prevTodo: prevTargetObj,
-            afterTodo:afterTargetObj
+            todo:memoryTodo
         });
         let tempText = targetInput.value
         target.innerText = tempText
@@ -313,8 +311,8 @@ function deleteTodoEvent(event) {
                 memoryTodo.delete(targetObj.toString())
                 initData.set(selectedCategory[0].innerText,memoryTodo)
             }
-            console.log(initData)
-            ipcRenderer.send('deleteTodo', {category:selectedCategory[0].innerText,todo:targetObj})
+
+            ipcRenderer.send('deleteTodo', {category:selectedCategory[0].innerText,todo:memoryTodo})
 
             targetNode.remove()
     })

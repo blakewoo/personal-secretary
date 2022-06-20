@@ -287,18 +287,8 @@ app.whenReady().then(() => {
     ipcMain.on('createTodo',function (event,args) {
 
         try{
-            // 메모리 변경
-            let target = mainData.get(args.category)
-            if(target) {
-                target.add(args.todo)
-            }
-            else{
-                mainData.set(args.category,new Set([args.todo]));
-                target = new Set([args.todo])
-            }
-
             let tempStr = []
-            target.forEach((value,key,set) => {
+            args.todo.forEach((value,key,set) => {
                 tempStr.push(base64url(encrytionFiles(('{"value":'+value.value+',"date":'+new Date(value.date).getTime()+'}'),pass)))
             })
             // 하드 변경
@@ -313,18 +303,8 @@ app.whenReady().then(() => {
     ipcMain.on('updateTodo',function (event,args) {
         try{
             // 메모리 변경
-            let target = mainData.get(args.category)
-            args.prevTodo  =JSON.parse(args.prevTodo)
-            args.prevTodo.value = args.prevTodo.value.toString()
-
-            args.afterTodo  =JSON.parse(args.afterTodo)
-            args.afterTodo.value = args.afterTodo.value.toString()
-
-            target.delete(args.prevTodo)
-            target.add(args.afterTodo)
-
             let tempStr = []
-            target.forEach((value,key,set) => {
+            args.todo.forEach((value,key,set) => {
                 tempStr.push(base64url(encrytionFiles(('{"value":'+value.value+',"date":'+new Date(value.date).getTime()+'}'),pass)))
             })
 
@@ -340,22 +320,10 @@ app.whenReady().then(() => {
     ipcMain.on('deleteTodo',function (event,args) {
         try{
             // 메모리 변경
-            let target = mainData.get(args.category)
-            if(target) {
-                target.delete(args.todo)
-            }
-            else {
-                target = new Set()
-            }
-
-            mainData.set(args.category,target)
-
             let tempStr = []
-            if(target.size!==0) {
-                target.forEach((value,key,set) => {
-                    tempStr.push(base64url(encrytionFiles(('{"value":'+value.value.toString()+',"date":'+new Date(value.date).getTime()+'}'),pass)))
-                })
-            }
+            args.todo.forEach((value,key,set) => {
+                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value.toString()+',"date":'+new Date(value.date).getTime()+'}'),pass)))
+            })
 
             // 하드 변경
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
