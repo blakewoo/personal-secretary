@@ -1,5 +1,8 @@
 #for idea
 .idea/*
 
+#for package
+package-lock.json
+
 #node_module
 node_modules/*
