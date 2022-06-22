@@ -1,7 +1,7 @@
 #for idea
 .idea/*
 
-#for package
+#for package sync
 package-lock.json
 
 #node_module
