@@ -118,9 +118,12 @@ app.whenReady().then(() => {
                     indexTempFile.push(decryptionFiles(base64url.decode(indexFile[i]), pass).split(",")[1])
                 }
                 try {
+                    // 인덱스 파일 하나씩 순회
                     for (let i = 0; i < indexTempFile.length; i++) {
                         data = fs.readFileSync(filePath + indexFile[i]).toString().split(",");
+                        // 카테고리 파일이 있고, 안에 빈 내용이 아닐 경우
                         if (data.length !== 0) {
+                            // 각 카데고리 내의 Todo내용들
                             let tempDataSet = new Set()
                             for(let i=0;i<data.length ;i++) {
                                 if (data[0] !== "") {
@@ -287,9 +290,10 @@ app.whenReady().then(() => {
     ipcMain.on('createTodo',function (event,args) {
 
         try{
+            console.log(args)
             let tempStr = []
             args.todo.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value+',"date":'+new Date(value.date).getTime()+'}'),pass)))
+                tempStr.push(base64url(encrytionFiles(value,pass)))
             })
             // 하드 변경
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
@@ -305,7 +309,7 @@ app.whenReady().then(() => {
             // 메모리 변경
             let tempStr = []
             args.todo.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value+',"date":'+new Date(value.date).getTime()+'}'),pass)))
+                tempStr.push(base64url(encrytionFiles(value,pass)))
             })
 
             // 하드 변경
@@ -322,7 +326,7 @@ app.whenReady().then(() => {
             // 메모리 변경
             let tempStr = []
             args.todo.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles(('{"value":'+value.value.toString()+',"date":'+new Date(value.date).getTime()+'}'),pass)))
+                tempStr.push(base64url(encrytionFiles(value,pass)))
             })
 
             // 하드 변경

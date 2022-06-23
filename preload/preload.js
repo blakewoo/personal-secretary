@@ -289,16 +289,17 @@ function todoCheck(event) {
 }
 
 function deleteTodoEvent(event) {
+    let currentTargetNode= event.currentTarget
     ipcRenderer.send('yesNoModal', {
         title: "삭제 확인",
         explain: "정말로 삭제하시겠습니까?"
     });
 
-    ipcRenderer.on("yesNoModalResDeleteYes",function (event, args) {
+    ipcRenderer.on("yesNoModalResDeleteYes",function (event2, args) {
             let selectedCategory = document.getElementsByClassName("selected_category")
-            let targetNode = event.currentTarget.parentNode
+            let targetNode = currentTargetNode.parentNode
             let todoValue = targetNode.querySelector(".category_detail").innerText
-            let targetId = event.currentTarget.parentNode.querySelector('label').id
+            let targetId = currentTargetNode.parentNode.querySelector('label').id
             let targetDate = Number(targetId.split("_")[1])
             let targetObj = '{"value":'+todoValue.toString()+',"date":'+targetDate+'}'
 
