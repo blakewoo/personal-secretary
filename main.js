@@ -437,7 +437,7 @@ function isLogin(id,pass) {
     let data = {}
     try{
         data = fs.readFileSync('./loginData.dat')
-        return data.toString() === createHashedPassword(id + pass).toString();
+        return data.toString() === createHashedPassword(id +","+ pass).toString();
     }
     catch(e) {
         return false
@@ -447,7 +447,7 @@ function isLogin(id,pass) {
 function insertID(id,pass) {
     let data = ""
     try{
-        data = createHashedPassword(id+pass)
+        data = createHashedPassword(id+","+pass)
         fs.writeFileSync('./loginData.dat',data.toString())
         return true
     }
