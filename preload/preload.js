@@ -248,7 +248,6 @@ function modifyTodoEvent(event) {
             memoryTodo.add(afterTargetObj.toString())
             initData.set(selectedCategory[0].innerText, memoryTodo)
         }
-        console.log(memoryTodo)
 
         ipcRenderer.send('updateTodo', {
             category: selectedCategory[0].innerText,
