@@ -162,7 +162,6 @@ app.whenReady().then(() => {
             fs.writeFileSync(filePath+base64url(userIndex)+"_index","")
             indexFile = new Set()
         }
-        console.log(mainData)
         indexFile= new Set(indexFile)
         event.sender.send("sendInitData",{all:mainData,checked:checkTodoMap})
     })

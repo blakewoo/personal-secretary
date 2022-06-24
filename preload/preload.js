@@ -61,7 +61,7 @@ window.addEventListener('DOMContentLoaded', () => {
         else{
             checkedList = new Map()
         }
-        console.log(initData)
+
         if(initData) {
             // init data
             initTodoCategory(categoryList)
@@ -164,13 +164,13 @@ function addTodoDetailEvent() {
 
             let temp = initData.get(selectedCategory[0].innerText)
             if(temp) {
-                let tempObject = '{"value":'+add_todo.value.toString()+',"date":'+targetData+'}'
+                let tempObject = '{"value":"'+add_todo.value.toString()+'","date":"'+targetData+'"}'
                 temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
             else {
                 temp = new Set()
-                let tempObject = '{"value":'+add_todo.value.toString()+',"date":'+targetData+'}'
+                let tempObject = '{"value":"'+add_todo.value.toString()+'","date":"'+targetData+'"}'
                 temp.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
@@ -217,8 +217,8 @@ function modifyTodoEvent(event) {
         if(event.key === "Enter") {
             let targetId = event.currentTarget.parentNode.parentNode.querySelector('label').id
             let targetDate = Number(targetId.split("_")[1])
-            let prevTargetObj = '{"value":'+tempPrevTodo.toString()+',"date":'+targetDate+'}'
-            let afterTargetObj = '{"value":'+targetInput.value.toString()+',"date":'+targetDate+'}'
+            let prevTargetObj = '{"value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
+            let afterTargetObj = '{"value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
 
             let memoryTodo = initData.get(selectedCategory[0].innerText)
             if(memoryTodo) {
@@ -239,8 +239,8 @@ function modifyTodoEvent(event) {
     targetInput.addEventListener("focusout",function (event) {
         let targetId = event.currentTarget.parentNode.parentNode.querySelector('label').id
         let targetDate = Number(targetId.split("_")[1])
-        let prevTargetObj = '{"value":'+tempPrevTodo.toString()+',"date":'+targetDate+'}'
-        let afterTargetObj = '{"value":'+targetInput.value.toString()+',"date":'+targetDate+'}'
+        let prevTargetObj = '{"value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
+        let afterTargetObj = '{"value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
 
         let memoryTodo = initData.get(selectedCategory[0].innerText)
         if(memoryTodo) {
@@ -300,7 +300,7 @@ function deleteTodoEvent(event) {
             let todoValue = targetNode.querySelector(".category_detail").innerText
             let targetId = currentTargetNode.parentNode.querySelector('label').id
             let targetDate = Number(targetId.split("_")[1])
-            let targetObj = '{"value":'+todoValue.toString()+',"date":'+targetDate+'}'
+            let targetObj = '{"value":"'+todoValue.toString()+'","date":"'+targetDate+'"}'
 
             if(checkedList.has(targetId)) {
                 checkedList.delete(targetId)
