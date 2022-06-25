@@ -264,6 +264,7 @@ body{
 
 .delete_detail:hover{
     font-weight: bold;
+    cursor:pointer;
 }
 
 .todoModifyInput{
