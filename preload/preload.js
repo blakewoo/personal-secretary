@@ -209,10 +209,11 @@ function modifyTodoEvent(event) {
     let target = event.currentTarget
     let selectedCategory = document.getElementsByClassName("selected_category")
     let tempPrevTodo =  target.innerText
-    target.innerHTML = "<input type='text' class='todoModifyInput' value='"+tempPrevTodo+"'/>"
+    target.innerHTML = "<input type='text' class='todoModifyInput' />"
 
     let targetInput = target.querySelector("input")
     targetInput.focus()
+    targetInput.value = tempPrevTodo
     targetInput.addEventListener("keyup",function (event) {
         if(event.key === "Enter") {
             let targetId = event.currentTarget.parentNode.parentNode.querySelector('label').id
