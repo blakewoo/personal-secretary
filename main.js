@@ -32,8 +32,6 @@ app.whenReady().then(() => {
     let YesNoModalExplain = ""
     let YesNoModalType = ""
 
-    yesNoModalWindow = initYesNoModal()
-    inputYesNoModalWindow = initInputYesNoModal()
 
     ipcMain.on('findIdButtonEvent', (event,arg) => {
 
@@ -54,6 +52,8 @@ app.whenReady().then(() => {
             if(isLogin(id,pass)) {
                 loginWindow.close()
                 mainWindow = mainFunction.createWindow(pass)
+                yesNoModalWindow = initYesNoModal()
+                inputYesNoModalWindow = initInputYesNoModal()
                 mainWindow.on("close", function (event) {
                     inputYesNoModalWindow.close()
                     yesNoModalWindow.close()
@@ -368,6 +368,8 @@ app.whenReady().then(() => {
 
     function initYesNoModal() {
         return new BrowserWindow({
+            parent:mainWindow,
+            modal:true,
             show:false,
             resizable:false,
             minimizable:false,
@@ -377,7 +379,6 @@ app.whenReady().then(() => {
             width: 300,
             height: 110,
             autoHideMenuBar: true,
-            modal:true,
             webPreferences: {
                 nodeIntegration: true, contextIsolation: false,
                 preload: path.join(__dirname, './preload/yesNoModalPreload.js')
@@ -387,6 +388,8 @@ app.whenReady().then(() => {
 
     function initInputYesNoModal() {
         return new BrowserWindow({
+            parent:mainWindow,
+            modal:true,
             show:false,
             resizable:false,
             minimizable:false,
@@ -396,8 +399,6 @@ app.whenReady().then(() => {
             width: 300,
             height: 130,
             autoHideMenuBar: true,
-            // parent:parentWindow,
-            modal:true,
             webPreferences: {
                 nodeIntegration: true, contextIsolation: false,
                 preload: path.join(__dirname, './preload/inputYesNoModalPreload.js')
