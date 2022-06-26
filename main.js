@@ -255,9 +255,9 @@ app.whenReady().then(() => {
             indexFile.add(base64url(encrytionFiles(id+","+args.nextCategory,pass)))
 
             // 하드에서 변경
-            fs.writeFileSync(filePath+base64url(userIndex)+"_index",Array(indexFile).toString())
+            fs.writeFileSync(filePath+base64url(userIndex)+"_index",Array.from(indexFile).toString())
             let prev = fs.readFileSync(filePath+base64url(encrytionFiles(id+","+args.prevCategory,pass)))
-            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.nextCategory,pass)),prev.toString())
+            fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.nextCategory,pass)),prev)
             fs.unlink(filePath+base64url(encrytionFiles(id+","+args.prevCategory,pass)),function (error){
                 if(error) {
                     console.log(error)
@@ -280,7 +280,7 @@ app.whenReady().then(() => {
             if(error) {
                 console.log(error)
             }
-            fs.writeFileSync(filePath+base64url(userIndex)+"_index",Array(indexFile).toString())
+            fs.writeFileSync(filePath+base64url(userIndex)+"_index",Array.from(indexFile).toString())
         })
 
     })
