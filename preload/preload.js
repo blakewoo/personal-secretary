@@ -152,14 +152,15 @@ function addTodoDetailEvent() {
 
             let categoryContainer = document.getElementsByClassName("todo_detail_top")[0]
             let targetData = new Date().getTime()
-            categoryContainer.innerHTML += "<div class='todo_detail_row'>" +
-                "<label class=\"checkbox\" id="+selectedCategory[0].innerText+"_"+targetData+">\n" +
+            let tempHtml = document.createElement("div")
+            tempHtml.classList.add("todo_detail_row")
+            tempHtml.innerHTML = "<label class=\"checkbox\" id="+selectedCategory[0].innerText+"_"+targetData+">\n" +
                 "   <input type=\"checkbox\">\n" +
                 "   <span class=\"checkbox_icon\"></span></label>\n" +
                 "   <span class=\"checkbox_text category_detail\">"+add_todo.value+"</span>" +
                 "<span class='delete_detail'>X</span>"+
-                "   <span class=\"checkbox_text detail_date\">"+new Date(+targetData + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
-                "</div>"
+                "   <span class=\"checkbox_text detail_date\">"+new Date(+targetData + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>"
+            categoryContainer.appendChild(tempHtml)
             todoDetailEventBinder()
 
             let temp = initData.get(selectedCategory[0].innerText)
