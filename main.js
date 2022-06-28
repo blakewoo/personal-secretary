@@ -289,7 +289,6 @@ app.whenReady().then(() => {
     ipcMain.on('createTodo',function (event,args) {
 
         try{
-            console.log(args)
             let tempStr = []
             args.todo.forEach((value,key,set) => {
                 tempStr.push(base64url(encrytionFiles(value,pass)))
