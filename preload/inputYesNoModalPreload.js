@@ -52,6 +52,9 @@ window.addEventListener('DOMContentLoaded', () => {
         if (event.keyCode === 13) {
             document.getElementById("yesButton").click()
         }
+        else if(event.keyCode === 27) {
+            document.getElementById("noButton").click()
+        }
     }
 })
 
