@@ -117,7 +117,7 @@ function initTodoDetail(categoryName){
                 str +=    "   <input type=\"checkbox\">\n"
             }
             str +=    "   <span class=\"checkbox_icon\"></span></label>\n" +
-                "   <span class=\"checkbox_text category_detail\">"+data[i].value+"</span>"+
+                "   <span class=\"checkbox_text category_detail\"><label class='todo_value'>"+data[i].value+"</label><input type='text' style='display: none' class='todoModifyInput' /></span>"+
                 "<span class='delete_detail'>X</span>"+
                 "   <span class=\"checkbox_text detail_date\">"+new Date(+data[i].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
@@ -157,7 +157,7 @@ function addTodoDetailEvent() {
             tempHtml.innerHTML = "<label class=\"checkbox\" id="+selectedCategory[0].innerText+"_"+targetData+">\n" +
                 "   <input type=\"checkbox\">\n" +
                 "   <span class=\"checkbox_icon\"></span></label>\n" +
-                "   <span class=\"checkbox_text category_detail\">"+add_todo.value+"</span>" +
+                "   <span class=\"checkbox_text category_detail\"><label class='todo_value'>"+add_todo.value+"</label><input type='text' style='display: none' class='todoModifyInput' /></span>" +
                 "<span class='delete_detail'>X</span>"+
                 "   <span class=\"checkbox_text detail_date\">"+new Date(+targetData + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>"
             categoryContainer.appendChild(tempHtml)
@@ -209,10 +209,11 @@ function todoDetailEventBinder(){
 function modifyTodoEvent(event) {
     let target = event.currentTarget
     let selectedCategory = document.getElementsByClassName("selected_category")
-    let tempPrevTodo =  target.innerText
-    target.innerHTML = "<input type='text' class='todoModifyInput' />"
+    let tempPrevTodo =  target.querySelector(".todo_value").innerText
+    target.querySelector(".todo_value").style.display = "none"
 
     let targetInput = target.querySelector("input")
+    targetInput.style.display = "inline-block"
     targetInput.focus()
     targetInput.value = tempPrevTodo
     targetInput.addEventListener("keyup",function (event) {
@@ -221,6 +222,7 @@ function modifyTodoEvent(event) {
             let targetDate = Number(targetId.split("_")[1])
             let prevTargetObj = '{"value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
             let afterTargetObj = '{"value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
+
 
             let memoryTodo = initData.get(selectedCategory[0].innerText)
             if(memoryTodo) {
@@ -234,7 +236,9 @@ function modifyTodoEvent(event) {
                 todo:memoryTodo
             });
             let tempText = targetInput.value
-            target.innerText = tempText
+            targetInput.style.display = "none"
+            target.querySelector(".todo_value").innerText = tempText
+            target.querySelector(".todo_value").style.display = "inline-block"
         }
     })
 
@@ -256,7 +260,9 @@ function modifyTodoEvent(event) {
             todo:memoryTodo
         });
         let tempText = targetInput.value
-        target.innerText = tempText
+        targetInput.style.display = "none"
+        target.querySelector(".todo_value").innerText = tempText
+        target.querySelector(".todo_value").style.display = "inline-block"
     })
 }
 
