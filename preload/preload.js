@@ -119,7 +119,7 @@ function initTodoDetail(categoryName){
             str +=    "   <span class=\"checkbox_icon\"></span></label>\n" +
                 "   <span class=\"checkbox_text category_detail\"><label class='todo_value'>"+data[i].value+"</label><input type='text' style='display: none' class='todoModifyInput' /></span>"+
                 "<span class='delete_detail'>X</span>"+
-                "   <span class=\"checkbox_text detail_date\">"+new Date(+data[i].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
+                "   <span class=\"detail_date\">"+new Date(+data[i].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
         }
 
