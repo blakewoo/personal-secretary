@@ -45,14 +45,29 @@
     <input type="button" class="public_button mainframe_button" id="close_button" value="X"/>
 </span>
 <span class="left_container">
-    <div class="category_button_container">
-        <input type="button" class="public_button" id="add_category" value="추가">
-        <input type="button" class="public_button" id="modify_category" value="수정">
-        <input type="button" class="public_button" id="delete_category" value="삭제">
+    <div class="timeline_category_container">
+        <label class="timeline_category_title"> * 타임라인</label>
     </div>
-    <div class="todo_category">
+    <div class="fileUpload_category_container">
+        <label class="fileUpload_category_title"> * 파일 현황</label>
+    </div>
 
+     <div class="todo_category_container">
+         <div class="todo_category_title_container">
+             <label class="todo_category_title"> * Todo 카테고리들</label>
+             <div class="category_button_container">
+                 <img class="category_button" id="add_category" src="../image/add_category_button.png">
+                 <img class="category_button" id="modify_category" src="../image/modify_category_button.png">
+                 <img class="category_button" id="delete_category" src="../image/delete_category_button.png">
+             </div>
+         </div>
+         <!-- id만 유지되면 됨 : add_category,modify_category,delete_category -->
+
+         <div class="todo_category">
+
+        </div>
     </div>
+
 </span>
 <span class="right_container">
     <div class="todo_detail"><img /><label> 세부 내용 </label>
