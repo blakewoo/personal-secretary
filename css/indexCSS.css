@@ -212,6 +212,29 @@ body{
     width: 99%;
 }
 
+.timeline_detail{
+    height: 100%;
+}
+
+.timeline_detail_top{
+    overflow: auto;
+    height: 93%;
+    width: 100%;
+    background-color:#ffffff;
+}
+
+.file_detail{
+    height: 100%;
+}
+
+.file_detail_top{
+    overflow: auto;
+    height: 93%;
+    width: 100%;
+    background-color:#ffffff;
+}
+
+
 .checkbox input {
    display: none;
 }

@@ -30,6 +30,22 @@ window.addEventListener('DOMContentLoaded', () => {
         ipcRenderer.send('mainFrameButtonEvent',{value:"size",size:sizeFlag});
     }
 
+    document.getElementById("timeline_button").addEventListener('click',timeLineSwitchingEvent)
+    function timeLineSwitchingEvent (event) {
+        let str = "    <div class=\"timeline_detail\"><img /><label> 타임 라인 </label>\n" +
+            "    <div class=\"timeline_detail_top container\">\n" +
+            "    </div>"
+        document.getElementsByClassName("right_container")[0].innerHTML = str
+    }
+
+    document.getElementById("file_dashboard_button").addEventListener('click',fileDashboardSwitchingEvent)
+    function fileDashboardSwitchingEvent(event) {
+        let str = "    <div class=\"file_detail\"><img /><label> 파일 현황 </label>\n" +
+            "    <div class=\"file_detail_top container\">\n" +
+            "    </div>"
+        document.getElementsByClassName("right_container")[0].innerHTML = str
+    }
+
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) =>{
         let categoryList = []
@@ -413,6 +429,19 @@ function addCategoryEvent() {
         }
 
         event.currentTarget.classList.add("selected_category")
+        todolistSwitchingEvent()
         initTodoDetail(event.currentTarget.innerText)
+    }
+
+    function todolistSwitchingEvent() {
+        document.getElementsByClassName("right_container")[0].innerHTML =
+            "<div class=\"todo_detail\"><img /><label> 세부 내용 </label>\n" +
+            "    <div class=\"todo_detail_top container\">\n" +
+            "\n" +
+            "    </div>\n" +
+            "    <div class=\"todo_detail_bottom\">\n" +
+            "        <input type=\"text\" id=\"input_todo_detail\" class=\"todo_detail_text\">\n" +
+            "    </div>\n" +
+            "    </div>"
     }
 }
