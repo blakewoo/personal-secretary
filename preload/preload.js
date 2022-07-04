@@ -32,18 +32,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("timeline_button").addEventListener('click',timeLineSwitchingEvent)
     function timeLineSwitchingEvent (event) {
-        let str = "    <div class=\"timeline_detail\"><img /><label> 타임 라인 </label>\n" +
-            "    <div class=\"timeline_detail_top container\">\n" +
-            "    </div>"
-        document.getElementsByClassName("right_container")[0].innerHTML = str
+        timeLineInitial()
     }
 
     document.getElementById("file_dashboard_button").addEventListener('click',fileDashboardSwitchingEvent)
     function fileDashboardSwitchingEvent(event) {
-        let str = "    <div class=\"file_detail\"><img /><label> 파일 현황 </label>\n" +
-            "    <div class=\"file_detail_top container\">\n" +
-            "    </div>"
-        document.getElementsByClassName("right_container")[0].innerHTML = str
+        fileDashboardInitial()
     }
 
     ipcRenderer.send('mainPageInitData',{value:true});
@@ -94,6 +88,40 @@ window.addEventListener('DOMContentLoaded', () => {
         addTodoDetailEvent()
     })
 })
+
+
+// 타임라인 기능
+function timeLineInitial() {
+    let testData = [
+            {category:"1",value:"2",date:""},
+            {category:"1",value:"3",date:""}
+        ]
+
+    let tempTimeLine = ""
+    for(let dataIndex=0;dataIndex<testData.length;dataIndex++) {
+        tempTimeLine += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+testData[dataIndex].category+"_"+testData[dataIndex].date+">\n"+
+            "   <input type=\"checkbox\">\n"+
+            "   <span class=\"checkbox_icon\"></span></label>\n" +
+            "   <span class=\"checkbox_text category_detail\"><label class='todo_value'>"+testData[dataIndex].value+"</label><input type='text' style='display: none' class='todoModifyInput' /></span>"+
+            "<span class='delete_detail'>X</span>"+
+            // "   <span class=\"detail_date\">"+new Date(+testData[dataIndex].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
+            "</div>"
+    }
+
+    let str = "    <div class=\"timeline_detail\"><img /><label> 타임 라인 </label>\n" +
+        "    <div class=\"timeline_detail_top container\">\n" +tempTimeLine +
+        "    </div>"
+    document.getElementsByClassName("right_container")[0].innerHTML = str
+}
+
+
+// 파일 현황 기능
+function fileDashboardInitial() {
+    let str = "    <div class=\"file_detail\"><img /><label> 파일 현황 </label>\n" +
+        "    <div class=\"file_detail_top container\">\n" +
+        "    </div>"
+    document.getElementsByClassName("right_container")[0].innerHTML = str
+}
 
 function initTodoCategory(categoryList) {
     let categoryContainer = document.getElementsByClassName("todo_category")[0]
