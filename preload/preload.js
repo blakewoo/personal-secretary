@@ -149,6 +149,7 @@ function initTodoDetail(categoryName){
             });
         }
 
+
         let str = ""
 
         for (let i =0;i<data.length;i++) {
@@ -175,7 +176,7 @@ function initTodoDetail(categoryName){
         }
 
     }
-
+    addTodoDetailEvent()
     todoDetailEventBinder()
 }
 
