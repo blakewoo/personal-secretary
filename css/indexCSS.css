@@ -345,3 +345,31 @@ body{
     padding-top: 10px;
 }
 
+/* 타임라인 관련 css*/
+.timeline_category_detail {
+    display: inline-block;
+    font-weight: bold;
+    font-size: large;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid 2px #222222;
+    background-color: transparent;
+    width: calc(98% - 80px);
+}
+
+.timeline_complete{
+    border: 1px #02ef1a solid;
+    border-radius: 30px;
+    margin-left: 10px;
+    color: #02ef1a;
+}
+.timeline_incomplete{
+    border: 1px #ff0000 solid;
+    border-radius: 30px;
+    margin-left: 10px;
+    color: #ff0000;
+}
+

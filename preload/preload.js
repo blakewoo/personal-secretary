@@ -92,19 +92,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // 타임라인 기능
 function timeLineInitial() {
-    let testData = [
-            {category:"1",value:"2",date:""},
-            {category:"1",value:"3",date:""}
+    let Data = [
+            {category:"1",value:"2",date:"1657018750224"},
+            {category:"1",value:"3",date:"1657018750224"}
         ]
 
     let tempTimeLine = ""
-    for(let dataIndex=0;dataIndex<testData.length;dataIndex++) {
-        tempTimeLine += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+testData[dataIndex].category+"_"+testData[dataIndex].date+">\n"+
-            "   <input type=\"checkbox\">\n"+
-            "   <span class=\"checkbox_icon\"></span></label>\n" +
-            "   <span class=\"checkbox_text category_detail\"><label class='todo_value'>"+testData[dataIndex].value+"</label><input type='text' style='display: none' class='todoModifyInput' /></span>"+
-            "<span class='delete_detail'>X</span>"+
-            // "   <span class=\"detail_date\">"+new Date(+testData[dataIndex].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
+    for(let dataIndex=0;dataIndex<Data.length;dataIndex++) {
+        tempTimeLine += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+Data[dataIndex].category+"_"+Data[dataIndex].date+">\n"
+        let tempCheckList = checkedList.get(Data[dataIndex].category)
+        if(tempCheckList && tempCheckList.has(Data[dataIndex].category+"_"+Data[i].date)){
+            tempTimeLine +=    "<span class='timeline_complete'> 완료 </span>"
+        }
+        else{
+            tempTimeLine +=    "<span class='timeline_incomplete'> 미완료 </span>"
+        }
+        tempTimeLine += "   <span class=\"checkbox_text timeline_category_detail\"><label class='todo_value'>"+Data[dataIndex].value+"</label><input type='text' style='display: none' class='todoModifyInput' /></span>"+
+            "   <span class=\"detail_date\">"+new Date(+Data[dataIndex].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
             "</div>"
     }
 
@@ -153,6 +157,7 @@ function initTodoDetail(categoryName){
         let str = ""
 
         for (let i =0;i<data.length;i++) {
+            console.log(data[i].date)
             str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+targetIndex+"_"+data[i].date+">\n"
             let tempCheckList = checkedList.get(targetIndex)
             if(tempCheckList && tempCheckList.has(targetIndex+"_"+data[i].date)){
