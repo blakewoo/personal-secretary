@@ -101,15 +101,23 @@ function timeLineInitial() {
     for(let dataIndex=0;dataIndex<Data.length;dataIndex++) {
         tempTimeLine += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+Data[dataIndex].category+"_"+Data[dataIndex].date+">\n"
         let tempCheckList = checkedList.get(Data[dataIndex].category)
-        if(tempCheckList && tempCheckList.has(Data[dataIndex].category+"_"+Data[i].date)){
+        if(tempCheckList && tempCheckList.has(Data[dataIndex].category+"_"+Data[dataIndex].date)){
             tempTimeLine +=    "<span class='timeline_complete'> 완료 </span>"
         }
         else{
             tempTimeLine +=    "<span class='timeline_incomplete'> 미완료 </span>"
         }
-        tempTimeLine += "   <span class=\"checkbox_text timeline_category_detail\"><label class='todo_value'>"+Data[dataIndex].value+"</label><input type='text' style='display: none' class='todoModifyInput' /></span>"+
-            "   <span class=\"detail_date\">"+new Date(+Data[dataIndex].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
-            "</div>"
+        tempTimeLine += "   <span class=\"checkbox_text timeline_category_detail\"><label class='todo_value'>"+Data[dataIndex].value+"</label><input type='text' style='display: none' class='todoModifyInput' /></span>"
+
+        if(tempCheckList && tempCheckList.has(Data[dataIndex].category+"_"+Data[dataIndex].date)){
+            tempTimeLine +=    "   <span class=\"detail_date\">"+"생성 : "+new Date(+Data[dataIndex].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"  완료 : "+new Date(+Data[dataIndex].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
+                "</div>"
+        }
+        else{
+            tempTimeLine +=    "   <span class=\"detail_date\">"+"생성 : "+new Date(+Data[dataIndex].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
+                "</div>"
+        }
+
     }
 
     let str = "    <div class=\"timeline_detail\"><img /><label> 타임 라인 </label>\n" +
