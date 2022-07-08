@@ -17,6 +17,7 @@ let id
 let pass
 let userIndex
 let indexFile
+let timeLine
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
@@ -108,6 +109,14 @@ app.whenReady().then(() => {
         let tempCheckedDataSet = new Set()
         indexFile = [];
         userIndex = createHashedPassword(id+pass)
+        timeLine = []
+
+        try{
+            timeLine = fs.readFileSync(filePath + base64url(userIndex) + "_timeline").toString().split(",")
+        }
+        catch(e) {
+            fs.writeFileSync(filePath+base64url(userIndex)+"_timeline","")
+        }
 
         try {
             //index file

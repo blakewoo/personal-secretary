@@ -97,6 +97,11 @@ function timeLineInitial() {
             {category:"1",value:"3",date:"1657018750224"}
         ]
 
+    let category = document.getElementsByClassName("category_label")
+    for (let i = 0; i < category.length; i++) {
+        category[i].classList.remove("selected_category")
+    }
+
     let tempTimeLine = ""
     for(let dataIndex=0;dataIndex<Data.length;dataIndex++) {
         tempTimeLine += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+Data[dataIndex].category+"_"+Data[dataIndex].date+">\n"
