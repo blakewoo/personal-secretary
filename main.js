@@ -106,13 +106,19 @@ app.whenReady().then(() => {
         let data={}
         let checkedData = {}
         let indexTempFile = []
+        let timeLineTemp = []
         let tempCheckedDataSet = new Set()
         indexFile = [];
         userIndex = createHashedPassword(id+pass)
-        timeLine = []
+        timeLine= []
 
         try{
-            timeLine = fs.readFileSync(filePath + base64url(userIndex) + "_timeline").toString().split(",")
+            timeLineTemp = fs.readFileSync(filePath + base64url(userIndex) + "_timeline").toString().split(",")
+            if(timeLineTemp[0] !== "") {
+                for(let i=0;i<timeLineTemp;i++) {
+                    timeLine.push(decryptionFiles(base64url.decode(timeLineTemp[i]), pass).split(",")[1])
+                }
+            }
         }
         catch(e) {
             fs.writeFileSync(filePath+base64url(userIndex)+"_timeline","")
@@ -172,7 +178,7 @@ app.whenReady().then(() => {
             indexFile = new Set()
         }
         indexFile= new Set(indexFile)
-        event.sender.send("sendInitData",{all:mainData,checked:checkTodoMap})
+        event.sender.send("sendInitData",{all:mainData,checked:checkTodoMap,timeLine:timeLine})
     })
 
     // YES NO 모달

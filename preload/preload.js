@@ -1,6 +1,7 @@
 const {ipcRenderer} = require('electron')
 let checkedList = new Map();
 let initData = {}
+let timeLine = {}
 let sizeFlag = "small"
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -43,6 +44,7 @@ window.addEventListener('DOMContentLoaded', () => {
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) =>{
         let categoryList = []
+        
         if (arg.all) {
             initData = new Map(arg.all)
             let temp = initData.keys()
