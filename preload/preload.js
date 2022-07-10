@@ -44,7 +44,11 @@ window.addEventListener('DOMContentLoaded', () => {
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) =>{
         let categoryList = []
-        
+
+        if(arg.timeLine) {
+            timeLine = new Set(arg.timeLine)
+        }
+
         if (arg.all) {
             initData = new Map(arg.all)
             let temp = initData.keys()
@@ -241,7 +245,7 @@ function addTodoDetailEvent() {
                 initData.set(selectedCategory[0].innerText,temp)
             }
 
-            ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:temp});
+            ipcRenderer.send('createTodo',{category:selectedCategory[0].innerText,todo:temp,timeLine:timeLine});
 
             add_todo.value = ""
         }
@@ -298,7 +302,8 @@ function modifyTodoEvent(event) {
 
             ipcRenderer.send('updateTodo', {
                 category: selectedCategory[0].innerText,
-                todo:memoryTodo
+                todo:memoryTodo,
+                timeLine:timeLine
             });
             let tempText = targetInput.value
             targetInput.style.display = "none"
@@ -322,7 +327,8 @@ function modifyTodoEvent(event) {
 
         ipcRenderer.send('updateTodo', {
             category: selectedCategory[0].innerText,
-            todo:memoryTodo
+            todo:memoryTodo,
+            timeLine:timeLine
         });
         let tempText = targetInput.value
         targetInput.style.display = "none"
@@ -385,7 +391,7 @@ function deleteTodoEvent(event) {
                 initData.set(selectedCategory[0].innerText,memoryTodo)
             }
 
-            ipcRenderer.send('deleteTodo', {category:selectedCategory[0].innerText,todo:memoryTodo})
+            ipcRenderer.send('deleteTodo', {category:selectedCategory[0].innerText,todo:memoryTodo,timeLine:timeLine})
 
             targetNode.remove()
     })
