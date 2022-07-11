@@ -98,10 +98,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // 타임라인 기능
 function timeLineInitial() {
-    let Data = [
-            {category:"1",value:"2",date:"1657018750224"},
-            {category:"1",value:"3",date:"1657018750224"}
-        ]
+    // test code
+    // timeLine = new Set([
+    //              {category:"1",value:"2",date:"1652018750224"},
+    //             {category:"1",value:"3",date:"1657048750225"},
+    //     {category:"1",value:"5",date:"1657018750300"},
+    //     {category:"1",value:"2",date:"1657018850222"}
+    //          ])
+
+    let Data = []
+
+    Data = Array.from(timeLine).sort((a,b)=>{return Number(a.date - b.date)})
 
     let category = document.getElementsByClassName("category_label")
     for (let i = 0; i < category.length; i++) {
@@ -236,12 +243,14 @@ function addTodoDetailEvent() {
             if(temp) {
                 let tempObject = '{"value":"'+add_todo.value.toString()+'","date":"'+targetData+'"}'
                 temp.add(tempObject)
+                timeLine.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
             else {
                 temp = new Set()
                 let tempObject = '{"value":"'+add_todo.value.toString()+'","date":"'+targetData+'"}'
                 temp.add(tempObject)
+                timeLine.add(tempObject)
                 initData.set(selectedCategory[0].innerText,temp)
             }
 
@@ -297,6 +306,9 @@ function modifyTodoEvent(event) {
             if(memoryTodo) {
                 memoryTodo.delete(prevTargetObj.toString())
                 memoryTodo.add(afterTargetObj.toString())
+
+                timeLine.delete(prevTargetObj.toString())
+                timeLine.add(afterTargetObj.toString())
                 initData.set(selectedCategory[0].innerText,memoryTodo)
             }
 
@@ -322,6 +334,9 @@ function modifyTodoEvent(event) {
         if(memoryTodo) {
             memoryTodo.delete(prevTargetObj.toString())
             memoryTodo.add(afterTargetObj.toString())
+
+            timeLine.delete(prevTargetObj.toString())
+            timeLine.add(afterTargetObj.toString())
             initData.set(selectedCategory[0].innerText, memoryTodo)
         }
 
@@ -388,6 +403,7 @@ function deleteTodoEvent(event) {
             let memoryTodo = initData.get(selectedCategory[0].innerText)
             if(memoryTodo) {
                 memoryTodo.delete(targetObj.toString())
+                timeLine.delete(targetObj.toString())
                 initData.set(selectedCategory[0].innerText,memoryTodo)
             }
 
