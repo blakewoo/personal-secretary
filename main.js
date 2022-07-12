@@ -308,8 +308,14 @@ app.whenReady().then(() => {
             args.todo.forEach((value,key,set) => {
                 tempStr.push(base64url(encrytionFiles(value,pass)))
             })
+
+            let tempTimeline = []
+            args.timeLine.forEach((value,key,set) => {
+                tempTimeline.push(base64url(encrytionFiles(value,pass)))
+            })
             // 하드 변경
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
+            fs.writeFileSync(filePath+base64url(userIndex)+"_timeline",tempTimeline.toString())
         }
         catch(e) {
             console.log(e)
@@ -325,8 +331,14 @@ app.whenReady().then(() => {
                 tempStr.push(base64url(encrytionFiles(value,pass)))
             })
 
+            let tempTimeline = []
+            args.timeLine.forEach((value,key,set) => {
+                tempTimeline.push(base64url(encrytionFiles(value,pass)))
+            })
+
             // 하드 변경
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
+            fs.writeFileSync(filePath+base64url(userIndex)+"_timeline",tempTimeline.toString())
         }
         catch(e){
             console.log(e)
@@ -342,8 +354,14 @@ app.whenReady().then(() => {
                 tempStr.push(base64url(encrytionFiles(value,pass)))
             })
 
+            let tempTimeline = []
+            args.timeLine.forEach((value,key,set) => {
+                tempTimeline.push(base64url(encrytionFiles(value,pass)))
+            })
+
             // 하드 변경
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
+            fs.writeFileSync(filePath+base64url(userIndex)+"_timeline",tempTimeline.toString())
         }
         catch(e) {
             console.log(e)

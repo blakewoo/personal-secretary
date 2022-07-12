@@ -117,22 +117,23 @@ function timeLineInitial() {
 
     let tempTimeLine = ""
     for(let dataIndex=0;dataIndex<Data.length;dataIndex++) {
-        tempTimeLine += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+Data[dataIndex].category+"_"+Data[dataIndex].date+">\n"
-        let tempCheckList = checkedList.get(Data[dataIndex].category)
-        if(tempCheckList && tempCheckList.has(Data[dataIndex].category+"_"+Data[dataIndex].date)){
+        let targetTimelineObj = JSON.parse(Data[dataIndex])
+        tempTimeLine += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+targetTimelineObj.category+"_"+targetTimelineObj.date+">\n"
+        let tempCheckList = checkedList.get(targetTimelineObj.category)
+        if(tempCheckList && tempCheckList.has(targetTimelineObj.category+"_"+targetTimelineObj.date)){
             tempTimeLine +=    "<span class='timeline_complete'> 완료 </span>"
         }
         else{
             tempTimeLine +=    "<span class='timeline_incomplete'> 미완료 </span>"
         }
-        tempTimeLine += "   <span class=\"checkbox_text timeline_category_detail\"><label class='todo_value'>"+Data[dataIndex].value+"</label><input type='text' style='display: none' class='todoModifyInput' /></span>"
+        tempTimeLine += "   <span class=\"checkbox_text timeline_category_detail\"><label class='todo_value'>"+targetTimelineObj.value+"</label><input type='text' style='display: none' class='todoModifyInput' /></span>"
 
-        if(tempCheckList && tempCheckList.has(Data[dataIndex].category+"_"+Data[dataIndex].date)){
-            tempTimeLine +=    "   <span class=\"detail_date\">"+"생성 : "+new Date(+Data[dataIndex].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"  완료 : "+new Date(+Data[dataIndex].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
+        if(tempCheckList && tempCheckList.has(targetTimelineObj.category+"_"+targetTimelineObj.date)){
+            tempTimeLine +=    "   <span class=\"detail_date\">"+"생성 : "+new Date(+tempCheckList.get(targetTimelineObj.category+"_"+targetTimelineObj.date) + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"  완료 : "+new Date(+targetTimelineObj.date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
         }
         else{
-            tempTimeLine +=    "   <span class=\"detail_date\">"+"생성 : "+new Date(+Data[dataIndex].date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
+            tempTimeLine +=    "   <span class=\"detail_date\">"+"생성 : "+new Date(+targetTimelineObj.date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
         }
 
@@ -183,7 +184,6 @@ function initTodoDetail(categoryName){
         let str = ""
 
         for (let i =0;i<data.length;i++) {
-            console.log(data[i].date)
             str += "<div class='todo_detail_row'>" +"<label class=\"checkbox\" id="+targetIndex+"_"+data[i].date+">\n"
             let tempCheckList = checkedList.get(targetIndex)
             if(tempCheckList && tempCheckList.has(targetIndex+"_"+data[i].date)){
@@ -300,15 +300,16 @@ function modifyTodoEvent(event) {
             let targetDate = Number(targetId.split("_")[1])
             let prevTargetObj = '{"value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
             let afterTargetObj = '{"value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
-
+            let prevTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'""value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
+            let afterTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'""value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
 
             let memoryTodo = initData.get(selectedCategory[0].innerText)
             if(memoryTodo) {
                 memoryTodo.delete(prevTargetObj.toString())
                 memoryTodo.add(afterTargetObj.toString())
 
-                timeLine.delete(prevTargetObj.toString())
-                timeLine.add(afterTargetObj.toString())
+                timeLine.delete(prevTimeLineObj.toString())
+                timeLine.add(afterTimeLineObj.toString())
                 initData.set(selectedCategory[0].innerText,memoryTodo)
             }
 
@@ -329,14 +330,16 @@ function modifyTodoEvent(event) {
         let targetDate = Number(targetId.split("_")[1])
         let prevTargetObj = '{"value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
         let afterTargetObj = '{"value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
+        let prevTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'""value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
+        let afterTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'""value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
 
         let memoryTodo = initData.get(selectedCategory[0].innerText)
         if(memoryTodo) {
             memoryTodo.delete(prevTargetObj.toString())
             memoryTodo.add(afterTargetObj.toString())
 
-            timeLine.delete(prevTargetObj.toString())
-            timeLine.add(afterTargetObj.toString())
+            timeLine.delete(prevTimeLineObj.toString())
+            timeLine.add(afterTimeLineObj.toString())
             initData.set(selectedCategory[0].innerText, memoryTodo)
         }
 
@@ -356,7 +359,8 @@ function modifyTodoEvent(event) {
 
 function todoCheck(event) {
     let selectedCategory = document.getElementsByClassName("selected_category")
-    let targetNode = event.currentTarget.parentNode.id
+    let targetNode = event.currentTarget.parentNode.id;
+    let currentTime = new Date()
 
     let tempCheckList = checkedList.get(selectedCategory[0].innerText)
     if(tempCheckList && tempCheckList.has(targetNode)) {
@@ -365,12 +369,12 @@ function todoCheck(event) {
     }
     else{
         if(tempCheckList) {
-            tempCheckList.add(targetNode)
+            tempCheckList.set(targetNode,currentTime)
             checkedList.set(selectedCategory[0].innerText,tempCheckList)
         }
         else{
-            tempCheckList = new Set();
-            tempCheckList.add(targetNode)
+            tempCheckList = new Map();
+            tempCheckList.set(targetNode,currentTime)
             checkedList.set(selectedCategory[0].innerText,tempCheckList)
         }
 
@@ -395,6 +399,7 @@ function deleteTodoEvent(event) {
             let targetId = currentTargetNode.parentNode.querySelector('label').id
             let targetDate = Number(targetId.split("_")[1])
             let targetObj = '{"value":"'+todoValue.toString()+'","date":"'+targetDate+'"}'
+            let timeLineObj = '{"category":"'+selectedCategory[0].innerText+'""value":"'+todoValue.toString()+'","date":"'+targetDate+'"}'
 
             if(checkedList.has(targetId)) {
                 checkedList.delete(targetId)
@@ -403,7 +408,7 @@ function deleteTodoEvent(event) {
             let memoryTodo = initData.get(selectedCategory[0].innerText)
             if(memoryTodo) {
                 memoryTodo.delete(targetObj.toString())
-                timeLine.delete(targetObj.toString())
+                timeLine.delete(timeLineObj.toString())
                 initData.set(selectedCategory[0].innerText,memoryTodo)
             }
 
