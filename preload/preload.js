@@ -151,6 +151,8 @@ function timeLineInitial() {
 function fileDashboardInitial() {
     let str = "    <div class=\"file_detail\"><img /><label> 파일 현황 </label>\n" +
         "    <div class=\"file_detail_top container\">\n" +
+        "<label>해당 기능을 사용 할 수 없습니다!</label><br> "+
+        "<label>해당 기능을 사용하려면 프로 일잘러 등급으로 업그레이드 하세요!</label>"+
         "    </div>"
     document.getElementsByClassName("right_container")[0].innerHTML = str
 }
