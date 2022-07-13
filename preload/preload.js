@@ -115,6 +115,7 @@ function timeLineInitial() {
         category[i].classList.remove("selected_category")
     }
 
+    console.log(Data)
     let tempTimeLine = ""
     for(let dataIndex=0;dataIndex<Data.length;dataIndex++) {
         let targetTimelineObj = JSON.parse(Data[dataIndex])
@@ -239,18 +240,19 @@ function addTodoDetailEvent() {
             categoryContainer.appendChild(tempHtml)
             todoDetailEventBinder()
 
+            let tempObject = '{"value":"'+add_todo.value.toString()+'","date":"'+targetData+'"}'
+            let timeLimeObj = '{"category":"'+selectedCategory[0].innerText+'","value":"'+add_todo.value.toString()+'","date":"'+targetData+'"}'
+
             let temp = initData.get(selectedCategory[0].innerText)
             if(temp) {
-                let tempObject = '{"value":"'+add_todo.value.toString()+'","date":"'+targetData+'"}'
                 temp.add(tempObject)
-                timeLine.add(tempObject)
+                timeLine.add(timeLimeObj)
                 initData.set(selectedCategory[0].innerText,temp)
             }
             else {
                 temp = new Set()
-                let tempObject = '{"value":"'+add_todo.value.toString()+'","date":"'+targetData+'"}'
                 temp.add(tempObject)
-                timeLine.add(tempObject)
+                timeLine.add(timeLimeObj)
                 initData.set(selectedCategory[0].innerText,temp)
             }
 
@@ -300,8 +302,8 @@ function modifyTodoEvent(event) {
             let targetDate = Number(targetId.split("_")[1])
             let prevTargetObj = '{"value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
             let afterTargetObj = '{"value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
-            let prevTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'""value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
-            let afterTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'""value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
+            let prevTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'","value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
+            let afterTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'","value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
 
             let memoryTodo = initData.get(selectedCategory[0].innerText)
             if(memoryTodo) {
@@ -330,8 +332,8 @@ function modifyTodoEvent(event) {
         let targetDate = Number(targetId.split("_")[1])
         let prevTargetObj = '{"value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
         let afterTargetObj = '{"value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
-        let prevTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'""value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
-        let afterTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'""value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
+        let prevTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'","value":"'+tempPrevTodo.toString()+'","date":"'+targetDate+'"}'
+        let afterTimeLineObj = '{"category":"'+selectedCategory[0].innerText+'","value":"'+targetInput.value.toString()+'","date":"'+targetDate+'"}'
 
         let memoryTodo = initData.get(selectedCategory[0].innerText)
         if(memoryTodo) {
@@ -399,7 +401,7 @@ function deleteTodoEvent(event) {
             let targetId = currentTargetNode.parentNode.querySelector('label').id
             let targetDate = Number(targetId.split("_")[1])
             let targetObj = '{"value":"'+todoValue.toString()+'","date":"'+targetDate+'"}'
-            let timeLineObj = '{"category":"'+selectedCategory[0].innerText+'""value":"'+todoValue.toString()+'","date":"'+targetDate+'"}'
+            let timeLineObj = '{"category":"'+selectedCategory[0].innerText+'","value":"'+todoValue.toString()+'","date":"'+targetDate+'"}'
 
             if(checkedList.has(targetId)) {
                 checkedList.delete(targetId)
