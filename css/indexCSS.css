@@ -373,3 +373,11 @@ body{
     color: #ff0000;
 }
 
+.block_file_manager{
+    size:30px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-left: 10px;
+    border: 3px double #222222;
+    text-align: center;
+}

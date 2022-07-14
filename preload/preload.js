@@ -2,6 +2,7 @@ const {ipcRenderer} = require('electron')
 let checkedList = new Map();
 let initData = {}
 let timeLine = {}
+let proWorkerGrade;
 let sizeFlag = "small"
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -44,6 +45,7 @@ window.addEventListener('DOMContentLoaded', () => {
     ipcRenderer.send('mainPageInitData',{value:true});
     ipcRenderer.on('sendInitData', (event,arg) =>{
         let categoryList = []
+        proWorkerGrade = arg.proWorkerGrade
 
         if(arg.timeLine) {
             timeLine = new Set(arg.timeLine)
@@ -149,11 +151,15 @@ function timeLineInitial() {
 
 // 파일 현황 기능
 function fileDashboardInitial() {
-    let str = "    <div class=\"file_detail\"><img /><label> 파일 현황 </label>\n" +
-        "    <div class=\"file_detail_top container\">\n" +
-        "<label>해당 기능을 사용 할 수 없습니다!</label><br> "+
-        "<label>해당 기능을 사용하려면 프로 일잘러 등급으로 업그레이드 하세요!</label>"+
-        "    </div>"
+    let str = "    <div class=\"file_detail\"><img /><label> 파일 현황 </label>\n" +"    <div class=\"file_detail_top container\">\n"
+    if(!proWorkerGrade) {
+        str +=    "<div class='block_file_manager'><label>알림!</label><br>" +
+            "<label>해당 기능을 사용 할 수 없습니다</label><br> "+
+            "<label>해당 기능을 사용하려면 아래 링크를 통해 프로 일잘러 등급으로 업그레이드 하세요!</label><br>" +
+            "<label>(대충 개발자 링크)</label>" +
+            "</div>"
+    }
+    str+= "    </div>"
     document.getElementsByClassName("right_container")[0].innerHTML = str
 }
 

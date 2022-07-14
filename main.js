@@ -18,6 +18,7 @@ let pass
 let userIndex
 let indexFile
 let timeLine
+let proWorkerGrade = false
 
 app.whenReady().then(() => {
     let loginWindow = loginFunction.createLoginWindow()
@@ -119,6 +120,7 @@ app.whenReady().then(() => {
                     timeLine.push(decryptionFiles(base64url.decode(timeLineTemp[i]), pass).split(",")[1])
                 }
             }
+
         }
         catch(e) {
             fs.writeFileSync(filePath+base64url(userIndex)+"_timeline","")
@@ -178,7 +180,7 @@ app.whenReady().then(() => {
             indexFile = new Set()
         }
         indexFile= new Set(indexFile)
-        event.sender.send("sendInitData",{all:mainData,checked:checkTodoMap,timeLine:timeLine})
+        event.sender.send("sendInitData",{all:mainData,checked:checkTodoMap,timeLine:timeLine,proWorkerGrade:proWorkerGrade})
     })
 
     // YES NO 모달
