@@ -6,3 +6,5 @@ package-lock.json
 
 #node_module
 node_modules/*
+
+dist
