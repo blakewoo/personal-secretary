@@ -7,10 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://blakewoo: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@github.com/blakewoo/personal-secretary.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
