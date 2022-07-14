@@ -114,10 +114,10 @@ app.whenReady().then(() => {
         timeLine= []
 
         try{
-            timeLineTemp = fs.readFileSync(filePath + base64url(userIndex) + "_timeline").toString().split(" ")
+            timeLineTemp = fs.readFileSync(filePath + base64url(userIndex) + "_timeline").toString().split("\n")
             if(timeLineTemp[0] !== "") {
                 for(let i=0;i<timeLineTemp.length;i++) {
-                    timeLine.push(decryptionFiles(base64url.decode(timeLineTemp[i]), pass).split(",")[1])
+                    timeLine.push(decryptionFiles(base64url.decode(timeLineTemp[i]), pass))
                 }
             }
 
@@ -148,12 +148,12 @@ app.whenReady().then(() => {
                                 }
                             }
                             try{
-                                tempCheckedDataSet = new Set()
+                                tempCheckedDataSet = new Map()
                                 checkedData = fs.readFileSync(filePath + indexFile[i]+"_checked").toString().split(",");
 
                                 for(let i=0;i<checkedData.length ;i++) {
                                     if (checkedData[0] !== "") {
-                                        tempCheckedDataSet.add(decryptionFiles(base64url.decode(checkedData[i]), pass))
+                                        tempCheckedDataSet.set(decryptionFiles(base64url.decode(checkedData[i]), pass))
                                     }
                                 }
                             }
@@ -313,7 +313,7 @@ app.whenReady().then(() => {
 
             let tempTimeline = ""
             args.timeLine.forEach((value,key,set) => {
-                tempTimeline += base64url(encrytionFiles(value,pass)) +" "
+                tempTimeline += base64url(encrytionFiles(value,pass)) +"\n"
             })
             // 하드 변경
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
@@ -335,7 +335,7 @@ app.whenReady().then(() => {
 
             let tempTimeline = ""
             args.timeLine.forEach((value,key,set) => {
-                tempTimeline += base64url(encrytionFiles(value,pass)) +" "
+                tempTimeline += base64url(encrytionFiles(value,pass)) +"\n"
             })
 
             // 하드 변경
@@ -358,7 +358,7 @@ app.whenReady().then(() => {
 
             let tempTimeline = ""
             args.timeLine.forEach((value,key,set) => {
-                tempTimeline += base64url(encrytionFiles(value,pass)) +" "
+                tempTimeline += base64url(encrytionFiles(value,pass)) +"\n"
             })
 
             // 하드 변경
@@ -379,11 +379,12 @@ app.whenReady().then(() => {
                     tempMap.delete(args.todoID)
                 }
                 else {
-                    tempMap.add(args.todoID)
+                    tempMap.set(args.todoID,args.currentTime)
                 }
             }
             else {
-                tempMap = new Set([args.todoID])
+                tempMap = new Map()
+                tempMap.set(args.todoID,args.currentTime)
                 checkTodoMap.set(args.category,tempMap)
             }
             let tempStr = []

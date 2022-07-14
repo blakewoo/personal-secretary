@@ -391,7 +391,8 @@ function todoCheck(event) {
     }
     ipcRenderer.send('checkTodo', {
         category: selectedCategory[0].innerText,
-        todoID: targetNode
+        todoID: targetNode,
+        currentTime:currentTime
     });
 }
 
