@@ -369,6 +369,7 @@ app.whenReady().then(() => {
             console.log(e)
         }
     })
+    
 
     ipcMain.on("checkTodo",function (event,args) {
         try{
