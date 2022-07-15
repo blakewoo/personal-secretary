@@ -120,7 +120,7 @@ app.whenReady().then(() => {
                     timeLine.push(decryptionFiles(base64url.decode(timeLineTemp[i]), pass))
                 }
             }
-
+            console.log(timeLineTemp)
         }
         catch(e) {
             fs.writeFileSync(filePath+base64url(userIndex)+"_timeline","")
@@ -153,7 +153,8 @@ app.whenReady().then(() => {
 
                                 for(let i=0;i<checkedData.length ;i++) {
                                     if (checkedData[0] !== "") {
-                                        tempCheckedDataSet.set(decryptionFiles(base64url.decode(checkedData[i]), pass))
+                                        let checkTemp = decryptionFiles(base64url.decode(checkedData[i]), pass).split(",")
+                                        tempCheckedDataSet.set(checkTemp[0],checkTemp[1])
                                     }
                                 }
                             }
@@ -315,6 +316,9 @@ app.whenReady().then(() => {
             args.timeLine.forEach((value,key,set) => {
                 tempTimeline += base64url(encrytionFiles(value,pass)) +"\n"
             })
+
+            console.log(tempTimeline)
+
             // 하드 변경
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
             fs.writeFileSync(filePath+base64url(userIndex)+"_timeline",tempTimeline)
@@ -390,8 +394,10 @@ app.whenReady().then(() => {
             }
             let tempStr = []
             tempMap.forEach((value,key,set) => {
-                tempStr.push(base64url(encrytionFiles((value),pass)))
+                console.log(key,value)
+                tempStr.push(base64url(encrytionFiles((key+","+value),pass)))
             })
+
             //파일
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass))+"_checked",tempStr.toString())
         }

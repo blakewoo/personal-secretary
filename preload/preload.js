@@ -370,7 +370,7 @@ function modifyTodoEvent(event) {
 function todoCheck(event) {
     let selectedCategory = document.getElementsByClassName("selected_category")
     let targetNode = event.currentTarget.parentNode.id;
-    let currentTime = new Date()
+    let currentTime = new Date().getTime()
 
     let tempCheckList = checkedList.get(selectedCategory[0].innerText)
     if(tempCheckList && tempCheckList.has(targetNode)) {
