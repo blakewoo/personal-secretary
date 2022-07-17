@@ -116,13 +116,13 @@ app.whenReady().then(() => {
         try{
             timeLineTemp = fs.readFileSync(filePath + base64url(userIndex) + "_timeline").toString().split("\n")
             if(timeLineTemp[0] !== "") {
-                for(let i=0;i<timeLineTemp.length;i++) {
+                for(let i=0;i<timeLineTemp.length-1;i++) {
                     timeLine.push(decryptionFiles(base64url.decode(timeLineTemp[i]), pass))
                 }
             }
-            console.log(timeLineTemp)
         }
         catch(e) {
+            console.log(e)
             fs.writeFileSync(filePath+base64url(userIndex)+"_timeline","")
         }
 
@@ -314,10 +314,9 @@ app.whenReady().then(() => {
 
             let tempTimeline = ""
             args.timeLine.forEach((value,key,set) => {
-                tempTimeline += base64url(encrytionFiles(value,pass)) +"\n"
+                tempTimeline += base64url(encrytionFiles(value,pass)) + "\n"
             })
 
-            console.log(tempTimeline)
 
             // 하드 변경
             fs.writeFileSync(filePath+base64url(encrytionFiles(id+","+args.category,pass)),tempStr.toString())
