@@ -117,7 +117,6 @@ function timeLineInitial() {
         category[i].classList.remove("selected_category")
     }
 
-    console.log(Data)
     let tempTimeLine = ""
     for(let dataIndex=0;dataIndex<Data.length;dataIndex++) {
         let targetTimelineObj = JSON.parse(Data[dataIndex])
@@ -132,7 +131,7 @@ function timeLineInitial() {
         tempTimeLine += "   <span class=\"checkbox_text timeline_category_detail\"><label class='todo_value'>"+targetTimelineObj.value+"</label><input type='text' style='display: none' class='todoModifyInput' /></span>"
 
         if(tempCheckList && tempCheckList.has(targetTimelineObj.category+"_"+targetTimelineObj.date)){
-            tempTimeLine +=    "   <span class=\"detail_date\">"+"생성 : "+new Date(+tempCheckList.get(targetTimelineObj.category+"_"+targetTimelineObj.date) + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"  완료 : "+new Date(+targetTimelineObj.date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
+            tempTimeLine +=    "   <span class=\"detail_date\">"+"완료 : "+new Date(+tempCheckList.get(targetTimelineObj.category+"_"+targetTimelineObj.date) + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"  생성 : "+new Date(+targetTimelineObj.date + 3240 * 10000).toISOString().replace("T", " ").replace(/\..*/, '')+"</span>" +
                 "</div>"
         }
         else{
