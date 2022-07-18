@@ -28,7 +28,8 @@ function loadLoginPage() {
         "    </div>\n" +
         "    <div class=\"att_border_bottom\">\n" +
         "        <input type=\"button\" value=\"수첩 찾기\" class=\"public_button\" id=\"findpass_button\"/>\n" +
-        "    </div>"
+        "    </div>"+
+        "    <div class='lang_package'>한국어</div>"
 
     document.getElementById("main_html_div").innerHTML = str
 
