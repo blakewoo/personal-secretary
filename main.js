@@ -475,25 +475,34 @@ app.on('window-all-closed', function () {
 
 
 function isLogin(id,pass) {
-    let data = {}
+    let data;
     try{
-        data = fs.readFileSync('./loginData.dat')
-        return data.toString() === createHashedPassword(id +","+ pass).toString();
+        data = fs.readFileSync('./loginData.dat').toString().split("\n")
+        for(let i=0;i<data.length;i++) {
+            if(data[i].toString() === createHashedPassword(id +","+ pass).toString()) {
+                return true
+            }
+        }
+
+        return false
     }
     catch(e) {
+        console.log(e)
         return false
     }
 }
 
 function insertID(id,pass) {
-    let data = ""
+    let data = createHashedPassword(id+","+pass)
     try{
-        data = createHashedPassword(id+","+pass)
-        fs.writeFileSync('./loginData.dat',data.toString())
+        let legacyAccount = fs.readFileSync('./loginData.dat');
+        legacyAccount += "\n"+data.toString()
+        fs.writeFileSync('./loginData.dat',legacyAccount)
         return true
     }
     catch(e) {
-        return false
+        fs.writeFileSync('./loginData.dat',data.toString())
+        return true
     }
 }
 
