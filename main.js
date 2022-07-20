@@ -393,7 +393,6 @@ app.whenReady().then(() => {
             }
             let tempStr = []
             tempMap.forEach((value,key,set) => {
-                console.log(key,value)
                 tempStr.push(base64url(encrytionFiles((key+","+value),pass)))
             })
 

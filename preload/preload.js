@@ -100,14 +100,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // 타임라인 기능
 function timeLineInitial() {
-    // test code
-    // timeLine = new Set([
-    //              {category:"1",value:"2",date:"1652018750224"},
-    //             {category:"1",value:"3",date:"1657048750225"},
-    //     {category:"1",value:"5",date:"1657018750300"},
-    //     {category:"1",value:"2",date:"1657018850222"}
-    //          ])
-
     let Data = []
 
     Data = Array.from(timeLine).sort((a,b)=>{return Number(a.date - b.date)})

@@ -25,10 +25,10 @@ function loadLoginPage() {
         "\n" +
         "    <div class=\"att_border_bottom\">\n" +
         "        <input type=\"button\" value=\"새로 수첩 만들기\" class=\"public_button\" id=\"signup_button\"/>\n" +
-        "    </div>\n" +
+        "    </div>\n"+
         "    <div class=\"att_border_bottom\">\n" +
-        "        <input type=\"button\" value=\"수첩 찾기\" class=\"public_button\" id=\"findpass_button\"/>\n" +
-        "    </div>"+
+        "        <input type=\"button\" value=\"수첩 찾기\" class=\"public_button display_none\" id=\"findpass_button\"/>\n" +
+        "    </div>"
         "    <div class='lang_package'>한국어</div>"
 
     document.getElementById("main_html_div").innerHTML = str
@@ -89,12 +89,12 @@ function loadSignupPage() {
         "<div class=\"div_vertical_term\">\n" +
         "    <label>PASSWORD CONFIRM : </label><input id=\"pwdcheck_input\" class=\"input_border\"  type=\"password\">\n" +
         "</div>\n" +
-        "<div class=\"div_vertical_term\">\n<br>" +
-        "    <label class='explain_label'>코드는 홈페이지에서 결재 후 발급 받을 수 있습니다.</label>" +
-        "</div>\n" +
-        "<div class=\"div_vertical_term\">\n" +
-        "    <label>Pro code : </label><input id=\"procode_input\" class=\"input_border\"  type=\"text\">\n" +
-        "</div>\n" +
+        // "<div class=\"div_vertical_term\">\n<br>" +
+        // "    <label class='explain_label'>코드는 홈페이지에서 결재 후 발급 받을 수 있습니다.</label>" +
+        // "</div>\n" +
+        // "<div class=\"div_vertical_term\">\n" +
+        // "    <label>Pro code : </label><input id=\"procode_input\" class=\"input_border\"  type=\"text\">\n" +
+        // "</div>\n" +
         "<div class=\"div_vertical_term\">\n" +
         "    <input value=\"Accept\" class=\"public_button\" id=\"accept_button\" type=\"button\"><input  value=\"cancel\" class=\"public_button\" id=\"cancel_button\" type=\"button\">\n" +
         "</div>"
