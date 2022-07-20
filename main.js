@@ -7,7 +7,7 @@ const loginFunction = require('./module/loginModule');
 const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path')
-const filePath = "./"
+const filePath = "C:\\Users\\USER\\Desktop\\TodoData\\"
 let inputYesNoModalWindow
 let yesNoModalWindow
 const base64url = require('base64url');
@@ -20,7 +20,15 @@ let indexFile
 let timeLine
 let proWorkerGrade = false
 
+const makeFolder =(dir_path)=>{
+    if(!fs.existsSync(dir_path)) {
+        fs.mkdirSync(dir_path)
+    }
+}
+
 app.whenReady().then(() => {
+    makeFolder(filePath)
+
     let loginWindow = loginFunction.createLoginWindow()
 
     let mainWindow;
@@ -476,7 +484,7 @@ app.on('window-all-closed', function () {
 function isLogin(id,pass) {
     let data;
     try{
-        data = fs.readFileSync('./loginData.dat').toString().split("\n")
+        data = fs.readFileSync(filePath+'/loginData.dat').toString().split("\n")
         for(let i=0;i<data.length;i++) {
             if(data[i].toString() === createHashedPassword(id +","+ pass).toString()) {
                 return true
@@ -494,13 +502,13 @@ function isLogin(id,pass) {
 function insertID(id,pass) {
     let data = createHashedPassword(id+","+pass)
     try{
-        let legacyAccount = fs.readFileSync('./loginData.dat');
+        let legacyAccount = fs.readFileSync(filePath+'/loginData.dat');
         legacyAccount += "\n"+data.toString()
-        fs.writeFileSync('./loginData.dat',legacyAccount)
+        fs.writeFileSync(filePath+'/loginData.dat',legacyAccount)
         return true
     }
     catch(e) {
-        fs.writeFileSync('./loginData.dat',data.toString())
+        fs.writeFileSync(filePath+'/loginData.dat',data.toString())
         return true
     }
 }
