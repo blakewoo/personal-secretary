@@ -7,7 +7,7 @@ const loginFunction = require('./module/loginModule');
 const fs = require('fs');
 const crypto = require('crypto');
 const path = require('path')
-const filePath = "C:\\Users\\USER\\Desktop\\TodoData\\"
+const filePath = app.getPath('userData')
 let inputYesNoModalWindow
 let yesNoModalWindow
 const base64url = require('base64url');
@@ -25,6 +25,8 @@ const makeFolder =(dir_path)=>{
         fs.mkdirSync(dir_path)
     }
 }
+
+console.log(app.getPath('userData'))
 
 app.whenReady().then(() => {
     makeFolder(filePath)
