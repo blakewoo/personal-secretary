@@ -16,7 +16,7 @@
   },
   "build": {
     "win": {
-      "icon": "./notepad.jpeg"
+      "icon": "./notepad.png"
     }
   },
   "keywords": [],

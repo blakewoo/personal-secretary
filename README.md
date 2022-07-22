@@ -17,7 +17,10 @@ Sever source codes in private repository (not yet developed)
 - electron   
    
 ## Release note   
-- Not finished yet
-
+* version 1.0.0
+   - Release 2022-07-22
+    - Basic category function, Todo function, and timeline function
+    - Realse Link : https://drive.google.com/file/d/1t9uymbioffv1dbXXR4ga5M7oNS1r3vQu/view?usp=sharing
+    
 ## License
  MIT License
